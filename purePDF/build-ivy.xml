@@ -1,0 +1,198 @@
+<project name="ivy-common" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <!-- build properties -->
+    <property file="build.properties"/>
+    
+    <property environment="env"/>
+
+    <property name="ivy.version" value="2.2.0" />
+    <condition property="ivy.jar.dir" value="${env.IVY_HOME}" else="${user.home}/.ant/lib">
+      <isset property="env.IVY_HOME" />
+    </condition>
+
+    <property name="resolve.transitive" value="true" />
+    <property name="use.remote.resolver" value="false"/>
+
+    <!-- Chose default resolver  -->
+    <!--
+        There are variants:
+        1. Run on CI server (bamboo): 
+        resolve from artifactory, publish to artifactory (default resolver main)
+        under.bamboo=true, use.remote.resolver=true
+
+        2. Run localy to check build:
+        resolve from artifactory, don't publish (default resolver main)
+        under.bamboo=fasle/not set, use.remote.resolver=true
+        
+        3. Run localy :
+        resolve from local (filesystem), publish to local (default resolver dev)
+        under.bamboo=false/not set, use.remote.resolver=false
+    -->
+    <condition property="default.ivy.resolver" value="main" else="dev">
+        <or>
+            <equals arg1="${under.bamboo}" arg2="true"/>
+            <equals arg1="${use.remote.resolver}" arg2="true"/>
+        </or>
+    </condition>
+
+    <condition property="isdev" value="true" else="false">
+        <equals arg1="${default.ivy.resolver}" arg2="dev"/>
+    </condition>
+
+    <!-- =======================================================================
+        Targets
+    ======================================================================== -->
+    
+    <!-- =======================================================================
+        Load ivy
+    ======================================================================== -->
+    <target name="download.ivy" unless="env.IVY_HOME"
+        description="Download ivy from web site">
+        <mkdir dir="${ivy.jar.dir}"/>
+        <!-- download ivy from web site so that it can be used even without any special installation -->
+        <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar" 
+             dest="${ivy.jar.dir}/ivy-${ivy.version}.jar" usetimestamp="true"/>
+    </target>
+    
+    <target name="load.ivy" depends="download.ivy"
+        description="Load ivy">
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="ivy*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" 
+            uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+        <ivy:settings file="${ivysettings.file}"/>
+    </target>
+    
+    <!-- =======================================================================
+        Resolve and retrieve dependencies with ivy
+    ======================================================================== -->
+    <target name="resolve" depends="clean.libs, load.ivy"
+        description="Resolve and retrieve dependencies with ivy">
+        <condition property="configurations" value="${confs.list}" else="*">
+            <isset property="confs.list"/>
+        </condition>
+        <ivy:resolve file="${ivy.file}" conf="${configurations}" transitive="${resolve.transitive}"/>
+        <ivy:retrieve pattern="${project.libs}/[conf]/[artifact].[ext]"/>
+        <echo message=" ${ant.project.name} dependencies were changed: ${ivy.deps.changed}"/>
+    </target>
+
+    <!-- =======================================================================
+        Create ivy report
+    ======================================================================== -->
+    <target name="report" depends="resolve"
+        description="Generate report of dependencies">
+        <mkdir dir="${depends.report}"/>
+        <ivy:report todir="${depends.report}"/>
+    </target>
+
+    <!-- =======================================================================
+        Publish
+    ======================================================================== -->
+    <target name="publish.cw1-snapshot" depends="load.ivy" if="${under.bamboo}"
+        description="Publish this project in the ivy repository">
+        <tstamp>
+            <format property="now" pattern="yyyyMMddHHmmss"/>
+        </tstamp>
+        <condition property="pub.build.number" value="${build.number}" else="${now}">
+            <matches pattern="^[12]\d\d\d[01]\d[0123]\d\d\d\d\d\d\d$" string="${build.number}"/>
+        </condition>
+        
+        <!-- <ivy:resolve file="${ivy.file}" transitive="${resolve.transitive}"/> -->
+        <ivy:publish
+            resolver="cw1-snapshot"
+            pubrevision="${version.base}-${pub.build.number}"
+            pubdate="${now}"
+            status="integration"
+            forcedeliver="true"
+            overwrite="true">
+              <artifacts pattern="${lib.bin}/[artifact].[ext]" /> 
+              <artifacts pattern="${lib.bin}/[artifact]-[revision].[ext]" /> 
+        </ivy:publish>
+        <echo message="Project ${ant.project.name} published with verson ${version.base}-${pub.build.number}"/>
+        
+    </target>
+    
+    <target name="publish.libs-release" depends="load.ivy" if="${under.bamboo}"
+        description="Publish this project in the ivy repository">
+        <tstamp>
+            <format property="now" pattern="yyyyMMddHHmmss"/>
+        </tstamp>
+        <condition property="pub.build.number" value="${build.number}" else="${now}">
+            <matches pattern="^[12]\d\d\d[01]\d[0123]\d\d\d\d\d\d\d$" string="${build.number}"/>
+        </condition>
+        
+        <!-- <ivy:resolve file="${ivy.file}" transitive="${resolve.transitive}"/> -->
+        <ivy:publish
+            resolver="libs-release"
+            pubrevision="${version.base}.${pub.build.number}"
+            pubdate="${now}"
+            status="integration"
+            forcedeliver="true"
+            overwrite="true">
+              <artifacts pattern="${lib.bin}/[artifact].[ext]" /> 
+              <artifacts pattern="${lib.bin}/[artifact]-[revision].[ext]" /> 
+        </ivy:publish>
+        <echo message="Project ${ant.project.name} published with verson ${version.base}.${pub.build.number}"/>
+    </target>
+    
+    <target name="publish.local" depends="load.ivy" if="${isdev}"
+        description="Publish this project in the local ivy repository">
+        <tstamp>
+            <format property="now" pattern="yyyyMMddHHmmss"/>
+        </tstamp>
+        
+        <!-- <ivy:resolve file="${ivy.file}" transitive="${resolve.transitive}"/> -->
+
+        <!-- Build new version for binaries -->
+        <ivy:buildnumber
+            organisation="${ivy.organisation}"
+            module="${ivy.module}"
+            revision="${version.base}"
+            resolver="local"/>
+        
+        <property name="new.version" value="${ivy.new.revision}"/>
+        
+        <condition property="version" value="${ivy.revision}">
+            <isset property="ivy.build.number"/>
+        </condition>
+        
+        <ivy:publish
+            resolver="local"
+            pubrevision="${new.version}"
+            pubdate="${now}"
+            status="integration"
+            forcedeliver="true"
+            overwrite="true">
+              <artifacts pattern="${lib.bin}/[artifact].[ext]" /> 
+              <artifacts pattern="${lib.bin}/[artifact]-[revision].[ext]" /> 
+        </ivy:publish>
+        <echo message="Project ${ant.project.name} published with version ${new.version}"/>
+        
+        <delete dir="${ivy.local.default.root}/${ivy.organisation}/${ivy.module}/${version}"/>
+    </target>
+
+    <target name="publish" depends="publish.local, publish.cw1-snapshot"
+        description="Main publish target" />
+
+    <!-- =======================================================================
+        Clean targets
+    ======================================================================== -->
+    <target name="clean.local" depends="load.ivy" 
+        description="Cleans the local repository for the current module">
+        <ivy:info file="${ivy.file}"/>
+        <delete dir="${ivy.local.default.root}/${ivy.organisation}/${ivy.module}"/>
+    </target>
+
+    <target name="clean.libs"
+        description="Clean the project libraries directory (dependencies)">
+        <mkdir dir="${project.libs}"/>
+        <mkdir dir="${project.libs}/${conf.default}"/>
+        <mkdir dir="${project.libs}/${conf.test}"/>
+        
+        <delete includeemptydirs="true" deleteonexit="true">
+            <fileset dir="${project.libs}/${conf.default}" includes="**/*"/>
+            <fileset dir="${project.libs}/${conf.test}" includes="**/*"/>
+        </delete>
+    </target>
+</project>

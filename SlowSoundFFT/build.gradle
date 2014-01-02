@@ -1,0 +1,397 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        ivy {
+            name "cw1SnapshotLocal"
+            credentials {
+                username "SVNBuild"
+                password "Snoopy*09"
+            }
+            artifactPattern "http://cd1:81/artifactory/cw1-snapshot-local/[organization]/[module]/[revision]/[type]s/[artifact](-[classifier])-[revision].[ext]"
+            ivyPattern "http://cd1:81/artifactory/cw1-snapshot-local/[organization]/[module]/[revision]/[type]s/ivy-[revision].xml"
+        }
+    }
+    configurations.all {
+        resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
+    }
+    dependencies {
+        classpath group: 'com.transparent', name: 'GradleFlexPlugin', version: 'latest.integration'
+    }
+}
+
+apply plugin: 'flex'
+
+group = "com.transparent"
+
+// ---------- GradleFlexPlugin properties ----------
+//
+// ---------- Common ----------
+//
+// Type of project. Can be one of types described in ProjectType class.
+// @see com.transparent.gradle.ProjectType
+//
+// Possible values: 'lib', 'airlib', 'app', 'air'
+// Default value: null, value must be explicitly set in build script 
+// projectType
+
+projectType = 'lib'
+
+//
+// Flex sdk location. FLEX_HOME env variable should be set. 
+//
+// Default value: 
+// flexHome = System.getenv()['FLEX_HOME']
+
+// Base version of the project
+//
+// Default value: 
+// versionBase = '0.0.0'
+
+versionBase = '1.4.55'
+
+def timeStamp = new Date().format('yyyyMMddHHmmss')
+version = versionBase + "-" + timeStamp
+
+// ---------- Compile ----------
+//
+// List of names for applications, modules or libraries to create.
+//
+// Default value: 
+// fileSpecsList = ['Main']
+
+//
+// List of path elements that form the roots of ActionScript class
+// hierarchies.
+//
+// Default value: 
+// srcDirs = ['src']
+
+//
+// The name for directory that contain SWC files to compile against.
+// (Compiler option: -compiler.library-path [path-element] [...])
+//
+// Default value: 
+// libraryPath = ['libs']
+
+//
+// List of folders that contains assets to be copied to out
+// directory.
+//
+// Default value: 
+// assetsDirs = ['src/assets']
+
+//
+// The name for the output directory. This is interpreted
+// relative to the projects build directory.
+//
+// Default value: 
+// outDir = 'bin'
+
+//
+// The name for the root reports directory. This is interpreted
+// relative to the projects build directory.
+//
+// Default value: 
+// reportsDir = 'reports'
+
+//
+// The name for the directory that contains packages. This is interpreted
+// relative to the projects build directory.
+//
+// Default value: 
+// deployDir = 'deploy'
+
+//
+// Default version of player to compile with and set in wrapper as minimal
+// required.
+//
+// Default value: 
+// playerVersion = 10.2
+
+playerVersion = '11.4'
+
+//
+// If set to 'true' generates a movie that is suitable for debugging
+// (Flex compiler: -debug)
+//
+// Default value: 
+// debug = false
+
+//
+// Configurations to compiler options map. Describes what compiler argument 
+// should be used to add libraries from appropriate configuration.
+//
+// Default value: 
+// confToCompilerKeyMap = [
+//     include:   '-include-libraries'
+//     external:  '-external-library-path'
+//     libraries: '-library-path'
+// ]
+
+//
+// Flex sdk linkage option. There are 3 variants available:
+// - Merged iinto code
+// - External (only for libraries)
+// - Runtime shared library (RSL)
+//
+// Possible values: 'merged', 'external', 'rsl'
+// Default value: 
+// frameworkLinkage = 'rsl'
+
+// ---------- Compile (libraries only) ----------
+//
+// List of classes to include in the output SWC.
+// (compc: -include-classes [class] [...])
+//
+// Default value: 
+// includeClasses = []
+
+//
+// List of directories and source files to include in the output SWC.
+// (compc: -include-sources [path-element] [...])
+//
+// Default value: 
+// includeSources = []
+
+// ---------- Resources ----------
+//
+// Locale directory
+//
+// localeDir = 'locale'
+
+//
+// Locales list
+//
+// Default value: 
+// locales = ['en_US']
+
+locales = ['en_US','es_ES','fr_FR','pt_BR']
+
+//
+// The filename of the resource module to create
+//
+// Default value: 
+// resourceModuleName = "${project.name}_rb.swc"
+
+//
+// List of resource bundles to include in the output SWC.
+// (Compiler option: -include-resource-bundles [bundle] [...])
+//
+// Default value: null
+// bundles
+
+// ---------- Test ----------
+//
+// Test runner application name.
+//
+// Default value: 
+// testRunner = 'TestRunner'
+
+//
+// List of path elements that form the roots of flex unit tests class
+// hierarchies.
+//
+// Default value: 
+// testSrcDirs = ['tests']
+
+//
+// List of folders that contains assets required by tests. They should
+// be copied to out directory.
+//
+// Default value: 
+// testAssetsDirs = ['tests/assets']
+
+//
+// The name for the tests output directory. This is interpreted
+// relative to the projects build directory.
+//
+// Default value: 
+// testOutDir = 'bin-test'
+
+//
+// The name for the root reports directory. This is interpreted
+// relative to the reports root directory.
+//
+// Default value: 
+// testReportsDir = 'tests'
+
+//
+// FlexUnit ant task options.
+//
+// Default value: 
+// flexUnitOptions = [
+//     player:             'flash',
+//     swf:                'bin-test/TestRunner.swf',
+//     toDir:              'reports/tests',
+//     haltonfailure:      'false',
+//     verbose:            'true',
+//     localTrusted:       'true',
+//     port:               '1024',
+//     buffer:             '262144',
+//     timeout:            '60000',
+//     failureproperty:    'flexunit.failed',
+//     headless:           'false',
+//     display:            '99'
+// ]
+
+// ---------- ADT (AIR Developer Tool) ----------
+//
+// Base ADT options: command, input, output, application descriptor.
+// Also it can contain command specific options.
+//
+// Default value: 
+// adtBaseOptions = [
+//     command: 'package',
+//     target: 'air',
+//     output: "deploy/${project.name}.air",
+//     appDescriptor: "bin/${project.name}-app.xml"
+// ]
+
+//
+// The AIR signing options identify the certificate used 
+// to sign an AIR installation file.
+//
+// Default value: 
+// airSigningOptions = [
+//     alias: null,
+//     storetype: 'pkcs12',
+//     keystore: "${project.name}.p12",
+//     storepass: null,
+//     keypass: null,
+//     providerName: null,
+//     tsa: null
+// ]
+
+// The native signing options identify the certificate used 
+// to sign a native package file. 
+// These signing options are used to apply a signature used 
+// by the native operating system, not the AIR runtime.
+//
+// Default value: 
+// nativeSigningOptions = [:]
+
+//
+// Identifies the application files to include in the package.
+// FILE_OPTIONS: <fileOrDir>* ( ( -C <dir> <fileOrDir>+ ) | ( -e <file> <path> ) )*
+//
+// Default value: 
+// fileOptions = [
+//     "-C bin ."
+// ]
+
+// ---------- Wrappers ----------
+//
+// Html wrapper template directory.
+//
+// Default value: 
+// wrapperTemplateDir = 'html-template'
+
+//
+// Html wrapper template file. (Readonly)
+//
+// Default value: 
+// wrapperHtmlTemplate = 'index.template.html'
+
+//
+// Html wrapper template properties. Wrapper task replaces properties in
+// html template with its values
+//
+// Default value: 
+// wrapperProperties = [
+//     application: Main,
+//     title: Main,
+//     swf: Main,
+//     bgcolor: 'black',
+//     height: '100%',
+//     width: '100%',
+//     version_major: '10',
+//     version_minor: '3',
+//     version_revision: '0',
+//     expressInstallSwf: 'playerProductInstall.swf'
+// ]
+
+// ---------- ASDoc ----------
+//
+// The name for the asdoc output directory. This is interpreted
+// relative to the projects build directory.
+//
+// Default value: 
+// asdocOutDir = 'asdoc'
+
+// ---------- Other ----------
+//
+// List of compiler (e.g. compc or mxmlc) options that 
+// user can specify in build script.
+// Use 'compc -help' or 'mxmlc -help' for more information.
+//
+// Default value: 
+// otherCompilerArgs = []
+//
+// Example:
+// otherCompilerArgs = ['-benchmark=true']
+
+otherCompilerArgs = ['-benchmark=true']
+
+//
+// List of arguments for the forked JVM
+//
+// Default value: 
+// jvmArgs = []
+
+repositories {
+    ivy {
+        name "cw1SnapshotLocal"
+        credentials {
+            username "SVNBuild"
+            password "Snoopy*09"
+        }
+        artifactPattern "http://cd1:81/artifactory/cw1-snapshot-local/[organization]/[module]/[revision]/[type]s/[artifact](-[classifier])-[revision].[ext]"
+        ivyPattern "http://cd1:81/artifactory/cw1-snapshot-local/[organization]/[module]/[revision]/[type]s/ivy-[revision].xml"
+    }
+    ivy {
+        name "extRelease"
+        layout "maven"
+        url "http://cd1:81/artifactory/ext-release-local"
+        
+        credentials {
+            username "SVNBuild"
+            password "Snoopy*09"
+        }
+    }
+    ivy {
+        name "libsRelease"
+        layout "maven"
+        url "http://cd1:81/artifactory/libs-release-local"
+        credentials {
+            username "SVNBuild"
+            password "Snoopy*09"
+        }
+    }
+}
+
+dependencies {
+    /*
+    test group: 'com.transparent', name: 'FlexUnitPureMVC', version: '4.1.0.8', ext: 'swc'
+    test group: 'org.flexunit', name: 'flexunit', version: '4.1.0.8', classifier: 'flex', ext: 'swc'
+    test group: 'org.flexunit', name: 'flexunit-aircilistener', version: '4.1.0.8', ext: 'swc'
+    test group: 'org.flexunit', name: 'flexunit-cilistener', version: '4.1.0.8', ext: 'swc'
+    test group: 'org.flexunit', name: 'flexunit-uilistener', version: '4.1.0.8', ext: 'swc'
+    test group: 'org.flexunit', name: 'flexUnitTasks', version: '4.1.0.8'
+    */
+}
+
+artifacts {
+    'default' file: file("${project.outDir}/${project.name}.swc"), name: "${project.name}", type: 'swc'
+//    'default' file: file("${project.deployDir}/${project.name}_rb.zip"), name: "${project.name}_rb", type: 'zip'
+//    rb file: file("${project.deployDir}/${project.name}_rb.zip"), name: "${project.name}_rb", type: 'zip'
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
+}
+
+uploadArchives {
+    repositories{
+        add project.repositories.cw1SnapshotLocal
+    }
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+Copyright 2011, Transparent Language, Inc.
+All Rights Reserved
+Transparent Language Confidential Information
+-->
+<ivy-module 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:m="http://ant.apache.org/ivy/maven"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
+	version="2.0">
+	<info
+		organisation="com.transparent"
+		module="purePDF"
+		status="integration">
+	</info>
+    <configurations>
+        <conf name="default"/>
+        <conf name="external" />
+        <conf name="test" />
+        <conf name="build" extends="external" />
+    </configurations>
+	<publications>
+		<artifact name="purePDF" ext="swc" type="swc"/>
+	</publications>
+	<dependencies>
+        <!-- Ant contrib -->
+		<dependency org="net.sf" name="ant-contrib" rev="0.6" conf="external->*"/>
+        <!--
+		<dependency org="net.sf" name="saxon-ant" rev="9.1" conf="external->*"/>
+		<dependency org="net.sf" name="saxon-he" rev="9.2.1.2j" conf="external->*"/>
+        -->
+	</dependencies>
+</ivy-module>

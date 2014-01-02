@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-settings>
+    <property name="ivy.local.default.root" value="${ivy.default.ivy.user.dir}/local" override="false"/>
+    <!-- Default value when ivysettings is used without build-ivy script (e.g. in ivyde)  -->
+    <property name="default.ivy.resolver" value="main" override="false"/>
+    <settings defaultResolver="${default.ivy.resolver}" />
+    <!--Authentication required for publishing (deployment). 'Artifactory Realm' is the realm used by Artifactory so don't change it.-->
+    <credentials host="cd1" realm="Artifactory Realm" username="SVNBuild" passwd="Snoopy*09" />
+    <resolvers>
+        <url name="external" m2compatible="true">
+            <artifact pattern="http://cd1:81/artifactory/ext-release-local/[organization]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+        </url>
+        <chain name="main">
+            <url name="cw1-snapshot">
+                <artifact pattern="http://cd1:81/artifactory/cw1-snapshot-local/[organization]/[module]/[revision]/[type]s/[artifact](-[classifier])-[revision].[ext]" />
+                <ivy pattern="http://cd1:81/artifactory/cw1-snapshot-local/[organization]/[module]/[revision]/[type]s/ivy-[revision].xml" />
+            </url>
+            <url name="libs-release" m2compatible="true">
+                <artifact pattern="http://cd1:81/artifactory/libs-release-local/[organization]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]" />
+                <ivy pattern="http://cd1:81/artifactory/libs-release-local/[organization]/[module]/[revision]/ivy-[revision].xml" />
+            </url>
+            <resolver ref="external" />
+        </chain>
+        <chain name="dev">
+            <filesystem name="local">
+                <artifact pattern="${ivy.local.default.root}/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]"/>
+                <ivy pattern="${ivy.local.default.root}/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]"/>
+            </filesystem>
+            <resolver ref="external" />
+        </chain>
+    </resolvers>
+</ivy-settings>

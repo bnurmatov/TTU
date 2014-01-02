@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="purePDF" basedir="." default="build">
+
+    <!-- =======================================================================
+        Property, tasks definitions, etc.
+    ======================================================================== -->
+
+    <!-- build properties -->
+    <property file="build.properties"/>
+
+    <property environment="env"/>
+
+    <!-- Set flex.sdk location -->
+    <condition property="flex.sdk" value="${env.FLEX_HOME}">
+        <isset property="env.FLEX_HOME"/>
+    </condition>
+    <fail unless="flex.sdk">
+        Property 'flex.sdk' isn't set.
+        Use FLEX_HOME env variable or command line parameter to specify flex sdk location.
+    </fail>
+
+    <!-- for the flex task -->
+    <property name="FLEX_HOME" location="${flex.sdk}"/>
+    <property name="APP_ROOT" location="${basedir}"/>
+    <property name="LOCALE" value="en_US,es_ES,fr_FR,pt_BR"/>
+
+    <!-- FlexAntTasks (Compiling Flex Applications) -->
+    <taskdef resource="flexTasks.tasks" classpath="${flex.sdk}/ant/lib/flexTasks.jar"/>
+
+    <!-- ensure that build.type is set correctly -->
+    <condition property="build.fail" value="true">
+        <and>
+            <not>
+                <equals arg1="${build.type}" arg2="debug"/>
+            </not>
+            <not>
+                <equals arg1="${build.type}" arg2="release"/>
+            </not>
+        </and>
+    </condition>
+    <fail if="build.fail">
+        Property build.type is set to invalid value "${build.type}".  Use "debug" or "release".
+    </fail>
+
+    <!-- Define "build.debug" based on value of build.type -->
+    <condition property="build.debug" value="true" else="false">
+        <equals arg1="${build.type}" arg2="debug"/>
+    </condition>
+
+    <!-- get a build timestamp -->
+    <tstamp>
+        <format property="build.timestamp" pattern="yyy-MM-dd'T'HH:mm:ss.SSSZ"/>
+    </tstamp>
+
+    <!-- Common ivy related targets -->
+    <import file="build-ivy.xml"/>
+
+    <!-- =======================================================================
+        Targets
+    ======================================================================== -->
+
+    <!-- =======================================================================
+        Clean, Prepare
+    ======================================================================== -->
+    <target name="clean" description="Clean up results from previous build">
+        <mkdir dir="${lib.bin}"/>
+        <mkdir dir="${lib.report}"/>
+        <mkdir dir="${deploy.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${lib.bin}" includes="**/*"/>
+            <fileset dir="${lib.report}" includes="**/*"/>
+            <fileset dir="${deploy.dir}" includes="**/*"/>
+        </delete>
+    </target>
+
+    <target name="prepare.manifest">
+        <!-- Saxon xslt processor -->
+        <taskdef
+            name="saxon-xslt"
+            classname="net.sf.saxon.ant.AntTransform"
+            classpath="${project.libs}/${conf.default}/saxon-ant.jar;${project.libs}/${conf.default}/saxon-he.jar"/>
+        <saxon-xslt
+            in="${basedir}/.flexLibProperties"
+            out="${basedir}/manifest.xml"
+            style="${basedir}/manifest.xslt"
+            force="true"/>
+    </target>
+
+    <!-- =======================================================================
+        Compile
+    ======================================================================== -->
+    <target name="compile">
+        <!-- Ant-Contrib Tasks (http://ant-contrib.sourceforge.net) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+            classpath="${project.libs}/${conf.external}/ant-contrib.jar"/>
+
+        <echo>============================================================</echo>
+        <echo>Building library, output directory is ${lib.bin}.</echo>
+        <echo>============================================================</echo>
+        <echo>Compiling ${lib.swc}, include all classes: "${include.all.classes}"...</echo>
+
+        <if>
+            <equals arg1="${include.all.classes}" arg2="true"/>
+            <then>
+                <antcall target="compile.all"/>
+            </then>
+            <else>
+                <antcall target="prepare.manifest"/>
+                <antcall target="compile.manifest"/>
+            </else>
+        </if>
+    </target>
+
+    <!-- Compile, include all classes -->
+    <target name="compile.all" description="compile library with all classes">
+        <compc
+            fork="true" maxmemory="256m"
+            locale="${LOCALE}"
+            target-player="${player.version}"
+            output="${lib.bin}/${lib.swc}"
+            debug="${build.debug}">
+
+            <source-path path-element="${lib.src}"/>
+            <source-path path-element="locale/{locale}"/>
+
+            <include-sources dir="${lib.src}" includes="*" append="true"/>
+
+            <external-library-path file="${flex.sdk}/${playerglobal.swc}" append="true"/>
+
+            <external-library-path dir="${flex.sdk}/frameworks" append="true">
+                <include name="libs"/>
+                <include name="locale/{locale}"/>
+            </external-library-path>
+
+            <library-path dir="${project.libs}" append="true">
+                <include name="*.swc"/>
+            </library-path>
+
+            <library-path dir="${project.libs}/${conf.default}" append="true">
+                <include name="*.swc"/>
+            </library-path>
+        </compc>
+    </target>
+
+    <!-- Compile, include only classes specified in manifest -->
+    <target name="compile.manifest" description="compile library with specified classes">
+        <compc
+            fork="true" maxmemory="256m"
+            locale="${LOCALE}"
+            target-player="${player.version}"
+            output="${lib.bin}/${lib.swc}"
+            debug="${build.debug}">
+
+            <source-path path-element="${lib.src}"/>
+            <source-path path-element="locale/{locale}"/>
+
+            <external-library-path file="${flex.sdk}/${playerglobal.swc}" append="true"/>
+
+            <external-library-path dir="${flex.sdk}/frameworks" append="true">
+                <include name="libs"/>
+                <include name="locale/{locale}"/>
+            </external-library-path>
+
+            <library-path dir="${project.libs}" append="true">
+                <include name="*.swc"/>
+            </library-path>
+
+            <library-path dir="${project.libs}/${conf.default}" append="true">
+                <include name="*.swc"/>
+            </library-path>
+
+            <arg value="-compiler.namespaces.namespace+=${lib.namespace},${manifest}"/>
+            <include-namespaces uri="${lib.namespace}"/>
+        </compc>
+    </target>
+
+    <!-- =======================================================================
+        Build resource bundle
+    ======================================================================== -->
+    <target name="build.rb" description="Build resource bundles for given set of locales.">
+        <!-- Ant-Contrib Tasks (http://ant-contrib.sourceforge.net) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+            classpath="${project.libs}/${conf.external}/ant-contrib.jar"/>
+
+        <foreach list="${LOCALE}" param="current.locale" delimiter="," target="build.current.rb"/>
+        <zip
+            basedir="${lib.bin}/locale"
+            destfile="${lib.bin}/${lib.name}_rb.zip"
+            comment="${lib.name} resource bundle."/>
+    </target>
+
+    <target name="build.current.rb">
+        <echo>Compiling resource bundle ${rb.swc} (${current.locale})...</echo>
+        <echo>Included: ${bundles}</echo>
+
+        <compc
+            fork="true" maxmemory="512m"
+            locale="${current.locale}"
+            target-player="${player.version}"
+            output="${lib.bin}/locale/${current.locale}/${rb.swc}">
+
+            <source-path path-element="locale/{locale}"/>
+
+            <external-library-path file="${flex.sdk}/${playerglobal.swc}" append="true"/>
+            <external-library-path dir="${flex.sdk}/frameworks" append="true">
+                <include name="libs"/>
+                <include name="locale/{locale}"/>
+            </external-library-path>
+            <arg value="-include-resource-bundles+=${bundles}"/>
+        </compc>
+    </target>
+
+    <!-- =======================================================================
+        ASDoc
+    ======================================================================== -->
+    <target name="asdoc">
+        <echo>Generating documentation for ${lib.name}...</echo>
+        <asdoc
+            lenient="true" failonerror="true"
+            fork="true" maxmemory="256m"
+            output="${deploy.dir}/asdoc">
+
+            <source-path path-element="${lib.src}"/>
+
+            <doc-sources path-element="${lib.src}/org/purepdf"/>
+
+            <external-library-path file="${flex.sdk}/${playerglobal.swc}" append="true"/>
+
+            <external-library-path dir="${flex.sdk}/frameworks" append="true">
+                <include name="libs"/>
+                <include name="locale/{locale}"/>
+            </external-library-path>
+
+            <external-library-path dir="${project.libs}" append="true">
+                <include name="*.swc"/>
+            </external-library-path>
+
+            <external-library-path dir="${project.libs}/${conf.default}" append="true">
+                <include name="*.swc"/>
+            </external-library-path>
+        </asdoc>
+
+        <property name="kit.file" value="${deploy.dir}/${lib.name}-doc.zip"/>
+        <zip
+            basedir="${deploy.dir}/asdoc"
+            destfile="${kit.file}"
+            comment="${lib.name} asdoc, build date ${build.timestamp}."/>
+
+        <delete dir="${deploy.dir}/asdoc"/>
+    </target>
+
+    <!-- =======================================================================
+        Build
+    ======================================================================== -->
+    <target name="build">
+        <antcall target="build.ivy"/>
+    </target>
+
+    <target name="build.ivy" depends="clean, report">
+        <antcall target="compile"/>
+        <antcall target="publish"/>
+    </target>
+</project>
