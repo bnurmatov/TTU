@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		minWidth="210" minHeight="28" >
+	<s:states>
+		<s:State name="s0" />
+		<s:State name="s1" />
+		<s:State name="s2" />
+		<s:State name="s3" />
+		<s:State name="s4" />
+		<s:State name="s5" />
+		<s:State name="s6" />
+		<s:State name="s7" />
+		<s:State name="s8" />
+		<s:State name="s9" />
+		<s:State name="s10" />
+		<s:State name="s11" />
+		<s:State name="s12" />
+		<s:State name="s13" />
+		<s:State name="s14" />
+		<s:State name="s15" />
+		<s:State name="s16" />
+		<s:State name="s17" />
+		<s:State name="s18" />
+		<s:State name="s19" />
+		<s:State name="s20" />
+	</s:states>
+	<s:Group width="100%" height="100%">
+		<!-- BG Line -->
+		<s:Group  alpha="1" width="20%" height="100%" left="2">
+			<s:Rect right="0" width="1" top="0" bottom="0">
+				<s:fill>
+					<s:SolidColor color="0x999999" />
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		<s:Group  alpha="1" width="20%" height="100%" right="2">
+			<s:Rect left="0" width="1" top="0" bottom="0">
+				<s:fill>
+					<s:SolidColor color="0x999999" />
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		
+		<!-- Small line -->
+		<s:HGroup alpha="1" left="2" right="2" height="2" bottom="4" gap="3">
+			<s:Rect width="20%" height="100%">
+				<s:fill>
+					<s:LinearGradient rotation="0">
+						<s:GradientEntry color="0x8e271f" ratio="0"/>
+						<s:GradientEntry color="0xba372b" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			
+			<s:Rect radiusX="1" radiusY="1" width="60%" height="100%">
+				<s:fill>
+					<s:LinearGradient rotation="0">
+						<s:GradientEntry color="0x60ce2c" ratio="0"/>
+						<s:GradientEntry color="0x58c226" ratio="0.5"/>
+						<s:GradientEntry color="0x60ce2c" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			
+			<s:Rect width="20%" height="100%">
+				<s:fill>
+					<s:LinearGradient rotation="0">
+						<s:GradientEntry color="0xba372b" ratio="0"/>
+						<s:GradientEntry color="0x8e271f" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+		</s:HGroup>
+		
+		<s:Rect radiusX="2" radiusY="2" left="0" right="0" height="14" top="5">
+			<s:filters>
+				<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.1" quality="3" shadowColor="0x000000" shadowAlpha="0.8" highlightColor="0xffffff" highlightAlpha="0.95" angle="90" distance="-0.4" type="inner"/>
+			</s:filters>
+			<s:fill>
+				<s:SolidColor color="0x000000" alpha="0.7" />
+			</s:fill>
+			<!--
+			<s:stroke>
+				<s:SolidColorStroke color="0x2c2c2c" weight="1" alpha="0.5"/>
+			</s:stroke>
+			-->
+		</s:Rect>
+		<s:Group id="volumeLevelBg" left="2" right="2" height="8" top="8" mask="{levelBar}">
+			
+			<s:Rect radiusX="2" radiusY="2" left="0" right="0" top="0" bottom="0">
+				<s:fill>
+					<s:LinearGradient rotation="0">
+						<s:GradientEntry color="0x8c271e" ratio="0"/>
+						<s:GradientEntry color="0xbc372c" ratio="0.19"/>
+						<s:GradientEntry color="0xd8983c" ratio="0.2"/>
+						<s:GradientEntry color="0xb27621" ratio="0.5"/>
+						<s:GradientEntry color="0xd8983c" ratio="0.79"/>
+						<s:GradientEntry color="0xbc372c" ratio="0.8"/>
+						<s:GradientEntry color="0x8c271e" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:BitmapImage left="0" right="0" height="100%" fillMode="repeat" 
+						   source="@Embed('/embed_assets/images/MicLevelGrid.png')" />
+		</s:Group>
+		<!-- Bar -->
+		<s:Group alpha="1" id="levelBar" height="8" top="8" left="0"
+				  width.s0="0%"
+				  width.s1="5%"
+				  width.s2="10%"
+				  width.s3="15%"
+				  width.s4="20%"
+				  width.s5="25%"
+				  width.s6="30%"
+				  width.s7="35%"
+				  width.s8="40%"
+				  width.s9="45%"
+				  width.s10="50%" 
+				  width.s11="55%"
+				  width.s12="60%"
+				  width.s13="65%"
+				  width.s14="70%"
+				  width.s15="75%"
+				  width.s16="80%"
+				  width.s17="85%"
+				  width.s18="90%"
+				  width.s19="95%"
+				  width.s20="100%"
+				  >
+			<s:Rect radiusX="0" radiusY="0" left="0" right="0" top="0" bottom="0">
+				<s:fill>
+					<s:SolidColor color="0x000000" />
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		<!-- Max Level -->
+		
+	</s:Group>
+</s:Skin>

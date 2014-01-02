@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:vo="tj.ttu.base.vo.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.coursecreatorbase.view.components.publish.PublishLessonView")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.Icons;
+		]]>
+	</fx:Script>
+	
+	<!-- background -->
+	<s:Rect id="bg" top="0" bottom="0" left="0" right="0">
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#E0E7EB"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--Header Component Group-->
+	
+	<!--Course Title Group-->
+	<s:Group  right="0" top="10" minWidth="0" minHeight="0" height="20">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="4" paddingBottom="4" gap="0" verticalAlign="middle" horizontalAlign="right" />
+		</s:layout>
+		<s:Label  height="100%"
+				  fontSize="14"
+				  fontStyle="italic"
+				  textAlign="right"
+				  verticalAlign="middle"
+				  paddingLeft="0" paddingRight="0"
+				  styleName="uiFont"
+				  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				  text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'courseTitleLabelText' ) || 'Title:'}"
+				  />
+		
+		
+		<!--Lesson Title Label-->
+		<s:RichText id="lessonTitleLabel"
+					width="100%" height="100%"
+					fontSize="14"
+					fontWeight="bold"
+					textAlign="left"
+					verticalAlign="middle"
+					paddingLeft="5" paddingRight="0"
+					fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT) || 'Latin'}"
+					direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+					/>
+		
+	</s:Group>
+	
+	<!--Course Creation Date Information-->
+	<s:Group  right="0" minWidth="0" minHeight="0" top="35" height="35">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="4" paddingBottom="4" gap="0" verticalAlign="middle" horizontalAlign="right" />
+		</s:layout>
+		
+		<s:Label height="100%"
+				 fontSize="14"
+				 fontStyle="italic"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 paddingLeft="0" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'createdCourseDateLabelText' ) || 'Created:'}"
+				 />
+		
+		<s:Label width="80" height="100%"
+				 fontSize="14"
+				 fontWeight="bold"
+				 textAlign="left"
+				 verticalAlign="middle"
+				 paddingLeft="5" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{hostComponent.createdDate}"
+				 />
+		
+		<s:Spacer width="40"/>
+		
+		<s:Label height="100%"
+				 fontSize="14"
+				 fontStyle="italic"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 paddingLeft="0" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'lastModifiedDate' ) || 'Last Modified:'}"
+				 />
+		
+		<!--Lesson Last Modified date-->
+		<s:Label width="80" height="100%"
+				 fontSize="14"
+				 textAlign="left"
+				 fontWeight="bold"
+				 verticalAlign="middle"
+				 paddingLeft="5" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{hostComponent.lastModifiedDate}"
+				 />
+	</s:Group>
+	
+	<!--Edit Chapters Component Group-->
+	
+	<s:Group bottom="45" top="70" left="20" right="20">
+		<!--Outer border-->
+		<s:Rect width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke  color="0x89AEC4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!--Inner border and bg-->
+		<s:Rect left="1" right="1" top="1" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="4" color="#cfd9e1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="0xe7ecf0"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!--Main Group-->
+		<s:HGroup width="100%" height="100%" 
+				  gap="50" 
+				  left="10" right="10" 
+				  bottom="10" top="10"
+				  paddingLeft="20" paddingRight="20"
+				  >
+			
+			<!--Left Group-->
+			<s:VGroup width="100%" height="100%" left="0" right="0" bottom="0" top="0" gap="0">
+				
+					
+					<!--About author Label Text-->
+					<s:Label width="100%" height="30"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 fontSize="14"
+							 fontWeight="bold"
+							 paddingLeft="0" paddingRight="5"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'publishOptionsLabelText' ) || 'Publish Options:'}"
+							 />
+				
+				<!--Publish Options List-->
+				<s:List id="publishOptionsList"
+						width="100%" height="100%"
+						horizontalScrollPolicy="off"
+						alternatingItemColors="[0xffffff,0xf6f9fb]"
+						itemRenderer="tj.ttu.coursecreatorbase.view.renderers.PublishOptionItemRenderer"
+						skinClass="tj.ttu.components.skins.list.PublishListSkin"
+						>
+					<s:layout>
+						<s:VerticalLayout paddingLeft="0" paddingTop="0" paddingBottom="0" gap="0" horizontalAlign="justify"/>
+					</s:layout>
+					<s:ArrayCollection>
+						<vo:PublishOptionVO icon="{Icons.PdfIcon}" 			publishType="{PublishOptionVO.PDF}" title="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'pdfText' ) || 'PDF'}"/>
+						<vo:PublishOptionVO icon="{Icons.InstallerIcon}" 	publishType="{PublishOptionVO.WINDOWS_INSTALLER}" title="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'winInsatllerText' ) || 'Windows Installer'}"/>
+						<vo:PublishOptionVO icon="{Icons.DvdIcon}" 			publishType="{PublishOptionVO.DVD_CONTENT}" title="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'dvdText' ) || 'DVD Content'}"/>
+						<vo:PublishOptionVO icon="{Icons.ZipIcon}" 			publishType="{PublishOptionVO.B4X_CONTENT}" title="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'b4xText' ) || 'B4X'}"/>
+					</s:ArrayCollection>
+				</s:List>
+				
+				
+			</s:VGroup>
+			
+			<!--Vertical Line-->
+			<s:Rect height="100%" width="1" top="10" bottom="10" >
+				<s:fill>
+					<s:SolidColor color="#89AEC4"/>
+				</s:fill>
+				<s:filters>
+					<s:DropShadowFilter alpha="0.7000000000000001" angle="180" blurX="0" blurY="0" color="#FFFFFF" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+				</s:filters>
+			</s:Rect>
+			
+			<!--Right Group-->
+			<s:VGroup width="100%" height="100%" left="0" right="0" bottom="0" top="0" gap="0">
+				
+					<!--Creator Label-->
+					<s:Label width="100%" height="30"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 paddingLeft="0" paddingRight="5"
+							 fontSize="14"
+							 fontWeight="bold"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'lessonArtifactsLabelText' ) || 'Lesson artifacts:'}"
+							 />
+				
+				<!--Lesson artifacts List-->
+				<s:List id="artifactList"
+						width="100%" height="100%"
+						horizontalScrollPolicy="off"
+						itemRenderer="tj.ttu.coursecreatorbase.view.renderers.LessonArtifactItemRenderer"
+						skinClass="tj.ttu.components.skins.list.PublishListSkin"
+						>
+					<s:layout>
+						<s:VerticalLayout paddingLeft="0" paddingTop="0" paddingBottom="0" gap="0" horizontalAlign="justify"/>
+					</s:layout>
+				</s:List>
+				
+			</s:VGroup>
+		</s:HGroup>
+		
+	</s:Group>
+	
+	<!--Navigation Button Group-->
+	<s:Group  right="0" bottom="0" minWidth="0" minHeight="0" width="100%">
+		
+		<!--Back Button-->
+		<s:Button id="backButton"
+				  width="80" height="32"
+				  left="20" bottom="0"
+				  buttonMode="true"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'backButtonLabel' ) || 'Back'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'backButtonToolTip' ) || 'Back'}"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+
+		
+		<!--Preview Button-->
+		<s:Button id="preview"
+				  width="100" height="32"
+				  right="140"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'previewButtonLabel' ) || 'Preview'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'previewButtonToolTip' ) || 'Preview this lesson'}"
+				  buttonMode="true"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+		<!--publish Button-->
+		<s:Button id="publishButton"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR , 'publishButtonLabel' ) || 'Publish'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR , 'publishButtonToolTip' ) || 'Publish the lesson'}"
+				  buttonMode="true"
+				  width="100" height="32"
+				  enabled="{hostComponent.publishEnabled}"
+				  right="20"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />		
+		
+	</s:Group>
+	
+</s:Skin>

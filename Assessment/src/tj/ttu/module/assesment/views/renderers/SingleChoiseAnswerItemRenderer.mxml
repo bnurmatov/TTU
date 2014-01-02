@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="false"
+				minHeight="100"
+				width="100%"
+				>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.TLFUtil;
+			import tj.ttu.base.vo.AnswerVo;
+			import tj.ttu.module.assesment.views.components.list.AnswerList;
+			import tj.ttu.module.assesment.views.events.AssesmentEvent;
+			import tj.ttu.module.assesment.views.skins.input.AssesmentTextAreaSkin;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Variables
+			//
+			//--------------------------------------------------------------------------
+			/**
+			 *
+			 */
+			private var latinFont:String;
+			private var cyrillicFont:String;
+			private var cyrillicDirection:String; 
+			private var latinDirection:String;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Properties
+			//
+			//--------------------------------------------------------------------------
+			override public function set owner(value:DisplayObjectContainer):void
+			{
+				super.owner = value;
+				list = value as AnswerList;
+			}
+			
+			private var _list:AnswerList;
+
+			[Bindable(event="listChange")]
+			public function get list():AnswerList
+			{
+				return _list;
+			}
+
+			public function set list(value:AnswerList):void
+			{
+				if( _list !== value)
+				{
+					_list = value;
+					dispatchEvent(new Event("listChange"));
+				}
+			}
+
+			private function get answer():AnswerVo
+			{
+				return data as AnswerVo;
+			}
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden methods
+			//
+			//--------------------------------------------------------------------------
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var answer:AnswerVo = data as AnswerVo;
+				if(answer && answer.text != answerTextArea.text)
+				{
+					answerTextArea.textFlow = answer.text ? TLFUtil.createFlow(answer.text, latinFont, cyrillicFont) : null;
+				}
+			}
+			
+			
+			
+			override protected function resourcesChanged():void
+			{
+				super.resourcesChanged();
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+				cyrillicDirection = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_DIRECTION)||"ltr";
+				latinDirection = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_DIRECTION)||"ltr";
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Methods
+			//
+			//--------------------------------------------------------------------------
+			
+			protected function selectedChangeHandler(event:Event):void
+			{
+				/* if(list.isMultiChoice)
+					data.selected = selectedCheckbox.selected; */
+				/* else
+					data.selected = selectedRadioButton.selected; */
+				dispatchEvent(new AssesmentEvent(AssesmentEvent.SELECTION_CHANGE, data, true));
+			}
+			
+			protected function selectedRadioButton_changeHandler(event:Event):void
+			{
+				//data.selected = selectedRadioButton.selected;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- custom states -->
+	<s:states>
+		<s:State name="normal" stateGroups="normalStates"/>
+		<s:State name="hovered" stateGroups="hoveredStates"/>
+		<s:State name="selected" stateGroups="selectedStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+	</s:states>
+	
+	
+	<!--Correct Answer-->
+	<s:RadioButton id="selectedRadioButton"
+				   width="18" height="18"
+				   verticalCenter="0"
+				   left="10"
+				   click="selectedChangeHandler(event)"
+				   selected="@{data.selected}"
+				   group="{list ? list.radioButtonGroup : null}"
+				   skinClass="tj.ttu.module.assesment.views.skins.AssessmentRadioButtonSkin"
+				   />
+	
+	
+	<!--Answer Text Field-->
+	<s:TextArea id="answerTextArea"
+				heightInLines="1" lineBreak="explicit" 
+				width="100%" height="100%"
+				paddingBottom="0" paddingTop="0" 
+				paddingLeft="5" editable="false"
+				left="50" right="20"
+				verticalAlign="middle"
+				verticalCenter="8"
+				fontLookup="embeddedCFF"
+				widthInChars="{(width-6)/22}"
+				maxChars="255"
+				fontSize="18"
+				styleName="uiFont"
+				skinClass="tj.ttu.module.assesment.views.skins.input.AssesmentTextAreaSkin"
+				/>
+</s:ItemRenderer>

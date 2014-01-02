@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:button="tj.ttu.components.components.buttonbar.*" 
+		alpha.disabled="0.5">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.ButtonBar")]
+		]]>
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<fx:Declarations>
+		<!--- 
+		@copy spark.components.ButtonBar#firstButton
+		@default spark.skins.spark.ButtonBarFirstButtonSkin
+		@see spark.skins.spark.ButtonBarFirstButtonSkin
+		-->
+		<fx:Component id="firstButton">
+			<button:ButtonBarButtonExt enabled="{data is TabBarItemVo ? data.enabled : true}" 
+									   toolTip="{data is TabBarItemVo ? data.toolTip : null}"
+									   label="{data is TabBarItemVo ? data.label : null}"
+									   buttonMode="true"
+									   skinClass="tj.ttu.components.skins.buttonbar.ButtonBarButtonFirstSkin" >
+				<fx:Script>
+					<![CDATA[
+						import tj.ttu.components.vo.TabBarItemVo;
+					]]>
+				</fx:Script>
+			</button:ButtonBarButtonExt>
+			
+		</fx:Component>
+		
+		<!--- 
+		@copy spark.components.ButtonBar#middleButton
+		@default spark.skins.spark.ButtonBarMiddleButtonSkin
+		@see spark.skins.spark.ButtonBarMiddleButtonSkin
+		-->
+		<fx:Component id="middleButton" >
+			<button:ButtonBarButtonExt enabled="{data is TabBarItemVo ? data.enabled : true}" 
+									   toolTip="{data is TabBarItemVo ? data.toolTip : null}"
+									   label="{data is TabBarItemVo ? data.label : null}"
+									   buttonMode="true"
+									   skinClass="tj.ttu.components.skins.buttonbar.ButtonBarButtonSkin" >
+				<fx:Script>
+					<![CDATA[
+						import tj.ttu.components.vo.TabBarItemVo;
+					]]>
+				</fx:Script>
+			</button:ButtonBarButtonExt>
+		</fx:Component>
+		
+		<!--- 
+		@copy spark.components.ButtonBar#lastButton
+		@default spark.skins.spark.ButtonBarLastButtonSkin
+		@see spark.skins.spark.ButtonBarLastButtonSkin
+		-->
+		<fx:Component id="lastButton" >
+			<button:ButtonBarButtonExt enabled="{data is TabBarItemVo ? data.enabled : true}" 
+									   toolTip="{data is TabBarItemVo ? data.toolTip : null}"
+									   label="{data is TabBarItemVo ? data.label : null}"
+									   buttonMode="true"
+									   selected="false"
+									   skinClass="tj.ttu.components.skins.buttonbar.ButtonBarLastButtonSkin" >
+				<fx:Script>
+					<![CDATA[
+						import tj.ttu.components.vo.TabBarItemVo;
+					]]>
+				</fx:Script>
+			</button:ButtonBarButtonExt>
+		</fx:Component>
+		
+	</fx:Declarations>
+	
+	<!--- @copy spark.components.SkinnableDataContainer#dataGroup -->
+	<s:DataGroup id="dataGroup" width="100%" height="100%">
+		<s:layout>
+			<s:HorizontalLayout horizontalAlign="left" gap="-25"/>
+		</s:layout>
+	</s:DataGroup>
+	
+</s:Skin>

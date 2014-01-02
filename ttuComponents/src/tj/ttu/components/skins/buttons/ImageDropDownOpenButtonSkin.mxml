@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2010 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the anchor button on a Spark DropDownList component.  
+
+@see spark.components.DropDownList        
+@see spark.skins.spark.DropDownListSkin
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata> 
+	
+	
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<!-- layer 1: shadow -->
+	<!--- @private -->
+	
+	<s:Rect width="100%" height="100%" left="1" right="1" top="1" bottom="1">
+		<s:fill>
+			<s:SolidColor color="0x000000" alpha="0"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Group width="25" height="100%" right="0">
+		
+		<!-- layer 2: fill -->
+		<!--- @private -->
+		<s:Rect id="fill" left="1" right="1" top="1" bottom="1" radiusX="2">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xFFFFFF" 
+									 color.over="0xBBBDBD" 
+									 color.down="0xAAAAAA" 
+									 alpha="0.85" />
+					<s:GradientEntry color="0xD8D8D8" 
+									 color.over="0x9FA0A1" 
+									 color.down="0x929496" 
+									 alpha="0.85" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- layer 3: fill lowlight -->
+		<!--- @private -->
+		<s:Path left="0" right="0" top="0" bottom="0" width="25" height="100%" data="M0 0 0 23 16.8701 23 18.2764 23 18.7617 23 18.7617 23 19.2139 22.8105 19.5488 22.4307 19.7725 22.1025 20 21.3877 20 20.4717 20 2.55078 20 2.16992 19.957 1.36523 19.7832 0.875 19.3975 0.448242 18.6279 0 17.3555 0 0 0Z">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0x506c7d"
+									 alpha="100" 
+									 />
+					<s:GradientEntry color="0x435a68"
+									 alpha="100" />
+				</s:LinearGradient>
+			</s:fill>
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90" weight="1">
+					<s:GradientEntry color="0x304857" 
+									 alpha="0.5"
+									 />
+					<s:GradientEntry color="0x304857" 
+									 alpha="1" 
+									 />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Path>
+		
+		<!-- layer 8: arrow -->
+		<!--- The arrow graphic displayed in the anchor button. -->
+		<s:Path right="6" verticalCenter="0" verticalCenter.down="1" horizontalCenter="0" id="arrow" 
+				data="M 4.0 4.0 L 4.0 3.0 L 5.0 3.0 L 5.0 2.0 L 6.0 2.0 L 6.0 1.0 L 7.0 1.0 L 7.0 0.0 L 0.0 0.0 L 0.0 1.0 L 1.0 1.0 L 1.0 2.0 L 2.0 2.0 L 2.0 3.0 L 3.0 3.0 L 3.0 4.0 L 4.0 4.0">
+			
+			<s:fill>
+				<s:SolidColor color="#ffffff" color.over="#b0bfc7"/>
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter color="#000000" alpha="75" angle="120" distance="1"/>
+			</s:filters>
+		</s:Path>
+	</s:Group>	
+</s:SparkSkin>

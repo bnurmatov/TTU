@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2011, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:skin="tj.ttu.components.skins.sound.adjustmentMicrophoneWindow.*" 
+		minWidth="480" minHeight="310"
+		currentState="normalState"><!-- mW:440 -->
+
+	<fx:Metadata>
+        [HostComponent("tj.ttu.components.components.sound.AdjustmentMicrophoneWindow")]
+    </fx:Metadata>
+	
+	<!--Custom States-->
+	<s:states>
+		<s:State name="normalState"/>
+		<s:State name="testMicState"/>
+		<s:State name="detectedMicState"/>
+		<s:State name="correctFeedbackMicState"/>
+		<s:State name="incorrectFeedbackMicState"/>
+		<s:State name="noDetectedMicState"/>
+		<s:State name="disabledState"/>
+		<fx:Script>
+			<![CDATA[
+				import tj.ttu.base.constants.ResourceConstants;
+			]]>
+		</fx:Script>
+	</s:states>
+	
+	<!--Main group(contain bg, described in rectangles,
+					group for dragging and vgroup with data for states)-->
+   	<s:Group id="mainBg" width="100%" height="100%">
+		<!--Backgrounds for skin-->
+		<s:Rect alpha="0.99" radiusX="4" radiusY="4" 
+				left="0" right="0" top="0" bottom="0">
+			<s:filters>
+				<s:BevelFilter blurX="1" blurY="1" strength="1.4" quality="3" 
+							   shadowColor="0x333333" highlightColor="0x808080" 
+							   angle="90" distance="1"/>
+				<s:DropShadowFilter blurX="10" blurY="10" quality="3" 
+									strength="1.1" color="0x111111" distance="2" 
+									angle="90" knockout="false" />
+			</s:filters>
+			<s:fill>
+				<s:LinearGradient rotation="-90" >
+					<s:GradientEntry  color="0x395066" ratio="0" />
+					<s:GradientEntry  color="0x31485e" ratio="0.78" />
+					<s:GradientEntry  color="0x293847" ratio="0.86" />
+					<s:GradientEntry color="0x1d2833" ratio="1"  />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect alpha="0.2" radiusX="6" radiusY="6" 
+				left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90" weight="1">
+					<s:GradientEntry color="0x000000" ratio="0" alpha="0.1"/>
+					<s:GradientEntry color="0xffffff" ratio="0.75"/>
+					<s:GradientEntry color="0xffffff" ratio="1" alpha="0.3"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		<!--Group for dragging, contains only rect for bg-->
+		<s:Group id="dragRect" 
+				 width="100%" height="30" 
+				 left="0" right="0" top="0">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor alpha="0"/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		
+		<!--Main vgroup with all data for this skin-->
+		<s:VGroup width="100%" height="100%" paddingLeft="2" paddingRight="2" 
+				  paddingTop="2" paddingBottom="2" gap="2" 
+				  horizontalAlign="center" verticalCenter="0">
+			
+			<!--Title group(contains title label)-->
+			<s:Group id="titleGroup" 
+					 width="100%" height="16%" 
+					 maxHeight="44" minHeight="36" 
+					 horizontalCenter="0">
+				
+				<s:Label id="titleControl" styleName="recordPanelTitleLabelStyle uiFont"
+						 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'adjustmentTitleControlLabelText')}"
+						 width="100%" height="90%"
+						 verticalCenter="4"
+						 color="0xd6d6d6" 
+						 >
+					<s:filters>
+						<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+											strength="1" quality="3" 
+											angle="90" distance="0.8"
+											alpha="0.8"
+											color="0x000000" 
+											/>
+					</s:filters>
+				</s:Label>
+				
+				<s:Button id="closeButton" 
+						  buttonMode="true"
+						  width="20"
+						  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'closeToolTip' ) || 'Close current window'}"
+						  height="20" right="10" 
+						  verticalCenter="4"
+						  skinClass="tj.ttu.components.skins.buttons.CloseButtonSkin"
+						  />
+			</s:Group>
+			<!--Main subgroup with bg and common data-->
+			<s:Group id="skinDataGroup" width="100%" height="62%">
+				<!--Background for group-->
+				<s:Rect alpha="0.55" radiusX="3" radiusY="3" 
+						left="8" right="8" top="0" bottom="0">
+					<s:filters>
+						<s:BevelFilter blurX="0.8" blurY="0.8" 
+									   strength="1.1" quality="3" 
+									   shadowColor="0x000000" shadowAlpha="0.8" 
+									   highlightColor="0xffffff" 
+									   highlightAlpha="0.8" angle="90" 
+									   distance="-0.4" type="inner"/>
+					</s:filters>
+					<s:fill>
+						<s:SolidColor color="0x0f1112" />
+					</s:fill>
+				</s:Rect>
+				
+				<!--Other subgroup, contains information label(test phrase
+					for microphone adjustment, information about sensitivity and
+					information about microphone detection) skins data-->
+				
+				<s:VGroup width="90%" height="100%" 
+						  paddingTop="2" paddingBottom="8" 
+						  gap="2" horizontalCenter="0" verticalAlign="middle" 
+						  horizontalAlign="center" >
+					
+					<!--Information label displays test phrase, information
+						about sensitivity level and about microphone detection-->
+					<s:Label id="informationLabel"
+							 text.testMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'informationLabelTestMicStateLabelText')}"
+							 text.incorrectFeedbackMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'informationLabelIncorrectFeedbackMicStateLabelText')}"
+							 text.correctFeedbackMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'informationLabelCorrectFeedbackMicStateLabelText')}"
+							 text.detectedMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'informationLabelDetectedMicStateLabelText')}"
+							 text.noDetectedMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'informationLabelNoDetectedMicStateLabelText')}"
+							 width="100%" height="15%" 
+							 textAlign="center" verticalAlign="middle" 
+							 fontSize="15" 
+							 styleName="uiFont"
+							 lineBreak="toFit"
+							 maxDisplayedLines="2"
+							 color="0xfff1c2"
+							 color.testMicState="0xfff1c2" 
+							 color.correctFeedbackMicState="0x79e963"
+							 color.incorrectFeedbackMicState="0xdb2e1f"
+							 color.detectedMicState="0x79e963"
+							 color.noDetectedMicState="0xdb2e1f"
+							 >
+						<s:filters>
+							<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+												strength="1" quality="3" 
+												angle="90" distance="0.8"
+												alpha="0.8"
+												color="0x000000" />
+						</s:filters>
+					</s:Label>
+					<!--Main subgroup, contains data for different states-->
+					<s:Group id="mainSubgroup"
+							 width="100%" height="65%">
+						<!--Group with data for testMicState, 
+							contains bacground and subgroup-->
+						<s:Group id="testMicStateGroup" 
+								 width.testMicState="100%" height="80" 
+								 horizontalCenter="0" verticalCenter="0"  
+								 includeIn="testMicState">
+							<!--Background-->
+							<s:Rect alpha="0.9" radiusX="6" radiusY="6" 
+									left="4" right="4" top="4" bottom="4">
+								<s:fill>
+									<s:LinearGradient rotation="-90">
+										<s:GradientEntry color="0x23292f" 
+														 ratio="0"/>
+										<s:GradientEntry color="0x1d2630" 
+														 ratio="0.3"/>
+										<s:GradientEntry color="0x333a42" 
+														 ratio="1"/>
+									</s:LinearGradient>
+								</s:fill>
+								<s:stroke>
+									<s:LinearGradientStroke rotation="90" 
+															weight="1">
+										<s:GradientEntry color="0x3e444a"
+														 ratio="0"/>
+										<s:GradientEntry color="0x4b5159"
+														 ratio="1"/>
+									</s:LinearGradientStroke>
+								</s:stroke>
+							</s:Rect>
+							<!--Subgroup with data, contains subgroups-->
+							<s:HGroup width="100%" height="100%" 
+									  gap="4" verticalAlign="middle" 
+									  horizontalAlign="center">
+								<!--Group with microphone icon-->
+								<s:Group id="micIconGroup"
+										 width="80" height="100%">
+									<!--Microphone icon-->
+									<s:BitmapImage scaleX="0.8" scaleY="0.8" 
+												   width="68" height="68" 
+												   fillMode="clip" 
+												   verticalCenter="-2" horizontalCenter="0" 
+												   source="@Embed('/embed_assets/images/micIcon.png')"/>		
+								</s:Group>
+								<!--Group witk sensitivity indicators-->
+								<s:Group id="indicatorsGroup" 
+									width="100%" height="100%">
+									<!--This skin indicate microphone level-->
+									<skin:MicLevelSkin id="volumeIndicator" 
+														  width="100%" height="28" 
+														  verticalCenter="-2" currentState="s0"/>
+									<!--This skin shows max level in adjustment-->
+									<skin:MicLevelMaxSkin id="maxLevelIndicator"
+													   	  width="100%" height="28" 
+														  verticalCenter="-2" currentState="s0"/>
+								</s:Group>
+								<!--Data subgroup, contains labels, 
+										wich indicates sensitivity levels-->
+								<s:HGroup width="80" height="100%" 
+										  paddingLeft="10" verticalAlign="top" 
+										  gap="1">
+									<!--Group contains a label, 
+										wich indicate number of sensitivity-->
+									<s:Group width="56%" height="64%" visible="false">
+										<s:Label id="percentLabel" 
+												 text="0"
+												 width="100%" height="100%"
+												 textAlign="right" 
+												 verticalAlign="bottom"
+												 fontSize="20" color="0xd6d6d6">
+											<s:filters>
+												<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+																	strength="1" quality="3" 
+																	angle="90" distance="0.8"
+																	alpha="0.8"
+																	color="0x000000" />
+											</s:filters>
+										</s:Label>
+									</s:Group>
+									<!--Group contains a static label, 
+									wich indicate %-->
+									<s:Group width="44%" height="64%" visible="false">
+										<s:Label id="staticLabel" 
+												 text="%"
+												 width="100%" height="100%" 
+												 textAlign="left" 
+												 verticalAlign="bottom"
+												 fontSize="13" color="0xd6d6d6">
+											<s:filters>
+												<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+																	strength="1" quality="3" 
+																	angle="90" distance="0.8"
+																	alpha="0.8"
+																	color="0x000000" />
+											</s:filters>
+										</s:Label>
+									</s:Group>
+								</s:HGroup>
+							</s:HGroup>
+						</s:Group>	
+						<!--Group with data for correctFeedbackMicState and
+							incorrectFeedbackMicState, 
+							contains subgroup and result label-->
+						<s:VGroup id="feedbackMicStateGroup"
+								  width="100%" height="100%" gap="4" 
+								  includeIn="correctFeedbackMicState,incorrectFeedbackMicState" 
+								  horizontalAlign="center" verticalAlign="middle">
+							<!--Subgroup with bg and microphone icons-->
+							<s:Group width="80" height="80" 
+									 verticalCenter="0" horizontalCenter="0" >
+								<!--Background for mic icons-->
+								<s:Rect alpha="0.9" radiusX="6" radiusY="6" 
+										left="4" right="4" top="4" bottom="4">
+									<s:fill>
+										<s:LinearGradient rotation="-90">
+											<s:GradientEntry color="0x23292f" ratio="0"/>
+											<s:GradientEntry color="0x1d2630" ratio="0.3"/>
+											<s:GradientEntry color="0x333a42" ratio="1"/>
+										</s:LinearGradient>
+									</s:fill>
+									<s:stroke>
+										<s:LinearGradientStroke rotation="90" 
+																weight="1">
+											<s:GradientEntry color="0x3e444a"
+															 ratio="0"/>
+											<s:GradientEntry color="0x4b5159"
+															 ratio="1"/>
+										</s:LinearGradientStroke>
+									</s:stroke>
+								</s:Rect>
+								<!--Microphone default icon-->
+								<s:BitmapImage width="68" height="68" 
+											   fillMode="clip" 
+											   verticalCenter="0" 
+											   horizontalCenter="0" 
+											   source="@Embed('/embed_assets/images/micIcon.png')">
+									<s:filters>
+										<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+															strength="1" quality="3" 
+															angle="90" distance="0.8"
+															alpha="0.8"
+															color="0x000000" />
+									</s:filters>
+								</s:BitmapImage>
+								<!--Microphone correct icon-->
+								<s:BitmapImage width="20" height="20" 
+											   fillMode="clip" left="4" top="4"
+											   source="@Embed('/embed_assets/images/correctIcon.png')" 
+											   includeIn="correctFeedbackMicState">
+									<s:filters>
+										<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+															strength="1" quality="3" 
+															angle="90" distance="0.8"
+															alpha="0.8"
+															color="0x000000" />
+									</s:filters>
+								</s:BitmapImage>
+								<!--Microphone incorrect icon-->
+								<s:BitmapImage width="48" height="40" 
+											   fillMode="clip" 
+											   verticalCenter="-6" 
+											   horizontalCenter="0"
+											   source="@Embed('/embed_assets/images/WarningIcon.png')" 
+											   includeIn="incorrectFeedbackMicState">
+									<s:filters>
+										<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+															strength="1" quality="3" 
+															angle="90" distance="0.8"
+															alpha="0.8"
+															color="0x000000" />
+									</s:filters>
+								</s:BitmapImage>
+							</s:Group>
+							<!--Information label, which indicates to set 
+								the level of the microphone in the system-->
+							<s:Label id="infoLabel" 
+									 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'infoLabelText')}"
+									 includeIn="incorrectFeedbackMicState"
+									 width="100%" height="15%" 
+									 textAlign="center" verticalAlign="middle" 
+									 fontSize="14" 
+									 styleName="uiFont"
+									 lineBreak="toFit"
+									 maxDisplayedLines="1"
+									 color="0xfff1c2">
+								<s:filters>
+									<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+														strength="1" quality="3" 
+														angle="90" distance="0.8"
+														alpha="0.8"
+														color="0x000000" />
+								</s:filters>
+							</s:Label>
+						</s:VGroup>
+						<!--Group with data for detectedMicState and
+							noDetectedMicState, 
+							contains subgroup and hint label-->
+						<s:VGroup id="detectedMicStateGroup"
+								  width="100%" height="100%" gap="4" 
+								  includeIn="detectedMicState, noDetectedMicState" 
+								  horizontalAlign="center">
+							<!--Subgroup with bg and microphone icons-->
+							<s:Group width="80" height="80" 
+									 verticalCenter="0" horizontalCenter="0" >
+								<!--Background for mic icons-->
+								<s:Rect alpha="0.9" radiusX="6" radiusY="6" 
+										left="4" right="4" top="4" bottom="4">
+									<s:fill>
+										<s:LinearGradient rotation="-90">
+											<s:GradientEntry color="0x23292f" 
+															 ratio="0"/>
+											<s:GradientEntry color="0x1d2630" 
+															 ratio="0.3"/>
+											<s:GradientEntry color="0x333a42" 
+															 ratio="1"/>
+										</s:LinearGradient>
+									</s:fill>
+									<s:stroke>
+										<s:LinearGradientStroke rotation="90" 
+																weight="1">
+											<s:GradientEntry color="0x3e444a"
+															 ratio="0"/>
+											<s:GradientEntry color="0x4b5159"
+															 ratio="1"/>
+										</s:LinearGradientStroke>
+									</s:stroke>
+								</s:Rect>
+								<!--Microphone default icon-->
+								<s:BitmapImage width="68" height="68" 
+											   fillMode="clip" verticalCenter="0" 
+											   horizontalCenter="0" 
+											   source="@Embed('/embed_assets/images/micIcon.png')">
+									<s:filters>
+										<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+															strength="1" quality="3" 
+															angle="90" distance="0.8"
+															alpha="0.8"
+															color="0x000000" />
+									</s:filters>
+								</s:BitmapImage>
+								<!--Microphone correct icon-->
+								<s:BitmapImage width="20" height="20" 
+											   fillMode="clip" left="4" top="4"
+											   source="@Embed('/embed_assets/images/correctIcon.png')" 
+											   includeIn="detectedMicState">
+									<s:filters>
+										<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+															strength="1" quality="3" 
+															angle="90" distance="0.8"
+															alpha="0.8"
+															color="0x000000" />
+									</s:filters>
+								</s:BitmapImage>
+								<!--Microphone incorrect icon-->
+								<s:BitmapImage width="48" height="40" 
+											   fillMode="clip" 
+											   verticalCenter="-6" 
+											   horizontalCenter="0"
+											   source="@Embed('/embed_assets/images/WarningIcon.png')" 
+											   includeIn="noDetectedMicState">
+									<s:filters>
+										<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+															strength="1" quality="3" 
+															angle="90" distance="0.8"
+															alpha="0.8"
+															color="0x000000" />
+									</s:filters>
+								</s:BitmapImage>
+							</s:Group>
+							<!--Hint label which indicates to plug microphone
+								and allow access to it in settings-->
+							<s:Label id="hintLabel"
+									 text.detectedMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'hintLabelDetectedMicStateLabelText')}"
+									 text.noDetectedMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'hintLabelNoDetectedMicStateLabelText')}"
+									 width="100%" height="26%" 
+									 textAlign="center" verticalAlign="middle" 
+									 fontSize="13" lineHeight="14" trackingLeft="-.2" 
+									 lineBreak="toFit"
+									 maxDisplayedLines="2"
+									 styleName="uiFont"
+									 color="0xfff1c2">
+								<s:filters>
+									<s:DropShadowFilter blurX="1.8" blurY="1.8" 
+														strength="1" quality="3" 
+														angle="90" distance="0.8"
+														alpha="0.8"
+														color="0x000000" />
+								</s:filters>
+							</s:Label>
+						</s:VGroup>
+					</s:Group>
+					<!--Button group wich contains optional button-->
+					<s:Group id="optionalButtonGroup" width="100%" height="20%">
+						<!--Optional button wich serves for adjust system
+							setting and skip activity-->
+						<s:Button id="optionalButton"
+								  buttonMode="true"
+								  height="20"
+								  label.testMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'optionalButtonTestMicStateButtonLabel')}"
+								  toolTip.testMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'adjustSystemSettingsButtonToolTip')}"
+								  label.incorrectFeedbackMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'optionalButtonIncorrectFeedbackMicStateButtonLabel')}"
+								  toolTip.incorrectFeedbackMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'adjustSystemSettingsButtonToolTip')}"
+								  visible.detectedMicState="false"
+								  label.noDetectedMicState="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'optionalButtonNoDetectedMicStateButtonLabel')}"
+								  skinClass="tj.ttu.components.skins.sound.adjustmentMicrophoneWindow.LinkUnderlineButtonSkin"
+								  horizontalCenter="0" verticalCenter="0" 
+								  excludeFrom="correctFeedbackMicState"/>
+					</s:Group>
+				</s:VGroup>
+			</s:Group>
+			<!--Button group(start, procced, detect)-->
+			<s:HGroup id="bottomButtonGroup"
+					  width="100%" height="12%"
+					  minHeight="54" maxHeight="80" 
+					  paddingLeft="12" paddingRight="12"
+					  verticalAlign="middle" horizontalAlign="center">
+				
+				<s:Button id="finishButton"
+						  buttonMode="true"
+						  label="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'finishButtonLabel')}"
+						  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'finishButtonToolTip')}"
+						  skinClass="tj.ttu.components.skins.sound.adjustmentMicrophoneWindow.StartActivityButtonSkin"
+						  verticalCenter="0" horizontalCenter="0"
+						  width="96" height="40"
+						  includeIn="testMicState,correctFeedbackMicState"/>
+				
+				<s:Button id="proceedButton" 
+						  buttonMode="true"
+						  label="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'proceedButtonLabel')}"
+						  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'proceedButtonTooltip')}"
+						  skinClass="tj.ttu.components.skins.sound.adjustmentMicrophoneWindow.ProceedButtonSkin"
+						  verticalCenter="0" horizontalCenter="0"
+						  width="96" height="40"
+						  includeIn="incorrectFeedbackMicState,detectedMicState"/>
+				
+				<s:Button id="detectButton" 
+						  buttonMode="true"
+						  label="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'detectButtonLabel')}"
+						  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'detectButtonTooltip')}"
+						  skinClass="tj.ttu.components.skins.sound.adjustmentMicrophoneWindow.DetectButtonSkin"
+						  verticalCenter="0" horizontalCenter="0"
+						  width="96" height="40"
+						  includeIn="noDetectedMicState"/>
+			</s:HGroup>	
+			<!--Bottom space-->
+			<s:Group width="100%" height="1%"/>
+		</s:VGroup>
+	</s:Group>
+</s:Skin>

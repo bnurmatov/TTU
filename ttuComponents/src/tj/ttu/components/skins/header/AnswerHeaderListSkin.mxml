@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		minHeight="20"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.supportClasses.SkinnableComponent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<!-- layer 1: background color -->
+	<!--- @private -->
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="0xe6e6e6"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:HGroup id="group" left="0" right="0"  
+			  height="20"
+			  gap="0"
+			  verticalAlign="middle"
+			  >
+		
+		<s:ToggleButton color="#000000"
+						height="100%" width="85"
+						label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'correctAnswerHeaderText') || 'CORRECT'}"
+						toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'correctAnswerHeaderToolTip') || 'Select Correct Answer'}"
+						skinClass="tj.ttu.components.skins.buttons.SortToggleButtonSkin"
+						/>
+		
+		<!--Vertical Line-->
+		<s:Rect width="2" height="100%" right="5" top="0" bottom="0" >
+			<s:fill>
+				<s:SolidColor color="#ffffff"/>
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter  alpha="100" distance="0.5" color="#ffffff" angle="180" />
+				<s:BevelFilter blurX="2" blurY="2" shadowColor="#8c8c8c" angle="180" distance="1"/>
+			</s:filters>
+		</s:Rect>
+		
+		<s:ToggleButton id="answerTextHeaderButton"
+						color="#000000"
+						height="100%" width="100%"
+						label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'answerHeaderText') || 'ANSWER TEXT'}"
+						toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'answerHeaderToolTip') || 'Type Answer Text'}"
+						skinClass="tj.ttu.components.skins.buttons.SortToggleButtonSkin"
+						/>
+		
+		<!--Vertical Line-->
+		<s:Rect width="2" height="100%" right="5" top="0" bottom="0" >
+			<s:fill>
+				<s:SolidColor color="#ffffff"/>
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter  alpha="100" distance="0.5" color="#ffffff" angle="180" />
+				<s:BevelFilter blurX="2" blurY="2" shadowColor="#8c8c8c" angle="180" distance="1"/>
+			</s:filters>
+		</s:Rect>
+		
+		<s:ToggleButton id="deleteHeaderButton"
+						label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'deleteAnswerHeaderText' ) || 'DELETE'}"
+						toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'deleteAnswerHeaderToolTip') || 'Delete selected answer'}"
+						color="#000000"
+						height="100%" width="80"
+						skinClass="tj.ttu.components.skins.buttons.SortToggleButtonSkin"
+						/>
+	</s:HGroup>	
+</s:Skin>

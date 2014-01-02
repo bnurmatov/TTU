@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin minWidth="80" minHeight="30" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		alpha.disabled="0.4"
+		><!-- minWidth="100" minHeight="40" -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+
+	
+	<s:Group left="0" right="0" top="0" bottom="0" alpha.disabled="0.4">
+		<s:filters>
+			<s:DropShadowFilter blurX="2" blurY="2" strength="1" quality="3" angle="90" distance="1" color="0x111111" />
+		</s:filters>
+		<s:Rect radiusX="5" radiusY="5" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" 
+									 color.up="0x357a27"
+									 color.disabled="0x186618"
+									 color.over="0x146614"
+									 color.down="0x357835"
+									 />
+					<s:GradientEntry ratio="0.5" 
+									 color.up="0x2e9918"
+									 color.disabled="0x146614"
+									 color.over="0x337a33"
+									 color.down="0x146614"
+									 />
+					<s:GradientEntry ratio="1" 
+									 color.up="0x65b854"
+									 color.disabled="0x408040"
+									 color.over="0x72a372"
+									 color.down="0x0b4c0b"
+									 />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect alpha="0.96" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1">
+					<s:GradientEntry color="0x000000" ratio="0" alpha="0.9"/>
+					<s:GradientEntry color="0x222222" ratio="0.1" alpha="0.65"/>
+					<s:GradientEntry color="0x222222" ratio="0.9" alpha="0.65"/>
+					<s:GradientEntry color="0xa8a8a8" ratio="1" alpha="0.98"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	<!-- Icon -->
+	<s:Group width="84%" height="98%" verticalCenter="0" horizontalCenter="0">
+	
+	<!-- Label -->
+	<s:Label 
+		id="labelDisplay"
+		verticalCenter="0" left="0" right="0" top="0" bottom="0"
+		paddingLeft="0" paddingRight="0" paddingTop="2" paddingBottom="2" 
+		color="0xffffff" color.over="0xd8d8d8" fontSize="15" lineHeight="15"
+		textAlign="center" verticalAlign="middle">
+		<s:filters> 
+			<s:DropShadowFilter blurX="2" blurY="2" strength="0.8" quality="2" angle="90" distance="1" color="0x3f3f3f" />
+		</s:filters>
+	 </s:Label>
+	</s:Group>
+</s:Skin>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="350" height="200"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.components.components.popup.PopupWindow")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<s:Group width="100%" height="100%">
+		
+		
+		<!-- background -->
+		<s:Rect top="0" bottom="0" left="0" right="0">
+			<s:filters>
+				<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+				<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+			</s:filters>
+			<s:fill>
+				<s:SolidColor color="#E0E7EB"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- background's title -->
+		<s:Rect height="29" top="5" left="5" right="5">
+			<s:fill>
+				<s:SolidColor color="#4E6880"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!--Window Icon-->
+		<s:BitmapImage left="7" top="10" source="@Embed('/embed_assets/images/info_title_con.png')"
+					   />
+		
+		<!--Window Title Label-->
+		<s:Label id="labelTitle" 
+				 left="35" right="20" top="12" 
+				 height="20"
+				 color="#FFFFFF"
+				 fontSize="14" fontWeight="bold"
+				 maxDisplayedLines="1"
+				 textAlign="left"
+				 verticalAlign="middle" 
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'informationPopupTitleText') || 'INFORMATION'}"
+				 />	
+
+		<!--Window Close Button-->
+		<s:Button id="buttonClose" 
+				  height="18" width="18"
+				  right="15" top="10"
+				  buttonMode="true"
+				  toolTip="{ resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'closeToolTip') || 'Close current window'}"
+				  skinClass="tj.ttu.components.skins.buttons.CloseButtonSkin"/>	
+		
+		
+		<!--label Message-->
+		<s:Label id="labelMessage" 
+				 width="100%"
+				 top="70"
+				 paddingRight="15"
+				 paddingLeft="15"
+				 verticalAlign="middle"
+				 fontSize="14"
+				 textAlign="center"
+				 verticalCenter="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 />
+		<s:HGroup width="50%" height="40" bottom="25" 
+				  horizontalCenter="0"
+				  gap="4" verticalAlign="top" horizontalAlign="center"
+				  >
+			<s:Button id="buttonOk"
+					  buttonMode="true"
+					  width="130" height="32"
+					  label="{ resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'okPopupButtonLabel' ) || 'Ok' }"
+					  toolTip="{  resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'okPopupButtonToolTip' ) || 'OK'}"
+					  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"/>
+			
+		</s:HGroup>					
+	</s:Group>
+</s:Skin>

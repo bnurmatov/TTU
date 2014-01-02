@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:scroller="tj.ttu.components.components.scroller.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.TextArea")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabledWithPrompt" />
+		<s:State name="normalWithPrompt" />
+		<s:State name="disabled" />
+		<s:State name="normal" />
+	</s:states>
+	
+	<!-- fill -->
+	<!--- Defines the appearance of the TextArea component's background. -->
+	<s:Rect id="background" left="0" right="0" top="0" bottom="0" radiusX="4" radiusY="4">
+		<s:fill>
+			<s:SolidColor color="0xffffff"/>
+		</s:fill>
+	</s:Rect> 
+	<!-- shadow -->
+	<!--- @private -->
+	<scroller:TTUScroller id="scroller" left="3" right="0" top="3" bottom="3"  
+						 minViewportInset="1" measuredSizeIncludesScrollBars="false" 
+						 hasFocusableChildren="false"
+						 verticalScrollPolicy="auto"
+						 horizontalScrollPolicy="off"
+						 >
+	<!--- @copy spark.components.supportClasses.SkinnableTextBase#textDisplay -->
+	<s:RichEditableText id="textDisplay" 
+						heightInLines="1" 
+						multiline="true"
+						paddingLeft="4" paddingRight="10"
+						verticalAlign="middle" 
+						lineHeight="32"
+						fontSize="14" 
+						widthInChars="{(width-6)/22}"
+						color="0x6d7072" 
+						/>
+	</scroller:TTUScroller>
+	
+	<!--- Defines the Label that is used for prompt text. The includeInLayout property is false so the prompt text does not affect measurement. -->
+	<s:Label id="promptDisplay"
+			 mouseEnabled="false" mouseChildren="false"
+			 includeIn="normalWithPrompt,disabledWithPrompt" 
+			 includeInLayout="false"
+			 fontSize="14"
+			 color="0x797a7a"
+			 />            
+	
+</s:Skin>

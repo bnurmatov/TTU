@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2011, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		minWidth="34" minHeight="26"
+		alpha.disabled="0.6"
+		>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	<s:Group width="100%" height="100%">
+		<s:Rect alpha="0.75" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0"
+				includeIn="down">
+			<s:filters>
+				<s:DropShadowFilter color="0x000000" inner="true" blurX="9" blurY="9" distance="1" quality="3" strength="1.3" alpha="1" />
+			</s:filters>
+			<s:fill>
+				<s:SolidColor color="0x36414c"/>
+			</s:fill>
+		</s:Rect>	
+		<s:Rect alpha="0.7" radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0" includeIn="down">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1" >
+					<s:GradientEntry color="0x51585f" ratio="0"/>
+					<s:GradientEntry color="0x212831" ratio="0.2"/>
+					<s:GradientEntry color="0x1f262e" ratio="0.5"/>
+					<s:GradientEntry color="0x1a2028" ratio="0.8"/>
+					<s:GradientEntry color="0x0f1418" ratio="1"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		<!-- Icons -->
+		<s:BitmapImage width="22" height="22"  horizontalCenter="0" verticalCenter="0"
+					   source.up="@Embed('/embed_assets/images/restart_upIcon.png')"
+					   source.disabled="@Embed('/embed_assets/images/restart_disabledIcon.png')"
+					   source.over="@Embed('/embed_assets/images/restart_overIcon.png')"
+					   source.down="@Embed('/embed_assets/images/restart_overIcon.png')"
+					   fillMode="clip"/>
+	</s:Group>
+</s:Skin>

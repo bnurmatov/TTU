@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2012, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:Skin 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	minWidth="32" minHeight="26" alpha.disabled="0.4" alpha.disabledAndSelected="0.4"
+	>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected" />
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.ToggleButton")]
+	</fx:Metadata>
+	<!-- Button -->
+	<s:Group width="100%" height="100%">
+		<s:Rect alpha="0" radiusX="2" radiusY="2" left="1" right="1" top="1" bottom="1">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect radiusX="2" radiusY="2" left="2" right="2" top="2" bottom="4"
+				includeIn="down,upAndSelected,overAndSelected,downAndSelected,disabledAndSelected">
+			<s:filters>
+				<s:DropShadowFilter color="0x000000" inner="true" blurX="8" blurY="8" distance="1" quality="3" strength="0.8" alpha="1" 
+									knockout="true"/>
+			</s:filters>
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<!-- Icon -->
+		<!-- Pause -->
+		<s:Group width="8" height="13" verticalCenter="-1" horizontalCenter="0"
+				  includeIn="upAndSelected, overAndSelected, downAndSelected, disabledAndSelected">
+			
+			<s:Group width="8" height="13" horizontalCenter="0" verticalCenter="0">
+				<s:filters>
+					<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.2" quality="3" shadowColor="0x1b1b1b" highlightColor="0x868888" angle="90" distance="-0.4" type="inner"/>
+					<s:GlowFilter blurX="7" blurY="6" alpha="0.6" strength="0.8"  color="0xffffff" inner="false" quality="3" includeIn="overAndSelected"/>
+				</s:filters>
+				<s:Rect width="3" height="12" top="0" left="0">
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry ratio="0"
+											 color.upAndSelected="0x727272"
+											 color.disabledAndSelected="0x727272"
+											 color.overAndSelected="0x006bb2"
+											 color.downAndSelected="0x00b200"
+											 />
+							<s:GradientEntry ratio="1"
+											 color.upAndSelected="0xe6e6e6"
+											 color.disabledAndSelected="0xe6e6e6"
+											 color.overAndSelected="0xe1f0fa"
+											 color.downAndSelected="0xe1fae1"
+											 />
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="3" height="12" top="0" right="0">
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry ratio="0"
+											 color.upAndSelected="0x727272"
+											 color.disabledAndSelected="0x727272"
+											 color.overAndSelected="0x006bb2"
+											 color.downAndSelected="0x00b200"
+											 />
+							<s:GradientEntry ratio="1"
+											 color.upAndSelected="0xe6e6e6"
+											 color.disabledAndSelected="0xe6e6e6"
+											 color.overAndSelected="0xe1f0fa"
+											 color.downAndSelected="0xe1fae1"
+											 />
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+			</s:Group>
+			
+		</s:Group>
+		<!-- Play -->
+		<s:Group width="8" height="13" verticalCenter="-1" horizontalCenter="1"
+				 includeIn="up, over, down, disabled">
+			<s:Path width="8" height="13" horizontalCenter="0" verticalCenter="0" 
+					data="M 0 0 L 0 16 L 10 8 L 0 0 Z">
+				<s:filters>
+					<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.2" quality="3" shadowColor="0x1b1b1b" highlightColor="0x868888" angle="90" distance="0.4" distance.down="-0.4" type="inner"/>
+					<s:GlowFilter blurX="7" blurY="6" alpha="0.8" strength="0.6"  color="0xffffff" inner="false" quality="3" includeIn="over"/>
+				</s:filters>
+				<s:fill>
+					<s:LinearGradient rotation="-90">
+						<s:GradientEntry ratio="0"
+										 color.up="0x727272"
+										 color.disabled="0x727272"
+										 color.over="0x006bb2"
+										 color.down="0x00b200"
+										 />
+						<s:GradientEntry ratio="1"
+										 color.up="0xe6e6e6"
+										 color.disabled="0xe6e6e6"
+										 color.over="0xe1f0fa"
+										 color.down="0xe1fae1"
+										 />
+					</s:LinearGradient>
+				</s:fill>
+			</s:Path>
+		</s:Group>
+	</s:Group>
+</s:Skin>

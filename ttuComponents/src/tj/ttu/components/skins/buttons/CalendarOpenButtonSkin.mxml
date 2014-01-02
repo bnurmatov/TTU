@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		width="23" height="22">
+	<fx:Metadata>[HostComponent("spark.components.ToggleButton")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected"/>
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	
+	<s:BitmapImage width="23" height="21" smooth="true"
+				   horizontalCenter="0" verticalCenter="0"
+				   source="@Embed('/embed_assets/images/calendar_icon.png')"
+				   y.down="1"
+				   y.downAndSelected="1"
+				   >
+		<s:filters>
+			<s:GlowFilter includeIn="over" alpha="1.0" blurX="20.4" blurY="20.4" color="#999999"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="upAndSelected" alpha="1.0" blurX="19.4" blurY="19.4"
+						  color="#4B576B" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="overAndSelected" alpha="1.0" blurX="26.5" blurY="26.5"
+						  color="#4B576B" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="downAndSelected" alpha="1.0" blurX="20.3" blurY="20.3"
+						  color="#4B576B" inner="true" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+	</s:BitmapImage>
+</s:Skin>

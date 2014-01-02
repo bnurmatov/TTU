@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="tj.ttu.moduleUtility.view.interfaces.IModule"/>
+    <classEntry path="tj.ttu.moduleUtility.view.interfaces.IModuleLoader"/>
+    <classEntry path="tj.ttu.moduleUtility.view.components.ModuleLoader"/>
+    <classEntry path="tj.ttu.moduleUtility.utils.messages.ModulePipeMessage"/>
+    <classEntry path="tj.ttu.moduleUtility.view.interfaces.IModulePipeMessage"/>
+    <classEntry path="tj.ttu.moduleUtility.constants.MessageConstants"/>
+    <classEntry path="tj.ttu.moduleUtility.constants.PipeConstants"/>
+    <classEntry path="tj.ttu.moduleUtility.utils.messages.ModuleMessage"/>
+    <classEntry path="tj.ttu.moduleUtility.vo.StepVO"/>
+    <classEntry path="tj.ttu.moduleUtility.vo.ScoreVO"/>
+    <classEntry path="tj.ttu.moduleUtility.utils.messages.ScoreMessage"/>
+    <classEntry path="tj.ttu.moduleUtility.utils.messages.ConfigurationMessage"/>
+    <classEntry path="tj.ttu.moduleUtility.model.LoadXMLProxy"/>
+    <classEntry path="tj.ttu.moduleUtility.controller.LoadXMLCommand"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

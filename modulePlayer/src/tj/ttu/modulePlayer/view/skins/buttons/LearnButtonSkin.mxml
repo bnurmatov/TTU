@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+             xmlns:s="library://ns.adobe.com/flex/spark" 
+             xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+             minWidth="21" minHeight="21" 
+             alpha.disabled="0.5">
+     
+    <fx:Metadata>
+        <![CDATA[ 
+        /** 
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("spark.components.Button")]
+        ]]>
+    </fx:Metadata>
+    
+    <!-- states -->
+    <s:states>
+        <s:State name="up" />
+        <s:State name="over" />
+        <s:State name="down" />
+        <s:State name="disabled" />
+    </s:states>
+  
+	<!--bg-->
+	<s:Rect left="0" top="0" bottom="0" right="0" radiusX="4" radiusY="4">
+		<s:fill>
+			<s:SolidColor color="0x91b935"
+						  color.over="0xa1cc3e"
+						  color.down="0x91b935"/>
+		</s:fill>
+		<s:filters>
+			<s:DropShadowFilter  color="#000000" inner.down="true" blurX.down="18" blurY.down="18" color.down="0x4f7312" distance="1" strength="1" alpha=".50" />
+			<s:DropShadowFilter distance="1" angle="90" strength="2" blurY="3"  inner="true" color.up="#ffffff" color.over="0xffffff" color.down="0x69951d" alpha=".60" />
+		</s:filters>
+	</s:Rect>
+	<s:Rect left="0" top="0" bottom="0" right="0" radiusX="2" radiusY="2">
+		<s:stroke >
+			<s:SolidColorStroke color.up="0x678918" weight="1.49"  color.over="#729918" color.down="#729918"/>
+		</s:stroke>
+	</s:Rect>
+		
+   
+	<!--label-->
+    <s:Label id="labelDisplay" 
+			 fontWeight="bold"
+			 fontSize="14"
+			 styleName="learnLabel"
+			 verticalCenter="0"
+			 horizontalCenter="0"
+			 color="0xffffff"
+			 >
+    </s:Label>
+    
+</s:SparkButtonSkin>

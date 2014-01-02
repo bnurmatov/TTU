@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="tj.ttu.module.assesment.views.components.*"
+		width="100%" height="100%" 
+		>
+	
+	<!--Custom states-->
+	<s:states>
+		<s:State name="startScreen"/>
+		<s:State name="content"/>
+	</s:states>
+	
+	<!--Start Screen-->
+	<components:StartScreenView id="startScreen"
+								width="750" height="500"
+								includeIn="startScreen"
+								horizontalCenter="0" verticalCenter="0"
+								skinClass="tj.ttu.module.assesment.views.skins.StartScreenViewSkin"
+								/>
+	
+	<!--Chapter Player Panel-->
+	<components:AssesmentPlayer id="content"
+								width="100%" height="100%"
+								includeIn="content"
+								skinClass="tj.ttu.module.assesment.views.skins.AssesmentPlayerSkin"
+								/>
+</s:Skin>

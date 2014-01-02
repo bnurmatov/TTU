@@ -1,0 +1,42 @@
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" clipAndEnableScrolling="true">
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.vo.AnswerVo;
+			/**
+			 * Prepare our renderer
+			 */
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				
+				if(value)
+					correctAnswersLabel.text = answerToString(value.correctAnswers);	
+				else
+					correctAnswersLabel.text = "";	
+			}
+			
+			private function answerToString(answers:Array):String
+			{
+				var answersString:String = "";
+				for each(var item:AnswerVo in answers)
+				{
+					answersString += item.text + "\n";
+				}
+				return answersString;
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- Known text -->
+	<s:Label id="correctAnswersLabel"
+			 right="4" left="4" top="4" bottom="4"
+			 verticalAlign="middle"
+			 color="0x4b6570"
+			 fontSize="16"
+			 styleName="uiFont"
+			 />	
+</s:GridItemRenderer>

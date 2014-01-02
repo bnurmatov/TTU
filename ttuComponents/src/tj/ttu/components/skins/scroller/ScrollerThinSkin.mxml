@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	>
+	<fx:Metadata>
+		[HostComponent("spark.components.Scroller")]
+	</fx:Metadata>
+	<s:VScrollBar id="verticalScrollBar"
+				  skinClass="tj.ttu.components.skins.scroller.vscroller.VScrollBarThinSkin" />
+	<s:HScrollBar id="horizontalScrollBar"
+				  skinClass="tj.ttu.components.skins.scroller.hscroller.HScrollBarThinSkin"/>
+</s:Skin>

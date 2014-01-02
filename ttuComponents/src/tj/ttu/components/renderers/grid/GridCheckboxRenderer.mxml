@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2012, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					clipAndEnableScrolling="true"
+					doubleClickEnabled="true"
+					doubleClick="griditemrenderer1_doubleClickHandler(event)"
+					>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.events.DataGridEvent;
+			
+			
+			/**
+			 * Dispatch event each time a checkbox changes.
+			 */
+			protected function checkBox_changeHandler(event:Event):void
+			{
+				owner.dispatchEvent( new DataGridEvent(DataGridEvent.CHECK_CHANGED) );
+			}
+			private function checkBox_doubleClickHandler(event:MouseEvent):void
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+			
+			private function griditemrenderer1_doubleClickHandler(event:MouseEvent):void
+			{
+				owner.dispatchEvent(new DataGridEvent(DataGridEvent.GRID_DOUBLE_CLICK, -1, data));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:CheckBox id="checkBox" 
+				width="15" height="15"
+				verticalCenter="0" horizontalCenter="0"
+				selected="@{data.selected}"
+				change="checkBox_changeHandler(event)"
+				doubleClickEnabled="true"
+				doubleClick="checkBox_doubleClickHandler(event)"
+				toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'listCheckBoxToolTip' ) || 'Select or Deselect Lesson'}"
+				skinClass="tj.ttu.components.skins.checkbox.CheckBoxSkin"/>
+</s:GridItemRenderer>

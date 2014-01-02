@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="tj.ttu.courseservice.constants.CourseServiceNotification"/>
+    <classEntry path="tj.ttu.courseservice.model.vo.MediaVO"/>
+    <classEntry path="tj.ttu.courseservice.model.vo.ChapterServiceVO"/>
+    <classEntry path="tj.ttu.courseservice.model.vo.QuestionServiceVO"/>
+    <classEntry path="tj.ttu.courseservice.model.vo.ResourceServiceVO"/>
+    <classEntry path="tj.ttu.courseservice.model.vo.PublishServiceVO"/>
+    <classEntry path="tj.ttu.courseservice.model.vo.UserSettingsVO"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

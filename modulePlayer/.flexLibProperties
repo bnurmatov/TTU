@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="tj.ttu.modulePlayer.view.components.LessonHolder"/>
+    <classEntry path="tj.ttu.modulePlayer.view.skins.LessonHolderSkin"/>
+    <classEntry path="tj.ttu.modulePlayer.view.components.background.HolderBackground"/>
+    <classEntry path="tj.ttu.modulePlayer.view.events.LessonHolderEvent"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.LessonHolderMediator"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.ModuleLoaderMediator"/>
+    <classEntry path="tj.ttu.modulePlayer.model.ModuleProxy"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.PlayerJunctionMediator"/>
+    <classEntry path="tj.ttu.modulePlayer.controller.ModuleRemovedCommand"/>
+    <classEntry path="tj.ttu.modulePlayer.controller.HideModuleCommand"/>
+    <classEntry path="tj.ttu.modulePlayer.controller.HandleModuleMessageCommand"/>
+    <classEntry path="tj.ttu.modulePlayer.controller.SendModuleSettingsCommand"/>
+    <classEntry path="tj.ttu.modulePlayer.view.renderers.ModuleRenderer"/>
+    <classEntry path="tj.ttu.modulePlayer.view.components.popup.LearningPopup"/>
+    <classEntry path="tj.ttu.modulePlayer.view.events.LearningPopupEvent"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.popup.LearningPopupMediator"/>
+    <classEntry path="tj.ttu.modulePlayer.controller.popup.ShowLearningPopup"/>
+    <classEntry path="tj.ttu.modulePlayer.view.components.LessonHolderHeader"/>
+    <classEntry path="tj.ttu.modulePlayer.view.components.LessonHolderMainView"/>
+    <classEntry path="tj.ttu.modulePlayer.view.skins.LessonHolderMainViewSkin"/>
+    <classEntry path="tj.ttu.modulePlayer.view.skins.LessonHolderHeaderSkin"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.LessonHolderMainViewMediator"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.LessonHolderHeaderMediator"/>
+    <classEntry path="tj.ttu.modulePlayer.controller.popup.ShowAssessmentCompletePopup"/>
+    <classEntry path="tj.ttu.modulePlayer.view.components.popup.AssessmentCompletePopup"/>
+    <classEntry path="tj.ttu.modulePlayer.view.skins.popup.AssessmentCompletePopupSkin"/>
+    <classEntry path="tj.ttu.modulePlayer.view.renderers.GridCorrectAnswerRenderer"/>
+    <classEntry path="tj.ttu.modulePlayer.view.renderers.GridUserAnswerRenderer"/>
+    <classEntry path="tj.ttu.modulePlayer.view.mediators.popup.AssessmentCompletePopupMediator"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

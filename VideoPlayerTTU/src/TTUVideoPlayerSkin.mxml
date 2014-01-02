@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the Spark VideoPlayer component.  
+
+@see spark.components.VideoPlayer
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabledStates="0.5" 
+			 xmlns:busyindicator="tj.ttu.base.view.components.busyindicator.*" 
+			 xmlns:videoplayer="tj.ttu.base.view.components.videoplayer.*"
+			 chromeColor.fullScreenStates="0xCCCCCC"
+			 width="100%" height="100%" 
+			 >
+	
+	<!-- host component -->
+	<fx:Metadata>
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("tj.ttu.base.view.components.videoplayer.TTUVideoPlayer")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	
+	<s:states>
+		<s:State name="uninitialized" stateGroups="uninitializedStates, normalStates" />
+		<s:State name="loading" stateGroups="loadingStates, normalStates" />
+		<s:State name="ready" stateGroups="readyStates, normalStates" />
+		<s:State name="playing" stateGroups="playingStates, normalStates" />
+		<s:State name="paused" stateGroups="pausedStates, normalStates" />
+		<s:State name="replay" stateGroups="pausedStates, normalStates" />	
+		<s:State name="replayAndFullScreen" stateGroups="pausedStates, fullScreenStates" />	
+		<s:State name="buffering" stateGroups="bufferingStates, normalStates" />
+		<s:State name="playbackError" stateGroups="playbackErrorStates, normalStates" />
+		<s:State name="disabled" stateGroups="disabledStates, normalStates"/>
+		<s:State name="uninitializedAndFullScreen" stateGroups="uninitializedStates, fullScreenStates" />
+		<s:State name="loadingAndFullScreen" stateGroups="loadingStates, fullScreenStates" />
+		<s:State name="readyAndFullScreen" stateGroups="readyStates, fullScreenStates" />
+		<s:State name="playingAndFullScreen" stateGroups="playingStates, fullScreenStates" />
+		<s:State name="pausedAndFullScreen" stateGroups="pausedStates, fullScreenStates" />
+		<s:State name="bufferingAndFullScreen" stateGroups="bufferingStates, fullScreenStates" />
+		<s:State name="playbackErrorAndFullScreen" stateGroups="playbackErrorStates, fullScreenStates" />
+		<s:State name="disabledAndFullScreen" stateGroups="disabledStates, fullScreenStates"/>
+	</s:states>
+	
+	<!-- drop shadow -->
+	<!--- @private -->
+	<s:RectangularDropShadow id="dropShadow" blurX="17" blurY="17" alpha="0.32" distance="4" 
+							 angle="90" color="#131313" left="0" top="0" right="0" bottom="0" 
+							 excludeFrom="fullScreenStates"/>
+	
+	<!--- Video and player controls are clipped if they exceed the size of the 
+	component, but the drop shadow above is not clipped and sizes to the component.
+	We also set verticalScrollPosition so that when we do clip, rather than clipping  
+	off the bottom first, we clip off the top fist.  This is so the player controls 
+	are still visible when we start clipping. -->
+	<s:Group id="clippedGroup" clipAndEnableScrolling="true"
+			 width="100%" height="100%"
+			 left="0" top="0" right="0" bottom="0" 
+			 >
+		
+		<!--- BG -->
+		<s:Rect radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0"
+				alpha.fullScreenStates="0.2">
+			
+		</s:Rect>		
+		
+		<!-- There's a minimum size for the video and controls.  If we go below that
+		we are clipped. -->
+		
+		<!-- background when the videoDisplay doesn't fill its whole spot -->
+		<s:Rect bottom="1" left="1" right="1" top="1" excludeFrom="normalStates"
+				bottom.fullScreenStates="0" left.fullScreenStates="0" 
+				right.fullScreenStates="0" top.fullScreenStates="0">
+			<s:fill>
+				<s:SolidColor color="0x000000" />
+			</s:fill>
+		</s:Rect>
+		
+		
+		<s:Group bottom="31" left="0" right="0" top="0" width="100%" height="100%">
+			
+			<s:Group width="100%" height="100%">	
+				
+				<s:Rect includeIn="normalStates"
+						radiusX="3" radiusY="3" bottom="0" left="0" right="0" top="0">
+					<s:fill>
+						<s:SolidColor color="0x000000" alpha=".8" />
+					</s:fill>
+				</s:Rect>
+				
+				
+				<!--- @copy spark.components.VideoPlayer#videoDisplay -->
+				<videoplayer:VideoDisplayM id="videoDisplay"
+										   top="0"
+										   width.normalStates="100%" height.normalStates="100%"
+										   bottom.fullScreenStates="0" left.fullScreenStates="0" 
+										   right.fullScreenStates="0" top.fullScreenStates="0" />
+				
+				
+				<!--- Screen Icons -->
+				<s:Group verticalCenter="0" horizontalCenter="0">
+					<!--- playbackError -->
+					<s:VGroup includeIn="playbackError"
+							  width="100%" height="100%" verticalCenter="0" horizontalCenter="0" 
+							  verticalAlign="middle" horizontalAlign="center" gap="2">
+						<s:BitmapImage width="32" height="32"
+									   source="@Embed('/embed_assets/errorLoading_upIcon.png')"/> 
+						
+						<s:Label id="videoErrorLabel" styleName="uiButton uiFont" 
+								 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'videoNotFound')||'Sorry. This video cannot be found.'}"
+								 top="2" bottom="2" maxWidth="320"
+								 verticalAlign="middle" verticalCenter="1" textAlign="center"
+								 color="0xffffff" fontSize="12" alpha.disabled="0.4"/>
+					</s:VGroup>	
+					
+					<s:Button id="replayButton" includeIn="replay, replayAndFullScreen"			   		  
+							  width="80" height="50"  horizontalCenter="0" verticalCenter="0"
+							  buttonMode="true" useHandCursor="true"
+							  skinClass="tj.ttu.base.view.skins.videoplayer.VReplayButtonSkin"/>	
+					
+					<!--- Play/Pause middle button -->
+					<s:ToggleButton id="ppButton"
+									excludeFrom="replay, replayAndFullScreen, playbackErrorStates"
+									width="80" height="50"  horizontalCenter="0" verticalCenter="0"					
+									buttonMode="true" useHandCursor="true"
+									skinClass="tj.ttu.base.view.skins.videoplayer.VPlayPauseButtonSkin"/>
+				</s:Group>
+				
+			</s:Group>
+			
+		</s:Group>
+		
+		<busyindicator:BusyIndicator width="35" height="35" horizontalCenter="0" verticalCenter="-8" 
+									 includeIn="loading,loadingAndFullScreen" />
+		
+		<!-- video player controls -->
+		<s:Group left="1" right="1" height="30" bottom="1" >
+			
+			<!-- actual controls with a maxWidth in non-fullScreen mode -->
+			<!--- @copy spark.components.VideoPlayer#playerControls -->
+			<s:Group bottom="0" horizontalCenter="0" left="0" right="0" maxWidth.fullScreenStates="755" id="playerControls">
+				
+				<!-- BG -->
+				<s:Rect radiusX="2" radiusY="2" left="0" right="0" top="0" bottom="0">
+					<s:filters>
+						<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.4" quality="3" shadowColor="0x0c0c0c" highlightColor="0x5d5d5d" angle="-90" distance="-0.6" type="inner"/>
+					</s:filters>
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry ratio="0" color="0x3d3d3d"/>
+							<s:GradientEntry ratio="0.4" color="0x262626"/>
+							<s:GradientEntry ratio="0.6" color="0x262626"/>
+							<s:GradientEntry ratio="1" color="0x3d3d3d"/>
+						</s:LinearGradient>
+					</s:fill>
+					<s:stroke>
+						<s:SolidColorStroke color="0x000000" alpha="0.4" weight="1"/>
+					</s:stroke>
+				</s:Rect>			
+				
+				<!--- @copy spark.components.VideoPlayer#playPauseButton -->
+				<s:ToggleButton id="playPauseButton" left="2" verticalCenter="1"  
+								toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'playPauseButtonToolTip')}" 
+								toolTip.playing="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'playPauseButtonPlayingToolTip')}"
+								skinClass="tj.ttu.base.view.skins.videoplayer.VPlayerPlayPauseButtonSkin" 
+								skinClass.fullScreenStates="tj.ttu.base.view.skins.videoplayer.VPlayerPlayPauseButtonSkin"
+								layoutDirection="ltr"
+								focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
+				
+				
+				<s:Rect left="36" width="1" height="18" verticalCenter="0">
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry ratio="0" color="0x333333"/>
+							<s:GradientEntry ratio="0.5" color="0x4c4c4c"/>
+							<s:GradientEntry ratio="1" color="0x333333"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				
+				<!-- scrubbar + the currentTime/duration labels -->
+				<s:Group left="42" right="68" height="16" verticalCenter="1">
+					
+					<s:Rect radiusX="2" radiusY="2" left="0" right="0" top="0" bottom="0">
+						<s:filters>
+							<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.2" quality="3" shadowColor="0x0c0c0c" highlightColor="0x6c6c6c" angle="90" distance="-0.4" type="inner"/>
+						</s:filters>
+						<s:fill>
+							<s:SolidColor color="0x000000" alpha="0.5"/>
+						</s:fill>
+					</s:Rect>
+					
+					<s:HGroup left="2" right="3" top="2" bottom="2" gap="2">
+						
+						<!--- @copy spark.components.VideoPlayer#scrubBar -->
+						<s:Group width="100%" height="100%">
+							
+							
+							<videoplayer:LimitedScrubBar id="scrubBar" width="100%" top="1" left="3" liveDragging="true"
+														 skinClass="tj.ttu.base.view.skins.videoplayer.ScrubBarSkin"
+														 skinClass.fullScreenStates="tj.ttu.base.view.skins.videoplayer.ScrubBarSkin" />
+						</s:Group>
+						
+						<!--- @copy spark.components.VideoPlayer#currentTimeDisplay -->
+						<s:Label id="currentTimeDisplay" text="0:00" 
+								 height="12" color.fullScreenStates="0xa3a3a3" 
+								 verticalAlign="middle" paddingLeft="0" paddingRight="1" paddingTop="1" paddingBottom="0"
+								 color="0xa3a3a3" fontSize="11" fontWeight="normal" textAlign="center" />
+						
+						<!--- @private -->
+						<s:Label id="timeDivider" text="/" height="12" 
+								 color.fullScreenStates="0xa3a3a3" 
+								 verticalAlign="middle" paddingLeft="0" paddingRight="1" paddingTop="1" paddingBottom="0"
+								 color="0xa3a3a3" fontSize="11" fontWeight="normal" textAlign="center"/>
+						
+						<!--- @copy spark.components.VideoPlayer#durationDisplay -->
+						<s:Label id="durationDisplay" text="0:47"  
+								 color.fullScreenStates="0xa3a3a3" height="12"
+								 verticalAlign="middle" paddingLeft="0" paddingRight="1" paddingTop="1" paddingBottom="0"
+								 color="0xa3a3a3" fontSize="11" fontWeight="normal" textAlign="center" />
+					</s:HGroup>
+				</s:Group>
+				
+				<s:Rect right="62" width="1" height="18" verticalCenter="0">
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry ratio="0" color="0x333333"/>
+							<s:GradientEntry ratio="0.5" color="0x4c4c4c"/>
+							<s:GradientEntry ratio="1" color="0x333333"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				
+				<!--- @copy spark.components.VideoPlayer#volumeBar -->				
+				<s:VolumeBar id="volumeBar" snapInterval=".01" stepSize=".01" liveDragging="true"
+							 toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'volumeBarToolTip')}"
+							 width="30" right="32" bottom="0" 
+							 skinClass="tj.ttu.base.view.skins.videoplayer.VolumeBarSkin"
+							 skinClass.fullScreenStates="tj.ttu.base.view.skins.videoplayer.VolumeBarSkin"
+							 focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
+				
+				<!--- @copy spark.components.VideoPlayer#fullScreenButton -->
+				<s:Rect right="32" width="1" height="18" verticalCenter="0">
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry ratio="0" color="0x333333"/>
+							<s:GradientEntry ratio="0.5" color="0x4c4c4c"/>
+							<s:GradientEntry ratio="1" color="0x333333"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:ToggleButton id="fullScreenButton" 
+								toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'fullScreenButtonToolTip')}"
+								toolTip.fullScreenStates="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'fullScreenButtonFullScreen')}"
+								right="2" verticalCenter="0"
+								skinClass="tj.ttu.base.view.skins.videoplayer.VPlayerFullScreenButtonSkin"
+								skinClass.fullScreenStates="tj.ttu.base.view.skins.videoplayer.VPlayerFullScreenButtonSkin"
+								focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
+			</s:Group>
+			
+			<!-- border -->
+			<s:Rect left="0" right="0" top="0" bottom="0" excludeFrom="fullScreenStates">
+				<s:stroke>
+					<s:SolidColorStroke color="0x131313" />
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
+	</s:Group>
+	
+	
+</s:SparkSkin>

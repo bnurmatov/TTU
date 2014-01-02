@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true"
+				minHeight="30"
+				>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.vo.InsertContentVO;
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var item:InsertContentVO = value as InsertContentVO;
+				if(item)
+				{
+					this.toolTip = item.toolTip;
+					icon.source = item.icon;
+					itemLabel.text = item.label;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!--Image Icon-->
+	<s:BitmapImage id="icon"
+				   left="5"
+				   width="30" height="25"
+				   smooth="true"
+				   verticalCenter="0"/>
+				   
+	
+	<!--Item label-->
+	<s:Label id="itemLabel"
+			 left="40" width="100%"
+			 height="100%"
+			 maxDisplayedLines="1"
+			 showTruncationTip="true"
+			 verticalAlign="middle"
+			 verticalCenter="0"
+			 fontSize="14"
+			 styleName="uiFont"
+			 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+			 />
+	
+</s:ItemRenderer>

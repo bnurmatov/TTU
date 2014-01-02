@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		minWidth="34" minHeight="26"
+		>
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="0"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect alpha="0.75" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0"
+				includeIn="down">
+			<s:filters>
+				<s:DropShadowFilter color="0x000000" inner="true" blurX="9" blurY="9" distance="1" quality="3" strength="1.3" alpha="1" />
+			</s:filters>
+			<s:fill>
+				<s:SolidColor color="0x36414c"/>
+			</s:fill>
+		</s:Rect>	
+		<s:Rect alpha="0.7" radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0" includeIn="down">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1" >
+					<s:GradientEntry color="0x51585f" ratio="0"/>
+					<s:GradientEntry color="0x212831" ratio="0.2"/>
+					<s:GradientEntry color="0x1f262e" ratio="0.5"/>
+					<s:GradientEntry color="0x1a2028" ratio="0.8"/>
+					<s:GradientEntry color="0x0f1418" ratio="1"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	
+	<s:Group height="11.721" width="15.071" horizontalCenter="0" verticalCenter="0">
+		<s:Path height="11.721" width="15.071"
+				data="M 0 11.41 L 16 0 L 16 5.705 L 32 5.705 L 32 17.114 L 16 17.114 L 16 22.819 L 0 11.41 Z" verticalCenter="0" horizontalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#FFFFFF"
+							  color.over="#96F2FF"
+							  color.down="#96F2FF"
+							  />
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter alpha="0.5" 
+									angle="45.0" 
+									blurX="1" 
+									blurY="1" 
+									color="0x000000" 
+									distance="1" 
+									hideObject="false" 
+									inner="true" 
+									knockout="false" 
+									quality="2"
+									strength="1"/>
+			</s:filters>
+		</s:Path>
+	</s:Group>
+	
+</s:Skin>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2010 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the anchor button on a Spark DropDownList component.  
+
+@see spark.components.DropDownList        
+@see spark.skins.spark.DropDownListSkin
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+			 minWidth="21" minHeight="21" >
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata> 
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	
+	<s:Rect width="100%" height="100%" left="1" right="1" top="1" bottom="1">
+		<s:fill>
+			<s:SolidColor color="0x000000" alpha="0"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Group width="25" height="100%" right="0">
+		
+		<!-- layer 8: arrow -->
+		<!--- The arrow graphic displayed in the anchor button. -->
+		<s:Path id="arrow" right="7" width="14" height="7"
+				data="M14.021 0 0 0.107422 7.16748 7.21582 14.021 0Z"
+				verticalCenter="1" verticalCenter.down="2">
+			<s:fill>
+				<s:RadialGradient focalPointRatio="1" rotation="90">   
+					<!--- @private
+					The first part of the arrow's gradient fill. 
+					The default alpha is .6. The default color if 0x000000. -->
+					<s:GradientEntry id="arrowFill1" ratio="0" color="#706F71"/>
+					<!--- @private
+					The second part of the arrow's gradient fill. 
+					The default alpha is .6. The default color if 0x000000. -->
+					<s:GradientEntry id="arrowFill2" ratio="1" color="#050607"/>
+				</s:RadialGradient>
+			</s:fill>
+		</s:Path>
+		
+	</s:Group>
+</s:SparkSkin>

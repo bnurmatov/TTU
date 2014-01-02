@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2007, Transparent Language, Inc..
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+
+<s:Skin 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	height="15">
+	 <fx:Metadata>
+        [HostComponent("tj.ttu.modulePlayer.view.components.progressbar.AssessmentProgressBar")]
+    </fx:Metadata>
+	
+	<s:states>
+		<s:State name="failed"/>
+		<s:State name="passed"/>
+	</s:states>
+	<!-- ProgressBar -->
+	<!-- Track -->
+	<s:Group id="track" left="10" right="10" height="15" verticalCenter="0">
+		<s:Rect  left="0" right="0" top="0" bottom="0" radiusX="7" radiusY="7">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color="#f9f9f9"/>
+					<s:GradientEntry color="#f6f5f5"/>
+					<s:GradientEntry color="#d1cfd0"/>
+				</s:LinearGradient>
+			</s:fill>
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90">
+					<s:GradientEntry color="#d2d2d2"/>
+					<s:GradientEntry color="#b9b6b6"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+			<s:filters>
+				<s:DropShadowFilter inner="true" alpha=".10" angle="90" distance="1"/>
+				<s:DropShadowFilter   alpha="1.0" angle="90" color="#b9b6b6" distance="1" inner="true"/>
+			</s:filters>
+			
+		</s:Rect>
+	
+	</s:Group>
+	
+	<!-- Bar -->
+	<s:Group id="progressBar" height="15" left="11" verticalCenter="0">
+		<s:Rect left="0" right="0" top="0" bottom="0"  radiusX="7" radiusY="7">
+			<s:stroke>
+				<s:SolidColorStroke  color.failed="#a7a7a7"  color.passed="#00ff00" alpha=".100" weight="1"/>
+			</s:stroke>
+			<s:filters>
+				<s:GlowFilter color.failed="#b1b1b1" color.passed="#00ff00" inner="true" alpha=".30" blurX="5" blurY="5" quality="50"/>
+				<s:DropShadowFilter inner="true"  color.failed="#b8b8b8" color.passed="#00ff00" angle="120" distance="2" blurX="5" alpha=".100"/>
+			</s:filters>
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color.failed="#ca0a19" color.passed="#00ff00"/>
+					<s:GradientEntry color.failed="#fe2637" color.passed="#00ff00"/>
+					<s:GradientEntry color.failed="#bd0917" color.passed="#00ff00"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+</s:Skin>

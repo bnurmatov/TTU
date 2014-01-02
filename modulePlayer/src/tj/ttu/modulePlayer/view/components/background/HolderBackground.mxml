@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2010, Tajik Technical University
+All Rights Reserved.
+TTU Confidential Information
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			public function set maskVisible(value:Boolean):void
+			{
+				imageMask.visible = value;
+			}
+			private var _url:String;
+			public function set url(value:String):void
+			{
+				if(value != _url)
+				{
+					_url = value;
+					backgroundImage.mask= null;
+					imageMask.visible = false;
+					 backgroundImage.visible = false;
+					backgroundImage.source = value; 
+				}
+			}
+			
+			private function resizeImage(cwidth:Number, cheight:Number, target:DisplayObject):void
+			{
+				var origWidth:Number = backgroundImage.sourceWidth;
+				var origHeight:Number = backgroundImage.sourceHeight;
+				var factor:Number = Math.max(cwidth/origWidth, cheight/origHeight);
+				target.width = origWidth * factor;
+				target.height = origHeight *factor;
+				target.x = (cwidth - target.width)/2; 
+				target.y = (cheight - target.height)/2;
+			}
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				resizeImage(width, height, backgroundImage);
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);	
+				resizeImage(unscaledWidth, unscaledHeight, backgroundImage);
+			}
+			
+			protected function backgroundImage_completeHandler(event:Event):void
+			{
+				backgroundImage.visible = true;
+				imageMask.visible = true;
+				backgroundImage.mask= imageMask 
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Image id="backgroundImage" 
+			 alpha="0.7"
+			 complete="backgroundImage_completeHandler(event)"
+			 width="100%" height="100%"
+			 left="0" right="0" top="0" bottom="0"
+			 smooth="true"
+			 />
+	
+	<s:Group id="imageMask" left="0" right="0" top="0" bottom="0" visible="false">
+		<s:Group  left="0" bottom="1" right="0" top="0" >
+			<s:Rect radiusX="6" radiusY="6" alpha="0.5" left="0" bottom="0" right="0" top="0" >
+				<s:fill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="0x000000" ratio="0"    alpha="0.8"/>
+						<s:GradientEntry color="0x000000" ratio="0.35" alpha="0.35"/>
+						<s:GradientEntry color="0x000000" ratio="0.5"  alpha="0.3"/>
+						<s:GradientEntry color="0x000000" ratio="0.65" alpha="0.35"/>
+						<s:GradientEntry color="0x000000" ratio="1"    alpha="0.8"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<!--<s:Rect radiusX="6" radiusY="6" left="0" bottom="0" right="0" top="0" alpha="0.6">
+			<s:fill>
+			<s:BitmapFill smooth="false" fillMode="repeat" source="@Embed('/assets_embed/dotted_background.png')"/>
+			</s:fill>
+			</s:Rect>-->
+		</s:Group>
+	</s:Group>
+</s:Group>

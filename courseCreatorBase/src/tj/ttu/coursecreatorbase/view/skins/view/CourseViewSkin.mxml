@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:category="tj.ttu.components.components.category.*" 
+		xmlns:gridcollumn="tj.ttu.components.components.gridcollumn.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.coursecreatorbase.view.components.view.CourseView")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<!--States-->
+	<s:states>
+		<s:State name="departments"/>
+		<s:State name="lessons"/>
+	</s:states>
+	
+	<!--Department Header Item View-->
+	<category:DepartmentItemView id="departmentItemView"
+								 left="20" top="60"
+								 height="30" width="{lessonsGrid.grid.width}"
+								 includeIn="lessons"
+								 skinClass="tj.ttu.components.skins.category.DepartmentItemViewSkin"
+								 />
+	
+	<!--Departments Grid-->
+	<s:DataGrid  id="departmentsGrid"
+				 left="20" right="20" top="60" 
+				 bottom="20"
+				 includeIn="departments"
+				 horizontalScrollPolicy="off"
+				 verticalScrollPolicy="auto"
+				 selectionMode="singleRow"
+				 alternatingRowColors="[0x6a6b70]"
+				 rollOverColor="0x5b5e64"
+				 selectionColor="0x76787f"
+				 variableRowHeight="false"
+				 skinClass="tj.ttu.components.skins.grid.CategoryDataGridSkin"
+				 borderAlpha="0"
+				 rowHeight="30"
+				 >
+		<s:columns>
+			<s:ArrayList>	
+				<gridcollumn:AdvancedGridColumn headerText="" 
+												resizable="false"
+												sortable="false"
+												minWidth="25"
+												width="25"
+												headerRenderer="tj.ttu.components.renderers.grid.GridEmptyHeaderRenderer"
+												itemRenderer="tj.ttu.components.renderers.grid.GridDisclosureDepartmentItemRenderer"
+												/>
+				
+				<gridcollumn:AdvancedGridColumn dataField="departmentRuName"
+												headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'departmentHeaderTextCaps') || 'DEPARTMENT'}" 
+												itemRenderer="tj.ttu.components.renderers.grid.GridDepartmentNameRenderer"
+												headerToolTip="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'departmentHeaderToolTip') || 'Reverse Order of Departments'}"
+												showHeaderTip="true"
+												/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>	
+	
+	<!--Lessons Grid-->
+	<s:DataGrid  id="lessonsGrid"
+				 left="20" right="20" top="90" 
+				 bottom="20"
+				 includeIn="lessons"
+				 horizontalScrollPolicy="off"
+				 verticalScrollPolicy="auto"
+				 selectionMode="singleRow"
+				 variableRowHeight="false"
+				 skinClass="tj.ttu.components.skins.grid.LessonsDataGridSkin"
+				 borderAlpha="0"
+				 rowHeight="40"
+				 >
+		<s:columns>
+			<s:ArrayList>
+				<gridcollumn:AdvancedGridColumn dataField="selected"
+												headerRenderer="tj.ttu.components.renderers.grid.GridCheckboxHeaderRenderer"
+												itemRenderer="tj.ttu.components.renderers.grid.GridCheckboxRenderer"
+												width="30"
+												resizable="false"
+												sortable="false"
+												headerToolTip="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'listAllCheckBoxToolTip') || 'Select or Deselect All Lists'}"
+												showHeaderTip="true"
+												/>
+				<gridcollumn:AdvancedGridColumn headerText="" 
+												resizable="false"
+												sortable="false"
+												width="25"
+												headerRenderer="tj.ttu.components.renderers.grid.GridEmptyHeaderRenderer"
+												itemRenderer="tj.ttu.components.renderers.grid.GridDisclosureDepartmentItemRenderer"
+												/>
+				
+				<gridcollumn:AdvancedGridColumn dataField="name"
+												minWidth="370"
+												width="{Math.max(lessonsGrid.grid.width-345, 370)}"
+												headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'lessonNameHeaderTextCaps') || 'LESSON'}" 
+												itemRenderer="tj.ttu.components.renderers.grid.GridLessonNameRenderer"
+												headerToolTip="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'lessonNameHeaderToolTip') || 'Sort by Lesson Name'}"
+												showHeaderTip="true"
+												/>
+				
+				<gridcollumn:AdvancedGridColumn width="130"
+												minWidth="130"
+												headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'commandHeaderTextCaps') || 'COMMAND'}" 
+												itemRenderer="tj.ttu.components.renderers.grid.GridCommandItemRenderer"
+												showHeaderTip="true"
+												/>
+				<gridcollumn:AdvancedGridColumn width="80"
+												minWidth="80"
+												headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'cloneHeaderTextCaps') || 'CLONE'}" 
+												itemRenderer="tj.ttu.components.renderers.grid.GridCloneItemRenderer"
+												showHeaderTip="true"
+												/>
+				<gridcollumn:AdvancedGridColumn 
+												minWidth="80"
+												headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'deleteHeaderTextCaps') || 'DELETE'}" 
+												itemRenderer="tj.ttu.components.renderers.grid.GridDeleteItemRenderer"
+												showHeaderTip="true"
+												/>
+				
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+	
+</s:Skin>

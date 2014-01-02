@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		alpha.disabled="0.4" 
+		alpha.disabledAndSelected="0.4"
+		>
+	
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected" />
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.ToggleButton")]
+	</fx:Metadata>
+	<!-- BG -->
+	<s:Group width="100%" height="100%">
+
+	</s:Group>
+	<!-- Button -->
+	<s:Group left="0" right="0" top="0" bottom="0">
+		<s:filters>
+			<s:DropShadowFilter blurX="2" blurY="2" strength="1" quality="3" angle="90" distance="1" color="0x111111" />
+		</s:filters>
+		<s:Rect radiusX="5" radiusY="5" left="0" right="0" top="0" bottom="0">
+			<s:filters>
+				<!--
+				<s:GlowFilter alpha="0.5" blurX="8" blurY="8" color="0xffffff" quality="3" strength="1" inner="true" includeIn="over,overAndSelected"/>
+				-->
+				<s:DropShadowFilter blurX="10" blurY="10" strength="1.1" quality="3" angle="90" distance="1" color="0x111111" inner="true"
+									includeIn="upAndSelected,overAndSelected,downAndSelected"/>
+			</s:filters>
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" 
+									 color.up="0x6a3235"
+									 color.disabled="0x6a3235"
+									 color.over="0x6f373a"
+									 color.down="0xad6d6d"
+									 color.upAndSelected="0x945454"
+									 color.disabledAndSelected="0x661818"
+									 color.overAndSelected="0x894848"
+									 color.downAndSelected="0xad6d6d"
+									 />
+					<s:GradientEntry ratio="0.55" 
+									 color.up="0x723030"
+									 color.disabled="0x723030"
+									 color.over="0x783636"
+									 color.down="0x723030"
+									 color.upAndSelected="0x772f2f"
+									 color.disabledAndSelected="0x661414"
+									 color.overAndSelected="0x7e3434"
+									 color.downAndSelected="0x723030"
+									 />
+					<s:GradientEntry ratio="1" 
+									 color.up="0xad6d6d"
+									 color.disabled="0xad6d6d"
+									 color.over="0xb37676"
+									 color.down="0x6a3235"
+									 color.upAndSelected="0xcd7878"
+									 color.disabledAndSelected="0x804040"
+									 color.overAndSelected="0xd17f7f"
+									 color.downAndSelected="0x6a3235"
+									 />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0"
+				alpha="0.96" alpha.upAndSelected="0.3" alpha.disabledAndSelected="0.3" alpha.overAndSelected="0.4">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1">
+					<s:GradientEntry color="0x000000" ratio="0" alpha="0.9"/>
+					<s:GradientEntry color="0x222222" ratio="0.1" alpha="0.65"/>
+					<s:GradientEntry color="0x222222" ratio="0.9" alpha="0.65"/>
+					<s:GradientEntry color="0xa8a8a8" ratio="1" alpha="0.98"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+
+	<!-- Icons -->
+	
+	<s:BitmapImage left="0"  verticalCenter="0" horizontalCenter="0"
+				   source.up="@Embed('/embed_assets/images/sound_recorder_mic_up.png')"
+				   source.over="@Embed('/embed_assets/images/sound_recorder_mic_over.png')"
+				   source.down="@Embed('/embed_assets/images/sound_recorder_mic_down.png')"
+				   source.disabled="@Embed('/embed_assets/images/sound_recorder_mic_disabled.png')"
+				   source.upAndSelected="@Embed('/embed_assets/images/sound_recorder_mic_selected_up.png')"
+				   source.overAndSelected="@Embed('/embed_assets/images/sound_recorder_mic_selected_up.png')"
+				   source.downAndSelected="@Embed('/embed_assets/images/sound_recorder_mic_selected_down.png')"
+				   verticalCenter.down="1"
+				   
+				   /> 
+</s:Skin>

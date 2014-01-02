@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 minWidth="24" minHeight="24" 
+			 >
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected"/>
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	<fx:Metadata>[HostComponent("spark.components.RadioButton")]</fx:Metadata>
+	<s:Group left="0" width="24" height="24"  verticalCenter="0">
+		<s:Ellipse alpha="0.2" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0xd9d9d9"/>
+			</s:fill>
+		</s:Ellipse>
+		<s:Ellipse left="1" right="1" top="1" bottom="1">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" 
+									 color.up="0xa1a1a1"
+									 color.upAndSelected="0xa1a1a1"
+									 color.over="0x96d9fa"
+									 color.overAndSelected="0x96d9fa"
+									 color.down="0x96fa96"
+									 color.downAndSelected="0x96fa96"
+									 color.disabled="0xa1a1a1"
+									 color.disabledAndSelected="0xa1a1a1"
+									 />
+					<s:GradientEntry ratio="0.4" 
+									 color.up="0x434343"
+									 color.upAndSelected="0x434343"
+									 color.over="0x00a3f5"
+									 color.overAndSelected="0x00a3f5"
+									 color.down="0x00f500"
+									 color.downAndSelected="0x00f500"
+									 color.disabled="0x434343"
+									 color.disabledAndSelected="0x434343"
+									 />
+					<s:GradientEntry ratio="1" 
+									 color.up="0x999999"
+									 color.upAndSelected="0x999999"
+									 color.over="0x00a3f5"
+									 color.overAndSelected="0x00a3f5"
+									 color.down="0x54ff54"
+									 color.downAndSelected="0x54ff54"
+									 color.disabled="0x999999"
+									 color.disabledAndSelected="0x999999"
+									 />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Ellipse>
+		<s:Ellipse left="3" right="3" top="3" bottom="3">
+			<s:filters>
+				<s:BevelFilter blurX="5" blurY="5" 
+							   strength="1" quality="3" shadowColor="0x000000" 
+							   highlightColor="0xffffff" angle="90" distance="-1" type="inner"/>
+			</s:filters>
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color="0xcbcbcb" ratio="0"/>
+					<s:GradientEntry color="0xd9d9d9" ratio="0.4"/>
+					<s:GradientEntry color="0xffffff" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Ellipse>
+		<!-- Thumb -->
+		
+		<s:Ellipse left="6" right="6" top="6" bottom="6" 
+				   includeIn="upAndSelected,overAndSelected,downAndSelected,disabledAndSelected">
+			<s:filters>
+				<s:BevelFilter blurX="4" blurY="4" strength="0.6" quality="3" 
+							   shadowColor="0x000000" highlightColor="0xeeeeee" 
+							   angle="90" distance="0.5" type="inner"/>
+			</s:filters>
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" color="0x050505"/>
+					<s:GradientEntry ratio="1" color="0x686868"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Ellipse>
+		
+	</s:Group>	
+</s:SparkSkin>

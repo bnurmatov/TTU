@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the volume bar track part of a Spark VideoPlayer 
+component while in one of the <code>fullScreen</code> skin states.  
+
+@see spark.components.VideoPlayer
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		minWidth="6" height="100%">
+	
+	<fx:Metadata>
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Group id="vslider_trackskin" width="100%" height="100%" alpha="1" top="0" bottom="0" left="0" right="0">
+		<s:Rect radiusX="3" radiusY="3" width="6" height="100%" left="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0x808080" alpha="0.3"/>
+			</s:fill>
+		</s:Rect>
+		<!-- Gradient -->
+		<s:Rect radiusX="2" radiusY="2" width="4" height="100%" left="1" right="1" top="0" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color="0xc2ebae" ratio="0"/>
+					<s:GradientEntry color="0x95E66c" ratio="0.4"/>
+					<s:GradientEntry color="0x67e02b" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+</s:Skin>

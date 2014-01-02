@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for a Spark ToggleButton component.  
+
+@see spark.components.ToggleButton
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+				   minWidth="21" minHeight="21"
+				   alpha.disabledStates="0.5">
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.ToggleButton")]
+		]]>
+	</fx:Metadata>
+	
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over" stateGroups="overStates"/>
+		<s:State name="down" stateGroups="downStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates"/>
+		<s:State name="overAndSelected" stateGroups="overStates, selectedStates"/>
+		<s:State name="downAndSelected" stateGroups="downStates, selectedStates"/>
+		<s:State name="disabledAndSelected"
+				 stateGroups="selectedUpStates, disabledStates, selectedStates"/>
+	</s:states>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color.disabled="#dbe3e8"
+								 color.disabledAndSelected="#dbe3e8"
+								 color.down="#bed0de"
+								 color.downAndSelected="#f3e094"
+								 color.over="#cedbe3"
+								 color.overAndSelected="#fef5d1"
+								 color.up="#d2e2ec"
+								 color.upAndSelected="#fdf1c1"/>
+				<s:GradientEntry color.disabled="#e3e9ed"
+								 color.disabledAndSelected="#e3e9ed"
+								 color.down="#aac3d6"
+								 color.downAndSelected="#d8bf5b"
+								 color.over="#cedde6"
+								 color.overAndSelected="#e2cd79"
+								 color.up="#bacbd8"
+								 color.upAndSelected="#fdf1c1"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke weight="1"
+								color.disabled="#b5c5cf"
+								color.disabledAndSelected="#e3e9ed"
+								color.down="#81afcc"
+								color.downAndSelected="#e3e9ed"
+								color.over="#98c5e2"
+								color.overAndSelected="#e3e9ed"
+								color.up="#b1c8d9"
+								color.upAndSelected="#e3e9ed"/>
+		</s:stroke>
+		<s:filters>
+			<s:DropShadowFilter alpha="0.25" angle="90" distance="1"
+								angle.down="-90" color.down="#a6cfea"
+								color.over="#cbdfed"
+								color.up="#f0f3f5"/>
+			<s:DropShadowFilter alpha="0.12" angle="90" blurX="4" blurY="4" distance="1"
+								color.down="#a6cfea"
+								color.over="#cbdfed"
+								color.up="#000000"/>
+			<s:GlowFilter blurX="0.09" blurY="0.09" color="#2e4757" quality="5"/>
+		</s:filters>
+	</s:Rect>
+	
+	<s:Path  data="M13.4277 0.288086 12.4922 0.342285C11.916 0.390137 11.5381 0.561035 11.3579 0.85498 11.1777 1.14941 10.9316 1.67725 10.6201 2.43896 10.3076 3.20117 9.95068 4.07422 9.54883 5.05811 9.14697 6.04199 8.75684 7.0083 8.37891 7.95605 8.00098 8.9043 7.6377
+			 9.81641 7.29004 10.6919 6.94189 11.5684 6.76807 12.1143 6.76807 12.3301 6.76807 12.498 6.87598 12.624 7.0918 12.708 7.30811 12.792 7.79395 12.834 8.5498 12.834L8.5498 13.1221 0 13.1221 0 12.834 0.989746 12.7622C1.43359 12.7144 1.76074 12.5732
+			 1.9707 12.3389 2.18066 12.105 2.46582 11.5771 2.82617 10.7549 3.18604 9.93311 3.60889 8.92236 4.09473 7.72217 4.58105 6.52246 4.96191 5.56836 5.23779 4.85986 5.51367 4.15234 5.81689 3.375 6.14697 2.5293 6.47705 1.68311 6.64209 1.146 6.64209 0.917969
+			 6.64209 0.64209 6.53662 0.468262 6.32715 0.395996 6.1167 0.324219 5.62207 0.288086 4.8418 0.288086L4.8418 0 13.4277 0 13.4277 0.288086Z"
+			 verticalCenter="0" horizontalCenter="0"
+			 >
+		<s:fill>
+			<s:SolidColor  
+				color.up="#2c454c"
+				color.over="#3d6671"
+				color.down="#266c7f"
+				color.disabled="#2c454c"
+				/>
+		</s:fill>
+	</s:Path>
+</s:SparkButtonSkin>

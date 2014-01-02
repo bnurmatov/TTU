@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+                   xmlns:s="library://ns.adobe.com/flex/spark" 
+                   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+                   minWidth="12" minHeight="12" 
+                   alpha.disabledStates="0.5">
+	<fx:Metadata>
+		[HostComponent("spark.components.ButtonBarButton")]
+	</fx:Metadata>
+    
+    <!-- states -->
+    <s:states>
+        <s:State name="up" />
+        <s:State name="over" stateGroups="overStates" />
+        <s:State name="down" stateGroups="downStates" />
+        <s:State name="disabled" stateGroups="disabledStates" />
+        <s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates" />
+        <s:State name="overAndSelected" stateGroups="overStates, selectedStates" />
+        <s:State name="downAndSelected" stateGroups="downStates, selectedStates" />
+        <s:State name="disabledAndSelected" stateGroups="selectedUpStates, disabledStates, selectedStates" />
+    </s:states>
+    
+	<s:Ellipse width="100%" height="100%"
+			   >
+		
+		<s:fill>
+			<s:SolidColor color="0xCFD9E2"
+						  color.over="0x7C8F9C"
+						  color.selectedStates="0x7C8F9C"/>
+		</s:fill>
+		
+		<s:filters>
+			<s:DropShadowFilter blurX="2" blurY="2" 
+								quality="3" strength="0.7" 
+								distance="1" angle="90" 
+								inner="true"
+								knockout="false" />
+		</s:filters>
+		
+	</s:Ellipse>
+    
+</s:SparkButtonSkin>

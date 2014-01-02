@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   width="100%" height="100%"
+			   creationComplete="application1_creationCompleteHandler(event)" xmlns:videoplayer="tj.ttu.base.view.components.videoplayer.*"
+			   >
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			private var videoUrlChanged:Boolean;
+			private var _videoUrl:String;
+			
+			public function get videoUrl():String
+			{
+				return _videoUrl;
+			}
+			
+			public function set videoUrl(value:String):void
+			{
+				_videoUrl = value;
+				videoUrlChanged = true;
+				invalidateProperties();
+			}
+			
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var flashVars:Object = FlexGlobals.topLevelApplication.parameters;
+				if(flashVars && flashVars.url)
+				{
+					videoUrl = flashVars.url;
+				}
+				
+				if(ExternalInterface.available)
+				{
+					ExternalInterface.addCallback("changeVideoUrl", setVideoUrl);
+				}
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				if(videoUrlChanged && videoPlayer)
+				{
+					videoPlayer.source = _videoUrl;
+					videoUrlChanged = false;
+				}
+			}
+			
+			private function setVideoUrl(url:String):void
+			{
+				videoUrl = url;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Group width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+		
+		<videoplayer:TTUVideoPlayer id="videoPlayer"
+									width="100%" height="100%"
+									autoPlay="false" autoRewind="false"
+									verticalCenter="0" horizontalCenter="0"
+									skinClass="TTUVideoPlayerSkin"/>
+	</s:Group>
+</s:Application>

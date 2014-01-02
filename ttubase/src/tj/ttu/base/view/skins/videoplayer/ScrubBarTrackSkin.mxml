@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the scrub bar track part of a Spark VideoPlayer component 
+in the normal skin state. The normal skin state means the component is not in 
+one of the <code>fullScreen</code> skin states.  
+
+@see spark.components.VideoPlayer
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+			 minWidth="10" minHeight="10">
+	
+	<fx:Metadata>
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata> 
+	
+	<fx:Script fb:purpose="styling">
+		/**
+		 * @private
+		 */
+		override protected function initializationComplete():void
+		{
+			//useChromeColor = true;
+			useChromeColor = false;
+			super.initializationComplete();
+		}
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Group width="100%" height="100%">
+		<s:Group height="8" top="3" bottom="3" left="6" right="6">
+			<s:Rect radiusX="1" radiusY="1" left="0" right="0" top="0" bottom="0">
+				<s:fill>
+					<s:SolidColor color="0x0678b1" /><!-- 333000 -->
+				</s:fill>
+			</s:Rect>
+			<s:Rect alpha="0" radiusX="1" radiusY="1" left="0" right="0" top="0" bottom="0">
+				<s:stroke>
+					<s:SolidColorStroke color="0x808080" weight="-1"/>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
+	</s:Group>
+</s:SparkSkin>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="CourseCreator.mxml" projectUUID="d82936e1-e5fc-4706-8418-0219b93c7880" version="10">
+  <compiler additionalCompilerArguments="-locale=en_US,ru_RU,tg_TJ -source-path=locale/{locale} -keep-all-type-selectors=true" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="1">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="1" linkType="1" path="${EXTERNAL}/PureMVC_AS3_MultiCore/bin"/>
+      <libraryPathEntry kind="3" linkType="1" path="/ttubase/bin/ttubase.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/ttuComponents/bin/ttuComponents.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/courseCreatorBase/bin/courseCreatorBase.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/courseAirService/bin/courseAirService.swc" useDefaultLinkType="false"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="CourseCreator.mxml">
+      <airExcludes/>
+    </application>
+  </applications>
+  <modules/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default">
+      <airSettings airCertificatePath="C:/Users/Developer/Desktop/ssd.p12" airTimestamp="true" anePathSet="true" version="1">
+        <airExcludes/>
+        <anePaths/>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
+</actionScriptProperties>

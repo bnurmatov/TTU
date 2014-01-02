@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="LessonPlayer.mxml" projectUUID="3dd5e8bf-e353-4777-b95d-9a59c3fdaa4c" version="10">
+  <compiler additionalCompilerArguments="-locale=en_US,ru_RU,tg_TJ -source-path=locale/{locale}" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="1">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="3" linkType="1" path="/moduleUtility/bin/moduleUtility.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/ttubase/bin/ttubase.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/ttuComponents/bin/ttuComponents.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/modulePlayer/bin/modulePlayer.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="1" linkType="1" path="${EXTERNAL}/PureMVC_AS3_MultiCore/bin"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="LessonPlayer.mxml">
+      <airExcludes/>
+    </application>
+  </applications>
+  <modules/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default">
+      <airSettings airCertificatePath="C:/Users/admin/Desktop/ss.p12" airTimestamp="true" anePathSet="true" version="1">
+        <airExcludes/>
+        <anePaths/>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
+</actionScriptProperties>

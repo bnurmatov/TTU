@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		minWidth="80" minHeight="16">
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.supportClasses.Range")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	
+	<s:Group left="0" right="0" top="0" bottom="0">
+		<!-- Track -->	
+		<s:Group id="track" left="0" right="0" top="0" bottom="0" automationName="anProgressBarTrack">
+			
+			<s:Rect left="0" right="0" top="0" bottom="0" alpha="1" radiusX="3" radiusY="3">
+				<s:filters>
+					<s:DropShadowFilter alpha=".9" angle="90" blurX="3" blurY="3" inner="true"
+										quality="3" strength=".8"/> 
+					<s:BevelFilter angle="45.0" blurX="1" blurY="1" distance="2" highlightAlpha="0.4"
+								   highlightColor="0xFFFFFF" knockout="false" quality="2"
+								   shadowAlpha="0" shadowColor="0x000000" strength="1" type="inner"/>
+				</s:filters>  
+				<s:fill>
+					<s:SolidColor color="0x30465c"/>
+				</s:fill>
+			</s:Rect>
+			
+			<!-- Bar -->
+			<s:Group id="progressBar" left="1" right="1" top="1" bottom="1"
+					 automationName="anProgressBar">
+				<!-- transparent form -->
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="2" radiusY="2">
+					<s:fill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry alpha="1.0" color="#A9D615" ratio="0"/>
+							<s:GradientEntry alpha="1.0" color="#95BB16" ratio="0.78"/>
+							<s:GradientEntry alpha="1.0" color="#86A80A" ratio="1"/>
+						</s:LinearGradient>
+					</s:fill>
+					<s:filters>
+						<s:BevelFilter angle="45.0" blurX="2" blurY="2" distance="2"
+									   highlightAlpha="0.4" highlightColor="0xFFFFFF"
+									   knockout="false" quality="2" shadowAlpha="0"
+									   shadowColor="0x000000" strength="1" type="inner"/>
+					</s:filters>
+				</s:Rect>
+			</s:Group>			
+		</s:Group>
+
+		<!-- Labels -->
+		<s:Label id="labelProgress" visible="false" styleName="uiFont"/>
+		
+		<s:Label id="textDisplay" visible="{int(progressBar.percentWidth)==100}" left="0" right="0"
+				 top="1" bottom="1" automationName="anProgressBarChallenge" color="0xffffff"
+				 fontSize="11" fontWeight="bold"
+				 styleName="uiFont"
+				 text="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'completeLabelText' ) || 'Complete'}"
+				 textAlign="center" verticalAlign="middle">	
+			<s:filters>
+				<s:DropShadowFilter alpha=".7" angle="90" blurX="1.5" blurY="1.5" color="0x133707"
+									distance="0" quality="2" strength="2"/> 
+			</s:filters>   	 	
+		</s:Label>
+	</s:Group>
+</s:Skin>

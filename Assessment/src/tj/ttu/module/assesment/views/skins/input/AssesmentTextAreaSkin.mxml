@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
+			 blendMode="normal" alpha.disabledStates="0.5" xmlns:scroller="tj.ttu.components.components.scroller.*"
+			 >
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.TextArea")]
+	</fx:Metadata> 
+	
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="normalWithPrompt"/>
+		<s:State name="disabledWithPrompt" stateGroups="disabledStates"/>
+	</s:states>
+	
+	<scroller:TTUScroller id="scroller" left="1" top="2" right="2" bottom="2" 
+						 minViewportInset="1" measuredSizeIncludesScrollBars="false" 
+						 hasFocusableChildren="false"
+						 verticalScrollPolicy="auto"
+						 horizontalScrollPolicy="off"
+						 >
+		<!--Text Container-->
+		<!--- @copy spark.components.supportClasses.SkinnableTextBase#textDisplay -->
+		<s:RichEditableText id="textDisplay" 
+							left="0" top="0" right="0" bottom="0"
+							paddingBottom="10" paddingLeft="10" paddingRight="15" paddingTop="0"
+							color="0x30424c"
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							multiline="true"
+							verticalAlign="middle"
+							/>
+		
+	</scroller:TTUScroller>
+	<!--- Defines the Label that is used for prompt text. The includeInLayout property is false so the prompt text does not affect measurement. -->
+	<s:Label id="promptDisplay"
+			 mouseEnabled="false" mouseChildren="false"
+			 includeIn="normalWithPrompt,disabledWithPrompt" 
+			 includeInLayout="false"
+			 />            
+</s:SparkSkin>

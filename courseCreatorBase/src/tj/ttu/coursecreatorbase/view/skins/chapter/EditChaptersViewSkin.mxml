@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:datagrid="tj.ttu.components.components.datagrid.*" 
+		xmlns:gridcollumn="tj.ttu.components.components.gridcollumn.*" 
+		xmlns:editor="tj.ttu.components.components.editor.*" 
+		xmlns:question="tj.ttu.coursecreatorbase.view.components.question.*"
+		creationComplete="skin1_creationCompleteHandler(event)"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.coursecreatorbase.view.components.chapter.EditChaptersView")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			
+			[Bindable]
+			private var oldUWidth:Number = 0;
+			[Bindable]
+			private var halfWidth:Number = 0;
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				if(oldUWidth != unscaledWidth)
+				{
+					oldUWidth 	= unscaledWidth;
+					halfWidth	= oldUWidth > 30 ? oldUWidth/3 : 0;
+				}
+			}
+			
+			protected function moveUp_effectEndHandler(event:EffectEvent):void
+			{
+				questionsView.setFocus();
+				
+			}
+			
+			protected function skin1_creationCompleteHandler(event:FlexEvent):void
+			{
+				questionsView.y = this.height;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:Fade  id="buttonBlink" alphaFrom="1" alphaTo="0.5"
+				 targets="{[saveButton]}" duration="500"
+				 repeatCount="0" repeatBehavior="reverse"/>
+		
+		<s:Move id="moveUp" target="{questionsView}"  duration="1000" effectEnd="moveUp_effectEndHandler(event)"/>
+		<s:Move id="moveDown" target="{questionsView}" duration="1000" />
+	</fx:Declarations>
+	<!-- background -->
+	<s:Rect id="bg" top="0" bottom="0" left="0" right="0">
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#E0E7EB"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--Header Component Group-->
+	
+	<!--Course Title Group-->
+	<s:Group  right="0" top="10" minWidth="0" minHeight="0" height="20">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="4" paddingBottom="4" gap="0" verticalAlign="middle" horizontalAlign="right" />
+		</s:layout>
+		<s:Label  height="100%"
+				  fontSize="14"
+				  fontStyle="italic"
+				  textAlign="right"
+				  verticalAlign="middle"
+				  paddingLeft="0" paddingRight="0"
+				  styleName="uiFont"
+				  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				  text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'courseTitleLabelText' ) || 'Title:'}"
+				  />
+		
+		
+		<!--Lesson Title Label-->
+		<s:RichText id="lessonTitleLabel"
+					width="100%" height="100%"
+					fontSize="14"
+					fontWeight="bold"
+					textAlign="left"
+					verticalAlign="middle"
+					paddingLeft="5" paddingRight="0"
+					fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT) || 'Latin'}"
+					direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+					/>
+		
+	</s:Group>
+	
+	<!--Course Creation Date Information-->
+	<s:Group  right="0" minWidth="0" minHeight="0" top="35" height="35">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="4" paddingBottom="4" gap="0" verticalAlign="middle" horizontalAlign="right" />
+		</s:layout>
+		
+		<s:Label height="100%"
+				 fontSize="14"
+				 fontStyle="italic"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 paddingLeft="0" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'createdCourseDateLabelText' ) || 'Created:'}"
+				 />
+		
+		<s:Label width="80" height="100%"
+				 fontSize="14"
+				 fontWeight="bold"
+				 textAlign="left"
+				 verticalAlign="middle"
+				 paddingLeft="5" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{hostComponent.createdDate}"
+				 />
+		
+		<s:Spacer width="40"/>
+		
+		<s:Label height="100%"
+				 fontSize="14"
+				 fontStyle="italic"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 paddingLeft="0" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'lastModifiedDate' ) || 'Last Modified:'}"
+				 />
+		
+		<!--Lesson Last Modified date-->
+		<s:Label width="80" height="100%"
+				 fontSize="14"
+				 textAlign="left"
+				 fontWeight="bold"
+				 verticalAlign="middle"
+				 paddingLeft="5" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{hostComponent.lastModifiedDate}"
+				 />
+	</s:Group>
+	
+	<!--Edit Chapters Component Group-->
+	
+	<s:Group bottom="45" top="70" left="20" right="20">
+		<!--Outer border-->
+		<s:Rect width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke  color="0x89AEC4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!--Inner border and bg-->
+		<s:Rect left="1" right="1" top="1" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="4" color="#cfd9e1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="0xe7ecf0"/>
+			</s:fill>
+		</s:Rect>
+		
+		<s:HGroup width="100%" height="100%" left="10" right="10" bottom="10" top="10" gap="10">
+			
+			
+			<!--Left Group-->
+			<s:VGroup id="leftSideGroup" width="{halfWidth}" height="100%" left="0"  bottom="0" top="0" gap="10">	
+				
+				<!--Chapters DataGrid-->
+				<datagrid:CustomDataGrid id="chapterList"
+										 left="10"
+										 resizableColumns="false"
+										 width="{halfWidth}"
+										 height="100%"
+										 horizontalScrollPolicy="off"
+										 verticalScrollPolicy="auto"
+										 selectionMode="singleRow"
+										 alternatingRowColors="[0xffffff,0xf6f9fb]"
+										 editable="true"
+										 rowHeight="35"
+										 bottom="50"
+										 skinClass="tj.ttu.components.skins.grid.ChapterDataGridSkin"
+										 >
+					<datagrid:columns>
+						<s:ArrayList>
+							<gridcollumn:AdvancedGridColumn width="50" 
+															headerText="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'gridChapterPositionHeaderText') || 'I/N'}"
+															headerToolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'gridChapterHeaderToolTip') || 'Sort by Item Number'}"
+															showHeaderTip="true"
+															resizable="false"
+															editable="false"
+															itemRenderer="tj.ttu.components.renderers.grid.GridItemNumberRenderer"
+															/>
+							
+							<gridcollumn:AdvancedGridColumn width="{chapterList.width - 130}"
+															dataField="title" 
+															headerText="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'gridChapterTitleHeaderText') || 'TITLE'}"
+															headerToolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'chapterTitleHeaderToolTip') || 'Sort by Chapter Title'}"
+															showHeaderTip="true"
+															editable="true"
+															itemEditor="tj.ttu.components.renderers.grid.GridChapterNameEditRenderer"
+															itemRenderer="tj.ttu.components.renderers.grid.GridChapterNameRenderer"
+															/>
+							
+							<gridcollumn:AdvancedGridColumn width="80"
+															headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'deleteHeaderTextCaps') || 'DELETE'}" 
+															itemRenderer="tj.ttu.components.renderers.grid.GridDeleteItemRenderer"
+															showHeaderTip="true"
+															resizable="false"
+															editable="false"
+															/>
+							
+						</s:ArrayList>
+					</datagrid:columns>
+				</datagrid:CustomDataGrid>
+				
+				<!--Add new Chapters Button-->
+				<s:Button id="addItemButton"
+						  width="150" height="32"
+						  verticalCenter="0" left="10"
+						  buttonMode="true"
+						  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'addNewChapterButtonLabel' ) || 'Add New Chapter'}"
+						  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'addNewChapterButtonToolTip' ) || 'Add New Chapter'}"
+						  skinClass="tj.ttu.components.skins.buttons.AddNewItemButtonSkin"
+						  />
+			</s:VGroup>
+			
+			<!--Vertical Line-->
+			<s:Rect height="100%" width="1" top="10" bottom="10" >
+				<s:fill>
+					<s:SolidColor color="#89AEC4"/>
+				</s:fill>
+				<s:filters>
+					<s:DropShadowFilter alpha="0.7000000000000001" angle="180" blurX="0" blurY="0" color="#FFFFFF" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+				</s:filters>
+			</s:Rect>
+			
+			
+			
+			<!--RIGHT COLUMN-->
+			<s:VGroup width="100%" height="100%" left="0" right="0" bottom="0" top="0" gap="0">
+				
+				<s:HGroup width="100%" height="30" left="0" right="0">
+					<s:HGroup width="100%" height="30">
+						<!--Chapter Title Label-->
+						<s:Label height="30"
+								 verticalAlign="middle"
+								 verticalCenter="0"
+								 paddingLeft="0" paddingRight="5"
+								 fontSize="14"
+								 fontWeight="bold"
+								 styleName="uiFont"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'chapterTitleLabelText' ) || 'Chapter Title:'}"
+								 />
+						
+						<!--Label Required-->
+						<s:Label height="30"
+								 textAlign="left"
+								 verticalAlign="middle"
+								 verticalCenter="0"
+								 paddingLeft="0" paddingRight="0"
+								 fontSize="14"
+								 color="0xFF0000"
+								 styleName="uiFont"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+								 />
+					</s:HGroup>
+					<s:Spacer width="100%"/>
+					
+					<s:HGroup width="100%" height="30" horizontalAlign="right" right="0">
+						<!--Label Required-->
+						<s:Label  height="30"
+								  textAlign="right"
+								  verticalAlign="middle"
+								  verticalCenter="0"
+								  paddingLeft="0" paddingRight="0"
+								  fontSize="14"
+								  color="0xFF0000"
+								  styleName="uiFont"
+								  text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+								  />
+						
+						<!--Lesson Title Label-->
+						<s:Label height="30"
+								 fontSize="14" 
+								 fontStyle="italic"
+								 textAlign="left"
+								 verticalAlign="middle"
+								 paddingLeft="5" paddingRight="0"
+								 styleName="uiFont"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'requiredMessageLabelText' ) || 'Required'}"
+								 />
+						
+					</s:HGroup>
+				</s:HGroup>
+				
+				<!--Chapter Title Text Field-->
+				<s:TextArea id="titleTextArea"
+							heightInLines="1" lineBreak="explicit" 
+							width="100%" height="30"
+							paddingBottom="0" paddingTop="0" 
+							paddingLeft="5"
+							verticalAlign="middle" 
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							maxChars="255"
+							fontSize="14"
+							fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+							skinClass="tj.ttu.components.skins.input.SingleLineTextAreaSkin"
+							/>
+				<s:HGroup width="100%" height="30" gap="0">
+					
+					<!--Chapter Content Text label-->
+					<s:Label height="30"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 fontSize="14"
+							 fontWeight="bold"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'chapterContentLabelText' ) || 'Chapter content:'}"
+							 />
+					
+					<!--Label Required-->
+					<s:Label width="10" height="30"
+							 textAlign="right"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 fontSize="14"
+							 color="0xFF0000"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+							 />
+				</s:HGroup>
+				<!--Chapter Content Editor Component-->
+				<editor:ChapterContentEditor id="contentEditor"
+											 width="100%" height="100%"
+											 skinClass="tj.ttu.components.skins.editor.ChapterContentEditorSkin"
+											 />
+			</s:VGroup>
+			
+		</s:HGroup>
+		
+	</s:Group>
+	
+	<!--Navigation Button Group-->
+	<s:Group  right="0" bottom="0" minWidth="0" minHeight="0" width="100%">
+		
+		<!--Back Button-->
+		<s:Button id="backButton"
+				  width="80" height="32"
+				  left="20" bottom="0"
+				  buttonMode="true"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'backButtonLabel' ) || 'Back'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'backButtonToolTip' ) || 'Back'}"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+		<!--Chapter Comment Button-->
+		<s:Button id="commentButton"
+				  buttonMode="true"
+				  width="150" height="32"
+				  right="430"
+				  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'chapterCommentButtonLabel' ) || 'Chapter Comment'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'chapterCommentButtonToolTip' ) || 'Chapter Comment'}"
+				  skinClass="tj.ttu.components.skins.buttons.BlueBgButtonSkin"
+				  />
+		
+		<!--Chapter Question Button-->
+		<s:Button id="questionsButton"
+				  buttonMode="true"
+				  width="130" height="32"
+				  right="290"
+				  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'questionsButtonLabel' ) || 'Questions'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'questionsButtonToolTip' ) || 'Configure chapter\'s questions'}"
+				  skinClass="tj.ttu.components.skins.buttons.BlueBgButtonSkin"
+				  />
+		
+		<!--Save Button-->
+		<s:Button id="saveButton"
+				  width="100" height="32"
+				  right="180"
+				  enabled="{hostComponent.hasChange &amp;&amp; !hostComponent.isSaveInProcess}"
+				  buttonMode="true"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonLabel' ) || 'Save'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonToolTip' ) || 'Save'}"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+		<!--Save And Next Button-->
+		<s:Button id="saveAndNextButton"
+				  width="150" height="32"
+				  right="20"
+				  buttonMode="true"
+				  enabled="{!hostComponent.isSaveInProcess}"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveAndNextButtonLabel' ) || 'Save &amp; Next'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveAndNextButtonToolTip' ) || 'Save And Next'}"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+	</s:Group>
+	
+	
+	<!--Assesment View-->
+	<question:EditQuestionsView id="questionsView"
+								includeInLayout="false"
+								width="{bg.width}" height="{bg.height}"
+								visible="false"
+								skinClass="tj.ttu.coursecreatorbase.view.skins.question.EditQuestionsViewSkin"
+								/>
+	
+	<!--Mask Group for Assesment views-->
+	<s:Group id="editMask" width="100%" height="100%">
+		<s:Rect width="100%" height="100%" >
+			<s:fill>
+				<s:SolidColor color="0x00FF00" alpha="0.02"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+</s:Skin>

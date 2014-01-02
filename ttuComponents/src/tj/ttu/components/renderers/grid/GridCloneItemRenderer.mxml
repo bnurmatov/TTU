@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					clipAndEnableScrolling="true">
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.events.DataGridEvent;
+			
+			protected function onReuseButtonClicked(event:MouseEvent):void
+			{
+				owner.dispatchEvent(new DataGridEvent(DataGridEvent.ITEM_CLONE, -1, data));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<!-- clone lesson's content -->
+	<s:Button id="cloneButton" width="50" height="35"
+			  buttonMode="true" 
+			  verticalCenter="0" left="10"
+			  click="onReuseButtonClicked(event)"
+			  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'cloneButtonToolTip') || 'Clone this Lesson'}"
+			  skinClass="tj.ttu.components.skins.buttons.CloneButtonSkin"
+			  />
+	
+</s:GridItemRenderer>

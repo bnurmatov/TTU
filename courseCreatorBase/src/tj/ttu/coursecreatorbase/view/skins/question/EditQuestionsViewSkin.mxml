@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:datagrid="tj.ttu.components.components.datagrid.*" xmlns:gridcollumn="tj.ttu.components.components.gridcollumn.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.coursecreatorbase.view.components.question.EditQuestionsView")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			
+			[Bindable]
+			private var oldUWidth:Number = 0;
+			[Bindable]
+			private var halfWidth:Number = 0;
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				if(oldUWidth != unscaledWidth)
+				{
+					oldUWidth 	= unscaledWidth;
+					halfWidth	= oldUWidth > 30 ? oldUWidth/3 : 0;
+				}
+			}
+		]]>
+	</fx:Script>
+	<!-- background -->
+	<s:Rect id="bg" top="0" bottom="0" left="0" right="0">
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#E0E7EB"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--Window Title Box-->
+	<s:Group width="100%" height="35">
+		<s:Rect left="3" right="3" top="3" bottom="3" width="100%" height="35">
+			<s:fill>
+				<s:SolidColor color="0x6A6B70"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!--Title Box Components-->
+		<s:Group width="100%" height="35" horizontalCenter="0" verticalCenter="0">
+			
+			<!--Window Icon-->
+			<s:BitmapImage left="7" width="24" height="24" source="@Embed('/embed_assets/images/customize_activity_icon.png')"
+						   verticalCenter="-2"/>
+			
+			<!--Window Title-->
+			<s:RichText id="titleControl" left="35" width="100%" height="35" color="0xFFFFFF"
+						fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT)}"
+						fontWeight="bold"
+						text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'editQuestionTitleLabelText' ) || 'EDIT QUESTIONS'}"
+						verticalAlign="middle" verticalCenter="0"/>
+			
+			<!--Window Close Button-->
+			<s:Button id="buttonClose" right="7"  width="18" height="18"
+					  buttonMode="true"
+					  skinClass="tj.ttu.components.skins.buttons.CloseButtonSkin"
+					  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'closeToolTip') || 'Close current window'}"
+					  verticalCenter="0"/>
+		</s:Group>
+	</s:Group>
+	
+	<!--Edit Chapters Component Group-->
+	
+	<s:Group bottom="45" top="70" left="20" right="20">
+		<!--Outer border-->
+		<s:Rect width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke  color="0x89AEC4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!--Inner border and bg-->
+		<s:Rect left="1" right="1" top="1" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="4" color="#cfd9e1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="0xe7ecf0"/>
+			</s:fill>
+		</s:Rect>
+		
+		<s:HGroup width="100%" height="100%" left="10" right="10" bottom="10" top="10" gap="10">
+			
+			
+			<!--Left Group-->
+			<s:VGroup id="leftSideGroup" width="{halfWidth}" height="100%" left="0"  bottom="0" top="0" gap="10">	
+				
+				<!--Chapters DataGrid-->
+				<datagrid:CustomDataGrid id="questionList"
+										 left="10"
+										 resizableColumns="false"
+										 width="{halfWidth}"
+										 height="100%"
+										 horizontalScrollPolicy="off"
+										 verticalScrollPolicy="auto"
+										 selectionMode="singleRow"
+										 alternatingRowColors="[0xffffff,0xf6f9fb]"
+										 editable="true"
+										 rowHeight="35"
+										 bottom="50"
+										 skinClass="tj.ttu.components.skins.grid.ChapterDataGridSkin"
+										 >
+					<datagrid:columns>
+						<s:ArrayList>
+							<gridcollumn:AdvancedGridColumn width="50" 
+															headerText="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'gridChapterPositionHeaderText') || 'I/N'}"
+															headerToolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'gridChapterHeaderToolTip') || 'Sort by Item Number'}"
+															showHeaderTip="true"
+															resizable="false"
+															editable="false"
+															itemRenderer="tj.ttu.components.renderers.grid.GridItemNumberRenderer"
+															/>
+							
+							<gridcollumn:AdvancedGridColumn width="{questionList.width - 130}"
+															dataField="text"
+															headerText="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'gridQuestionTitleHeaderText') || 'QUESTION'}"
+															headerToolTip="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'questionTitleHeaderToolTip') || 'Sort by question'}"
+															showHeaderTip="true"
+															editable="false"
+															itemRenderer="tj.ttu.components.renderers.grid.GridQuestionTextRenderer"
+															/>
+							
+							<gridcollumn:AdvancedGridColumn width="80"
+															headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'deleteHeaderTextCaps') || 'DELETE'}" 
+															itemRenderer="tj.ttu.components.renderers.grid.GridDeleteQuestionRenderer"
+															showHeaderTip="true"
+															resizable="false"
+															editable="false"
+															/>
+							
+						</s:ArrayList>
+					</datagrid:columns>
+				</datagrid:CustomDataGrid>
+				
+				<!--Add new Question Button-->
+				<s:Button id="addNewQuestionButton"
+						  width="150" height="35"
+						  verticalCenter="0" left="10"
+						  buttonMode="true"
+						  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'addNewQuestionButtonLabel' ) || 'Add New Question'}"
+						  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'addNewQuestionButtonToolTip' ) || 'Add New Question'}"
+						  skinClass="tj.ttu.components.skins.buttons.AddNewItemButtonSkin"
+						  />
+			</s:VGroup>
+			
+			<!--Vertical Line-->
+			<s:Rect height="100%" width="1" top="10" bottom="10" >
+				<s:fill>
+					<s:SolidColor color="#89AEC4"/>
+				</s:fill>
+				<s:filters>
+					<s:DropShadowFilter alpha="0.7000000000000001" angle="180" blurX="0" blurY="0" color="#FFFFFF" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+				</s:filters>
+			</s:Rect>
+			
+			
+			
+			<!--RIGHT COLUMN-->
+			<s:VGroup width="100%" height="100%" left="0" right="0" bottom="0" top="0" gap="0">
+				<s:HGroup width="100%" height="30" left="0" right="0">
+					<s:HGroup width="100%" height="30">
+						<!--Chapter Title Label-->
+						<s:Label height="30"
+								 verticalAlign="middle"
+								 verticalCenter="0"
+								 fontSize="14"
+								 fontWeight="bold"
+								 styleName="uiFont"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'questionTextLabel' ) || 'Question text:'}"
+								 />
+						
+						<!--Label Required-->
+						<s:Label height="30"
+								 textAlign="left"
+								 verticalAlign="middle"
+								 verticalCenter="0"
+								 fontSize="14"
+								 color="0xFF0000"
+								 styleName="uiFont"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+								 />
+					</s:HGroup>
+					
+					<s:Spacer width="100%"/>
+					
+					<s:HGroup width="100%" height="30" horizontalAlign="right" right="0">
+						<!--Label Required-->
+						<s:Label height="30"
+								 verticalAlign="middle"
+								 verticalCenter="0"
+								 fontSize="14"
+								 color="0xFF0000"
+								 styleName="uiFont"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+								 />
+						
+						<!--Lesson Title Label-->
+						<s:Label height="30"
+								 fontSize="14" 
+								 fontStyle="italic"
+								 verticalAlign="middle"
+								 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'requiredMessageLabelText' ) || 'Required'}"
+								 styleName="uiFont"
+								 />
+					</s:HGroup>
+				</s:HGroup>
+				
+				<!--Question Text Field-->
+				<s:TextArea id="questionTextArea"
+							heightInLines="1" lineBreak="explicit" 
+							width="100%" height="60"
+							paddingBottom="0" paddingTop="0" 
+							paddingLeft="5"
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							maxChars="255"
+							fontSize="14"
+							fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+							skinClass="tj.ttu.components.skins.input.MultilineTextAreaSkin"
+							/>
+				
+				<!--Answer List-->
+				<s:List id="answerList"
+						width="100%" height="100%"
+						itemRenderer="tj.ttu.coursecreatorbase.view.renderers.AnswerItemRenderer"
+						skinClass="tj.ttu.components.skins.list.AnswerListSkin"
+						/>
+				
+				
+				<!--Add new Answer Button-->
+				<s:Button id="addNewAnswerButton"
+						  width="150" height="35"
+						  verticalCenter="0" left="10"
+						  buttonMode="true"
+						  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'addNewAnswerButtonLabel' ) || 'Add New Answer'}"
+						  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'addNewAnswerButtonToolTip' ) || 'Add New Answer'}"
+						  skinClass="tj.ttu.components.skins.buttons.AddNewItemButtonSkin"
+						  />
+			</s:VGroup>
+			
+		</s:HGroup>
+	</s:Group>
+	
+	<!--Save Button-->
+	<s:Button id="saveButton"
+			  width="100" height="32"
+			  right="130" bottom="0"
+			  enabled="{hostComponent.hasChange}"
+			  buttonMode="true"
+			  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonLabel' ) || 'Save'}"
+			  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonToolTip' ) || 'Save'}"
+			  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+			  />
+	
+	<!--Done Button-->
+	<s:Button id="doneButton"
+			  width="100" height="32"
+			  right="20" bottom="0"
+			  buttonMode="true"
+			  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'doneButtonLabel' ) || 'Done'}"
+			  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'doneButtonToolTip' ) || 'Done'}"
+			  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+			  />
+	
+</s:Skin>

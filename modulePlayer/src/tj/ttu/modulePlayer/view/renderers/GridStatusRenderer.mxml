@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2011, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					clipAndEnableScrolling="true">
+	
+	<s:states>
+		<s:State name="normalAndIncorrect" stateGroups="incorrectStates"/>
+		<s:State name="hoveredAndIncorrect" stateGroups="incorrectStates"/>
+		<s:State name="selectedAndIncorrect" stateGroups="incorrectStates"/>
+		<s:State name="downAndIncorrect" stateGroups="incorrectStates"/>
+		<s:State name="disabledAndIncorrect" stateGroups="incorrectStates"/>
+
+		<s:State name="normalAndCorrect" stateGroups="correctStates"/>
+		<s:State name="hoveredAndCorrect" stateGroups="correctStates"/>
+		<s:State name="selectedAndCorrect" stateGroups="correctStates"/>
+		<s:State name="downAndCorrect" stateGroups="correctStates"/>
+		<s:State name="disabledAndCorrect" stateGroups="correctStates"/>
+		
+	</s:states>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+			
+			private var _isCorrect:Boolean;
+
+			/**
+			 * Prepare our renderer
+			 */
+			public function get isCorrect():Boolean
+			{
+				return _isCorrect;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set isCorrect(value:Boolean):void
+			{
+					_isCorrect = value;
+					setCurrentState(getCurrentRendererState());
+			}
+
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				if(data)
+				{
+					isCorrect = data.isCorrect;
+				}
+			
+				
+			}
+			
+			override protected function getCurrentRendererState():String
+			{
+				 var suffix:String ;
+				if(!isCorrect)
+					suffix = "AndIncorrect";
+				else 
+					suffix = "AndCorrect";
+				
+
+				if (down && hasState("down" + suffix))
+					return "down"+ suffix;
+				
+				if (selected && hasState("selected"+ suffix))
+					return "selected"+ suffix;
+				
+				if (hovered && hasState("hovered"+ suffix))
+					return "hovered"+ suffix;
+				
+				if (hasState("normal"+ suffix))    
+					return "normal"+ suffix;
+				
+				return null;
+				 
+			}
+		]]>
+	</fx:Script>
+	<!--Background-->
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor id="bgRect" color.correctStates="0xb1d7a5" color.incorrectStates="0XFAA0A2"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- Status text -->
+	<s:Label id="statusTextLabel"
+			 width="100%" height="100%"
+			 verticalAlign="middle"
+			 paddingLeft="10"
+			 color.correctStates="0x729f46"
+			 color.incorrectStates="0xC71138"
+			 text.correctStates="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'correctStatusText') || 'Correct'}"
+			 text.incorrectStates="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'incorrectStatusText') || 'Incorrect'}"
+			 direction="{resourceManager.getString(ResourceConstants.FONT, 'uiDirection')}"
+			 fontSize="14"
+			 styleName="uiFont"
+			 />
+	
+</s:GridItemRenderer>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true"
+				maxHeight="20" maxWidth="20"
+				minHeight="20" minWidth="20"
+				selected="{data.selected}"
+				click="itemrenderer1_clickHandler(event)"
+				>
+	<fx:Script>
+		<![CDATA[
+			import spark.events.IndexChangeEvent;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.vo.CalendarVO;
+			
+			
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var item:CalendarVO = value as CalendarVO;
+				if(item && item.date)
+				{
+					enable = true;
+					labelDisplay.text = item.dateLabel;
+					var color:uint=item.isWeekend ? 0xFF0000 : 0;
+					labelDisplay.setStyle("color", color);
+					currentDayBg.visible = item.currentDay;
+				}
+				else if(item && !item.date)
+				{
+					labelDisplay.text = "";
+					enable = false;
+				}
+				
+			}
+			
+			private function set enable(value:Boolean):void
+			{
+				this.mouseChildren = value;
+				this.mouseEnabled = value;
+				this.focusEnabled = value;
+			}
+			
+			protected function itemrenderer1_clickHandler(event:MouseEvent):void
+			{
+				owner.dispatchEvent(new IndexChangeEvent( IndexChangeEvent.CHANGE, false, false, -1, this.itemIndex ) );
+			}
+			
+			override protected function set hovered(value:Boolean):void
+			{
+				super.hovered = value;
+				if( hoveredBg )
+					hoveredBg.visible = value;		
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Rect id="currentDayBg" width="100%" height="100%" visible="false">
+		<s:fill>
+			<s:SolidColor color="0xcccccc" />
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#c1d0d7"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect id="hoveredBg" width="100%" height="100%" visible="false">
+		<s:fill>
+			<s:SolidColor color="0xEAEBEB" />
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#c1d0d7"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Label id="labelDisplay" 
+			fontSize="12"
+			styleName="uiFont"
+			direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+			width="100%" height="100%"
+			verticalAlign="middle" textAlign="center"
+			verticalCenter="0" horizontalCenter="0"
+			 />
+	
+</s:ItemRenderer>

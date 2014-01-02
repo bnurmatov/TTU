@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module:ActivityModule xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:module="tj.ttu.moduleUtility.view.components.*"
+		  skinClass="tj.ttu.module.assesment.views.skins.AssesmentSkin"
+		  width="100%" height="100%"
+		  initialize="activitymodule1_initializeHandler(event)"
+		  >
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			import tj.ttu.module.assesment.AssesmentFacade;
+			
+			protected function activitymodule1_initializeHandler(event:FlexEvent):void
+			{
+				facade = AssesmentFacade.getInstance(AssesmentFacade.FACADE_NAME)
+				var test:Boolean = FlexGlobals.topLevelApplication.hasOwnProperty("testModuleLoader");
+				
+				AssesmentFacade(facade).startup(this, test);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style> 
+		@namespace mx "library://ns.adobe.com/flex/mx"; 
+		mx|global
+		{
+			textFieldClass: ClassReference("mx.core.UIFTETextField");
+		}
+		mx|ToolTip{ 
+			textFieldClass: ClassReference("mx.core.UIFTETextField");
+		}  		
+	</fx:Style>
+</module:ActivityModule>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="112"
+			 blendMode="normal" xmlns:scroller="tj.ttu.components.components.scroller.*"> 
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.List")]
+		]]>
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Group width="100%" height="100%" alpha.disabled="0.5">
+		
+		<s:SkinnableComponent id="listHeader"
+							  height="20" width="100%" left="0" top="0" right="0" 
+							  skinClass="tj.ttu.components.skins.header.AnswerHeaderListSkin"
+							  />
+		
+		<!-- border -->
+		<!--- @private -->
+		<s:Rect left="0" right="0" top="21" bottom="0" id="border">
+			<s:fill>
+				<s:SolidColor id="bgFill" color="#f0f4f7" />
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke id="borderStroke" color="0x89AEC4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		
+		<scroller:TTUScroller id="scroller" height="100%" width="100%"
+							 left="2" top="22" right="0" bottom="1"
+							 focusEnabled="false"
+							 horizontalScrollPolicy="off"
+							 >
+			
+			<!--- @copy spark.components.SkinnableDataContainer#dataGroup -->
+			<s:DataGroup id="dataGroup"
+						 top="1" left="0" right="0" bottom="1"
+						 minHeight="36"
+						 itemRenderer="spark.skins.spark.DefaultItemRenderer">
+				<s:layout>
+					<!--- The default layout is vertical and measures at least for 5 rows.  
+					When switching to a different layout, HorizontalLayout for example,
+					make sure to adjust the minWidth, minHeight sizes of the skin -->
+					<s:VerticalLayout gap="0" horizontalAlign="justify" 
+									  requestedMinRowCount="1" 
+									  useVirtualLayout="false" 
+									  clipAndEnableScrolling="false"
+									  />
+				</s:layout>
+			</s:DataGroup>
+		</scroller:TTUScroller>
+	</s:Group>
+</s:SparkSkin>

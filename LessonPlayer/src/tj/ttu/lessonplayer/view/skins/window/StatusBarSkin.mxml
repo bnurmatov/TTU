@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="900" height="24"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.lessonplayer.view.components.window.LessonPlayerStatusBar")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="connect"/>
+		<s:State name="disconnect"/>
+	</s:states>
+	
+	<s:Group  width="100%" height="100%" >
+		
+		<!-- status bar fill -->
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xE2E2E2" />
+					<s:GradientEntry color="0xD9D9D9" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- status bar highlight -->
+		<s:Rect left="1" right="1" top="1" bottom="0" >
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90" weight="1">
+					<s:GradientEntry color="0xEAEAEA" />
+					<s:GradientEntry color="0xBEBEBE" />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		<s:HGroup width="100%" height="100%" paddingLeft="15" verticalAlign="middle" gap="10">
+		<s:BitmapImage id="connIcon"
+					   width="40" height="22"
+					   horizontalCenter="0"
+					   verticalCenter="0"
+					  />
+			
+			<s:Label id="labelStatus"
+					 fontSize="13"
+					 maxDisplayedLines="1"
+					 color="0x3A3939"
+					 textAlign="center"
+					 verticalAlign="middle"
+					 verticalCenter="0"
+					 fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT) || 'Latin'}"
+					 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+					 />
+			<!--text.connect="{resourceManager.getString( ResourceNames.LEARNINGPORTAL, 'connectLabelText' ) || 'Connected'}"
+			text.disconnect="{resourceManager.getString( ResourceNames.LEARNINGPORTAL, 'disconnectLabelText' ) || 'Not connected to server'}"-->
+		</s:HGroup>
+	</s:Group> 
+	
+</s:Skin>

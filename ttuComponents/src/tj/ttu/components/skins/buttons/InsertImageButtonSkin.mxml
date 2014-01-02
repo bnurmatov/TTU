@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2013, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		minWidth="21" minHeight="21" width="39" height="32"
+		alpha.disabled="0.5">
+	
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled"/>
+		<s:State name="down"/>
+		<s:State name="over"/>
+		<s:State name="up"/>
+	</s:states>
+	
+	<!-- background -->
+	<s:Rect left="0" top="0" right="0" bottom="0" radiusX="6" radiusY="3" verticalCenter="1" 
+			>
+		<s:fill>
+			<s:SolidColor color="#1e3455"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect width="100%" height="100%" left="1" right="1" top="0" radiusX="3" radiusY="3" verticalCenter="1"
+			>
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="#436583"
+								 color.down="#1b4265"
+								 color.over="#578ab2"
+								 color.up="#436583"/>
+				<s:GradientEntry color="#436e94"
+								 color.down="#26537a"
+								 color.over="#26537a"
+								 color.up="#436e94"/>
+				<s:GradientEntry color="#457091"
+								 color.down="#305c7f"
+								 color.over="#305c7f"
+								 color.up="#457091"/>
+				<s:GradientEntry color="#5b8aaf"
+								 color.down="#578ab2"
+								 color.over="#1b4265"
+								 color.up="#5b8aaf"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:stroke>
+			<s:LinearGradientStroke rotation="-32">
+				<s:GradientEntry color="#a2bcd0"
+								 />
+				
+				
+			</s:LinearGradientStroke>
+		</s:stroke>
+	</s:Rect>
+	<!-- icon -->
+	<s:Path width="22" height="18" horizontalCenter="0" verticalCenter="1"  verticalCenter.down="2"
+			data="M20.2949 15.6694C19.5596 18.2178 17.2334 20.0952 14.4473 20.0952 11.0713 20.0952 8.33691 17.3579 8.33691 13.9829 8.33691 11.1963 10.2119 8.87256 12.7627 8.13721 12.292 8.94971 12.0029 9.88135 12.0029 10.8887 12.0029 13.9468 14.4814 16.4268 17.542
+			16.4268 18.5488 16.4268 19.4805 16.1377 20.2949 15.6694ZM50 3 50 44C50 45.6504 48.6504 47 47 47L3 47C1.34961 47 0 45.6504 0 44L0 3C0 1.3501 1.34961 0 3 0L47 0C48.6504 0 50 1.3501 50 3ZM5 5.00977 5 39.1377C7.57129 35.0947 10.7568 30.4248 11.75
+			30.4375 14.3184 30.4707 17.7197 33.6758 20.5205 36.9336 23.9014 29.8584 28.6631 21.2529 31.75 21.4375 35.5879 21.667 41.9121 34.8076 45 41.7695L45 5.00977C45 5.00439 44.9951 5 44.9902 5L5.00977 
+			5C5.00488 5 5 5.00439 5 5.00977Z">
+		<s:fill>
+			<s:SolidColor color="#ffffff" />
+		</s:fill>
+	</s:Path>
+</s:Skin>

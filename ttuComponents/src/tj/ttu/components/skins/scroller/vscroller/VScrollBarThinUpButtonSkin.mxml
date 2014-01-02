@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		minHeight="5" minWidth="10">
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	<!-- UP -->
+	<s:Group width="100%" height="100%" >
+		<s:filters>
+			<s:BevelFilter blurX="0.5" blurY="0.5" strength="1" quality="3" shadowColor="0x020202" highlightColor="0x868888" angle="90" distance="-0.4" type="inner"/>
+		</s:filters>
+		<s:Path alpha="0.6" alpha.disabled="0" rotation="0" 
+				left="0" right="0" top="0" bottom="0" data="M 0 10 L 14 10 L 7 0 L 0 10 Z">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Path>
+		<s:Path rotation="0" left="1" right="1" top="0.8" bottom="0.5" data="M 0 10 L 14 10 L 7 0 L 0 10 Z"
+				id="hscrollbar_uparrowupskin" includeIn="disabled,up" alpha.disabled="0">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color="0xa6a6a6" ratio="0"/>
+					<s:GradientEntry color="0xe5e5e5" ratio="0.5"/>
+					<s:GradientEntry color="0xa6a6a6" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Path>
+		<s:Path rotation="0" left="1" right="1" top="0.8" bottom="0.5" data="M 0 10 L 14 10 L 7 0 L 0 10 Z"
+				includeIn="over" id="hscrollbar_uparrowoverskin">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color="0x96d9fa" ratio="0"/>
+					<s:GradientEntry color="0x00a3f5" ratio="0.5"/>
+					<s:GradientEntry color="0x96d9fa" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Path>
+		<s:Path rotation="0" left="1" right="1" top="0.8" bottom="0.5" data="M 0 10 L 14 10 L 7 0 L 0 10 Z"
+				includeIn="down" id="hscrollbar_uparrowdownskin">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color="0x96fa96" ratio="0"/>
+					<s:GradientEntry color="0x00f500" ratio="0.5"/>
+					<s:GradientEntry color="0x96fa96" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Path>
+	</s:Group>
+</s:Skin>

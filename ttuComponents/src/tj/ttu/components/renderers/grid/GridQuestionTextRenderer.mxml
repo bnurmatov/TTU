@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					clipAndEnableScrolling="true"
+					dataChange="griditemrenderer1_dataChangeHandler(event)"
+					>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.StringUtil;
+			import tj.ttu.base.utils.TLFUtil;
+			
+			
+			private function set errorVisible( value:Boolean ) : void
+			{
+				borderError.setStyle( "showErrorTip", value );
+				borderError.setStyle( "showErrorSkin", value );
+				
+				borderError.visible 	= value;
+				borderError.errorString = value ? resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'errorStringToolTip' ) || 'This item is missing' : null;
+			}
+			
+			
+			private var latinFont:String;
+			private var cyrillicFont:String ;
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden properties
+			//
+			//--------------------------------------------------------------------------
+			
+			override protected function resourcesChanged():void
+			{
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+			}
+			/**
+			 * 
+			 * @inheritDoc
+			 * 
+			 */			
+			override public function set data( value:Object ) : void
+			{
+				super.data = value;
+				setText();
+			}
+			
+			/**
+			 * 
+			 * @inheritDoc
+			 * 
+			 */			
+			override public function prepare( hasBeenRecycled:Boolean ) : void 
+			{
+				setText();
+			}
+			
+			
+			protected function griditemrenderer1_dataChangeHandler(event:FlexEvent):void
+			{
+				if(grid && grid.dataProvider)
+					grid.dataProvider.addEventListener(CollectionEvent.COLLECTION_CHANGE, onQuestionTextChange);
+				
+			}
+			
+			private function onQuestionTextChange(event:Event):void
+			{
+				setText();
+			}
+			
+			private function setText():void
+			{
+				if( data && questionTextLabel)
+				{
+					questionTextLabel.textFlow 		= TLFUtil.createFlow( data.text, latinFont, cyrillicFont);
+					errorVisible = StringUtil.isNullOrEmpty( data.text );
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<!-- error border -->
+	<s:Group id="borderError"
+			 left="0" right="0" top="0" bottom="0"
+			 visible="false"
+			 depth="10"
+			 >
+		<s:Rect left="2" right="2" top="2" bottom="2"
+				blendMode="normal"
+				>
+			<s:stroke>
+				<s:SolidColorStroke caps="none" color="{getStyle('errorColor')}" 
+									joints="miter" miterLimit="4" weight="2"
+									/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#00FF00" alpha="0" />
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+	<s:RichText id="questionTextLabel" 
+				right="7" left="7" top="5" bottom="5" 
+				color="0x495c66"
+				fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+				fontSize="14"
+				maxDisplayedLines="1"
+				showTruncationTip="true"
+				verticalAlign="middle"
+				buttonMode="true"
+				/>
+</s:GridItemRenderer>

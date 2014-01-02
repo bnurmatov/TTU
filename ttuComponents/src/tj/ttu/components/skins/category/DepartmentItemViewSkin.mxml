@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:button="tj.ttu.components.components.button.*"
+		height="30" width="100%"
+		minHeight="30"
+		addedToStage="skin1_addedToStageHandler(event)"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.components.components.category.DepartmentItemView")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			
+			protected function skin1_addedToStageHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				if(buttonDisclosure)
+					buttonDisclosure.selected = true;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<!-- background color -->
+	<s:Rect id="bg" 
+			left="0" right="0" top="0" bottom="1"
+			height="30" >
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color.normal="0x6a6b70"
+								 color.hovered="0x5b5e64"
+								 color.selected="0x6a6b70"
+								 color.disabled="0x6a6b70"
+								 alpha="1.0" ratio="0"/>
+				<s:GradientEntry color.normal="0x6a6b70"
+								 color.hovered="0x5b5e64"
+								 color.selected="0x76787f"
+								 color.disabled="0x6a6b70"
+								 alpha="1.0" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<s:HGroup left="0" right="0"
+			  bottom="0" top="0"
+			  paddingLeft="10" paddingRight="30"
+			  verticalAlign="middle"
+			  horizontalAlign="left"
+			  gap="10"
+			  >
+		
+		<!-- expand and collapse button -->
+		<button:ToggleDisclosureButton id="buttonDisclosure" 
+									   width="20" height="20"
+									   verticalCenter="0"
+									   buttonMode="true"
+									   
+									   toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'collapseDepartmentButtonToolTip' ) || 'Collapse Items into Department'}"
+									   skinClass="tj.ttu.components.skins.buttons.ToggleDisclosureButtonSkin"
+									   />
+		
+		<!-- category's label -->
+		<s:Label textAlign="left"
+				 verticalAlign="middle"
+				 fontSize="13"
+				 fontWeight="bold"
+				 color="0x9bc3da"
+				 styleName="uiFont"
+				 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'departmentTopViewLabel')||'DEPARTMENT:'}"
+				 />
+		
+		<s:RichText id="departmentNameLabel" width="600" height="100%" minWidth="200"
+					color="0xFFFFFF"
+					fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+					fontSize="14"
+					maxDisplayedLines="1" paddingLeft="5" paddingRight="5"
+					showTruncationTip="true"
+					verticalAlign="middle"
+					typographicCase="uppercase"
+					textDecoration="underline"
+					buttonMode="true"
+					doubleClickEnabled="true"
+					/>
+	</s:HGroup>
+	
+</s:Skin>

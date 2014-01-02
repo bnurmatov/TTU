@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="112"
+			 blendMode="normal" xmlns:scroller="tj.ttu.components.components.scroller.*"> 
+	
+	<fx:Metadata>
+		[HostComponent("tj.ttu.module.assesment.views.components.list.AnswerList")]
+	</fx:Metadata> 
+	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="radioButtonGroup" />
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+		<scroller:TTUScroller id="scroller" height="100%" width="100%"
+							 left="2" top="0" right="0" bottom="1"
+							 focusEnabled="false"
+							 horizontalScrollPolicy="off"
+							 >
+			
+			<!--- @copy spark.components.SkinnableDataContainer#dataGroup -->
+			<s:DataGroup id="dataGroup"
+						 top="1" left="0" right="0" bottom="1"
+						 minHeight="36"
+						 itemRenderer="spark.skins.spark.DefaultItemRenderer">
+				<s:layout>
+					<!--- The default layout is vertical and measures at least for 5 rows.  
+					When switching to a different layout, HorizontalLayout for example,
+					make sure to adjust the minWidth, minHeight sizes of the skin -->
+					<s:VerticalLayout gap="0" horizontalAlign="justify" 
+									  requestedMinRowCount="1" 
+									  useVirtualLayout="false" 
+									  clipAndEnableScrolling="false"
+									  />
+				</s:layout>
+			</s:DataGroup>
+		</scroller:TTUScroller>
+</s:SparkSkin>

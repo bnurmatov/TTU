@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="false"
+				minHeight="50"
+				>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.Icons;
+			import tj.ttu.base.utils.TLFUtil;
+			import tj.ttu.base.vo.LessonArtifactVO;
+			import tj.ttu.base.vo.PublishOptionVO;
+			import tj.ttu.components.events.PublishEvent;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Variables
+			//
+			//--------------------------------------------------------------------------
+			/**
+			 *
+			 */
+			private var latinFont:String;
+			private var cyrillicFont:String;
+			
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden methods
+			//
+			//--------------------------------------------------------------------------
+			private function get isAir():Boolean
+			{
+				return Capabilities.playerType == 'Desktop';
+			}
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var artifact:LessonArtifactVO = data as LessonArtifactVO;
+				if(artifact)
+				{
+					var title:String;
+					var icon:Object;
+					switch(artifact.artifactType)
+					{
+						case LessonArtifactVO.PDF:
+						{
+							title = resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'pdfText' ) || 'PDF';
+							icon = Icons.PdfIcon;
+							break;
+						}
+						case LessonArtifactVO.WINDOWS_INSTALLER:
+						{
+							title = resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'winInsatllerText' ) || 'Windows Installer';
+							icon = Icons.InstallerIcon;
+							break;
+						}
+						case LessonArtifactVO.DVD_CONTENT:
+						{
+							title = resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'dvdText' ) || 'DVD Content';
+							icon = Icons.DvdIcon;
+							break;
+						}
+						case LessonArtifactVO.B4X_CONTENT:
+						{
+							title = resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'b4xText' ) || 'B4X';
+							icon = Icons.ZipIcon;
+							break;
+						}
+							
+					}
+					artifactTitle.textFlow = title ? TLFUtil.createFlow(title, latinFont, cyrillicFont) : null;
+					artifactIcon.source = icon;
+				}
+			}
+			
+			
+			
+			override protected function resourcesChanged():void
+			{
+				super.resourcesChanged();
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Methods
+			//
+			//--------------------------------------------------------------------------
+			
+			
+			
+			protected function saveButton_clickHandler(event:MouseEvent):void
+			{
+				owner.dispatchEvent( new PublishEvent(PublishEvent.SAVE_LESSON_ARTIFACT, data));
+			}
+			
+			protected function downloadButton_clickHandler(event:MouseEvent):void
+			{
+				owner.dispatchEvent( new PublishEvent(PublishEvent.DOWNLOAD_LESSON_ARTIFACT, data));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- custom states -->
+	<s:states>
+		<s:State name="normal" stateGroups="normalStates"/>
+		<s:State name="hovered" stateGroups="hoveredStates"/>
+		<s:State name="selected" stateGroups="selectedStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+	</s:states>
+	
+	<s:Rect width="100%" height="100%" top="0" right="0" bottom="0" left="0" >
+		<s:stroke>
+			<s:SolidColorStroke color="#a6bbc6"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:HGroup width="100%" height="100%" left="20" right="20" verticalAlign="middle">
+		
+		<!--Option Icon-->
+		<s:Image id="artifactIcon"
+				 width="30" height="30"
+				 left="20"
+				 verticalCenter="0"
+				 smooth="true"
+				 />
+		
+		<!--Answer Text Field-->
+		<s:RichText id="artifactTitle"
+					width="100%" height="100%"
+					paddingBottom="0" paddingTop="0" 
+					paddingLeft="5"
+					left="60"
+					verticalAlign="middle"
+					verticalCenter="0"
+					fontLookup="embeddedCFF"
+					fontSize="14"
+					fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+					/>
+		
+		<!-- edit lesson -->
+		<s:Button id="downloadButton" width="95" height="32"
+				  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'downloadButtonLabel') || 'Download'}"
+				  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'downloadArtifactButtonToolTip') || 'Download this Artifact'}"
+				  buttonMode="true"
+				  visible="{!isAir}"
+				  includeInLayout="{!isAir}"
+				  verticalCenter="0" horizontalCenter="0"
+				  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION)}"
+				  fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT)}"
+				  click="downloadButton_clickHandler(event)"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+		<!-- edit lesson -->
+		<s:Button id="saveButton" width="95" height="32"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonLabel' ) || 'Save'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveArtifactButtonToolTip' ) || 'Save this Artifact to Local Storage'}"
+				  buttonMode="true" 
+				  visible="{isAir}"
+				  includeInLayout="{isAir}"
+				  verticalCenter="0" horizontalCenter="0"
+				  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION)}"
+				  fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT)}"
+				  click="saveButton_clickHandler(event)"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+	</s:HGroup>
+	
+</s:ItemRenderer>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true"
+				minHeight="25"
+				>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<!--Item label-->
+	<s:Label id="itemLabel"
+			 left="5" width="100%"
+			 height="100%"
+			 maxDisplayedLines="1"
+			 showTruncationTip="true"
+			 verticalAlign="middle"
+			 verticalCenter="0"
+			 fontSize="14"
+			 text="{label}"
+			 styleName="uiFont"
+			 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+			 />
+	
+</s:ItemRenderer>

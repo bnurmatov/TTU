@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the scrub bar track part of a Spark VideoPlayer component 
+in the normal skin state. The normal skin state means the component is not in 
+one of the <code>fullScreen</code> skin states.  
+
+@see spark.components.VideoPlayer
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+			 width="10" height="9">
+	
+	<fx:Metadata>
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata> 
+	
+	<fx:Script fb:purpose="styling">
+		/**
+		 * @private
+		 */
+		override protected function initializationComplete():void
+		{
+			useChromeColor = true;
+			super.initializationComplete();
+		}
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<!-- inset 7 and 6 pixels because that's thumbSize/2 -->
+	<s:Group width="100%" height="100%" alpha="1">
+		<s:filters>
+			<s:DropShadowFilter blurX="2" blurY="2" strength="1.2" quality="2" angle="90" distance="0.5" color="0x000000" />
+		</s:filters>	
+		<s:Rect radiusX="1" radiusY="1" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color="0xa8a8a8" ratio="0"/>
+					<s:GradientEntry color="0xa0a0a0" ratio="0.15"/>
+					<s:GradientEntry color="0x7f7f7f" ratio="0.4"/>
+					<s:GradientEntry color="0xaeaeae" ratio="0.85"/>
+					<s:GradientEntry color="0xd8d8d8" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<!-- Lines -->
+		<s:Rect radiusX="0" radiusY="0" alpha="0.9" width="1" height="6" left="0" top="1">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color.up="0xdadada" 
+									 color.disabled="0xdadada"
+									 color.over="0x54c6ff"
+									 color.down="0x78c278"
+									 ratio="0"/>
+					<s:GradientEntry color.up="0x4c4c4c" 
+									 color.disabled="0x4c4c4c"
+									 color.over="0x00a3f5"
+									 color.down="0x00a800"
+									 ratio="0.4"/>
+					<s:GradientEntry color.up="0xdadada" 
+									 color.disabled="0xdadada"
+									 color.over="0x96d9fa"
+									 color.down="0x229922"
+									 ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect radiusX="0" radiusY="0" alpha="0.9" width="1" height="6" right="0" top="1">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color.up="0xdadada" 
+									 color.disabled="0xdadada"
+									 color.over="0x54c6ff"
+									 color.down="0x78c278"
+									 ratio="0"/>
+					<s:GradientEntry color.up="0x4c4c4c" 
+									 color.disabled="0x4c4c4c"
+									 color.over="0x00a3f5"
+									 color.down="0x00a800"
+									 ratio="0.4"/>
+					<s:GradientEntry color.up="0xdadada" 
+									 color.disabled="0xdadada"
+									 color.over="0x96d9fa"
+									 color.down="0x229922"
+									 ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect includeIn="over,down" radiusX="0" radiusY="0" alpha="1" width="8" height="1" left="1" right="1" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color.over="0x54c6ff" 
+									 color.down="0x78c278"
+									 ratio="0"/>
+					<s:GradientEntry color.over="0x00a3f5" 
+									 color.down="0x00a800"
+									 ratio="0.4"/>
+					<s:GradientEntry color.over="0x96d9fa" 
+									 color.down="0x229922"
+									 ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	<!-- Symboll -->
+	<s:Group width="8" height="6" alpha="1" top="1" bottom="1" left="1" right="1">
+		<s:Rect radiusX="1" radiusY="1" alpha="1" width="100%" height="100%">
+			<s:fill>
+				<s:LinearGradient rotation="-90" rotation.down="90">
+					<s:GradientEntry color="0xf7f7f7" ratio="0"/>
+					<s:GradientEntry color="0xeeeeee" ratio="0.3"/>
+					<s:GradientEntry color="0xd8d8d8" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- Point -->
+		<s:Rect width="4" height="1" alpha="1" top="2" left="2" right="2">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color.up="0x5b94b2"
+									 color.disabled="0x5b94b2" 
+									 color.over="0x54c6ff"
+									 color.down="0x78c278"
+									 ratio="0" alpha.disabled="0.4"/>
+					<s:GradientEntry color.up="0x03689f" 
+									 color.disabled="0x03689f"
+									 color.over="0x03689f"
+									 color.down="0x00a800"
+									 ratio="0.5" alpha.disabled="0.4"/>
+					<s:GradientEntry color.up="0x5b94b2"
+									 color.disabled="0x5b94b2"
+									 color.over="0x54c6ff"
+									 color.down="0x229922"
+									 ratio="1" alpha.disabled="0.4"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect width="4" height="1" alpha="1" top="4" left="2" right="2">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color.up="0x5b94b2"
+									 color.disabled="0x5b94b2" 
+									 color.over="0x54c6ff"
+									 color.down="0x78c278"
+									 ratio="0" alpha.disabled="0.4"/>
+					<s:GradientEntry color.up="0x03689f" 
+									 color.disabled="0x03689f"
+									 color.over="0x03689f"
+									 color.down="0x00a800"
+									 ratio="0.5" alpha.disabled="0.4"/>
+					<s:GradientEntry color.up="0x5b94b2"
+									 color.disabled="0x5b94b2"
+									 color.over="0x54c6ff"
+									 color.down="0x229922"
+									 ratio="1" alpha.disabled="0.4"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<!-- Point -->
+	</s:Group>
+</s:SparkSkin>

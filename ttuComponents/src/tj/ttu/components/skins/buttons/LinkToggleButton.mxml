@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for a Spark ToggleButton component.  
+
+@see spark.components.ToggleButton
+
+@langversion 3.0
+@playerversion Flash 10
+@playerversion AIR 1.5
+@productversion Flex 4
+-->
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+				   minWidth="21" minHeight="21"
+				   alpha.disabledStates="0.5">
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.ToggleButton")]
+		]]>
+	</fx:Metadata>
+	
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over" stateGroups="overStates"/>
+		<s:State name="down" stateGroups="downStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates"/>
+		<s:State name="overAndSelected" stateGroups="overStates, selectedStates"/>
+		<s:State name="downAndSelected" stateGroups="downStates, selectedStates"/>
+		<s:State name="disabledAndSelected"
+				 stateGroups="selectedUpStates, disabledStates, selectedStates"/>
+	</s:states>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color.disabled="#dbe3e8"
+								 color.disabledAndSelected="#dbe3e8"
+								 color.down="#bed0de"
+								 color.downAndSelected="#f3e094"
+								 color.over="#cedbe3"
+								 color.overAndSelected="#fef5d1"
+								 color.up="#d2e2ec"
+								 color.upAndSelected="#fdf1c1"/>
+				<s:GradientEntry color.disabled="#e3e9ed"
+								 color.disabledAndSelected="#e3e9ed"
+								 color.down="#aac3d6"
+								 color.downAndSelected="#d8bf5b"
+								 color.over="#cedde6"
+								 color.overAndSelected="#e2cd79"
+								 color.up="#bacbd8"
+								 color.upAndSelected="#fdf1c1"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke weight="1"
+								color.disabled="#b5c5cf"
+								color.disabledAndSelected="#e3e9ed"
+								color.down="#81afcc"
+								color.downAndSelected="#e3e9ed"
+								color.over="#98c5e2"
+								color.overAndSelected="#e3e9ed"
+								color.up="#b1c8d9"
+								color.upAndSelected="#e3e9ed"/>
+		</s:stroke>
+		<s:filters>
+			<s:DropShadowFilter alpha="0.25" angle="90" distance="1"
+								angle.down="-90" color.down="#a6cfea"
+								color.over="#cbdfed"
+								color.up="#f0f3f5"/>
+			<s:DropShadowFilter alpha="0.12" angle="90" blurX="4" blurY="4" distance="1"
+								color.down="#a6cfea"
+								color.over="#cbdfed"
+								color.up="#000000"/>
+			<s:GlowFilter blurX="0.09" blurY="0.09" color="#2e4757" quality="5"/>
+		</s:filters>
+	</s:Rect>
+	
+	<s:VGroup verticalCenter="0" horizontalCenter="0" gap="1">
+		<s:Path data="M15.1743 0.288086C15.0181 0.300293 14.8413 0.3125 14.6431 0.324219 14.4453 0.335938 14.1812 0.366211 13.8511 0.414063 13.521 0.462402 13.269 0.605957 13.0952 0.846191 12.9209 1.08643 12.8164 1.39795 12.7803 1.78223L12.7441 2.646 12.7441 7.99219
+				12.708 8.89209C12.5283 10.5479 12.0781 11.7031 11.3584 12.3569 10.6382 13.0112 9.52246 13.3379 8.01025 13.3379 6.01807 13.3379 4.48242 12.96 3.40234 12.2041 2.32227 11.4482 1.78223 10.5063 1.78223 9.37793L1.78223 2.28613 1.74609 1.45801C1.71045
+				1.07422 1.62939 0.807129 1.50342 0.657227 1.37744 0.507324 1.12793 0.408203 0.756348 0.359863L0 0.288086 0 0 8.42432 0 8.42432 0.288086C8.26807 0.300293 8.09131 0.309082 7.89307 0.314941 7.69531 0.321289 7.43994 0.345215 7.12842 0.387207 6.81592
+				0.429199 6.6001 0.516113 6.48047 0.647949 6.36035 0.780273 6.28223 1.05029 6.24609 1.45801L6.21045 2.28613 6.21045 9.50391C6.21045 9.64795 6.21631 9.82227 6.22803 10.0259 6.24023 10.2305 6.2793 10.5454 6.34521 10.9712 6.41113 11.397 6.65137 11.8169
+				7.06543 12.231 7.479 12.645 8.04639 12.8521 8.76611 12.8521 9.77441 12.8521 10.5332 12.5972 11.0435 12.0869 11.5532 11.5771 11.895 10.9922 12.0693 10.332 12.2432 9.67236 12.3359 9.10791 12.3481 8.64014L12.3662 7.79395 12.3662 2.57422 12.3301
+				1.70996C12.2944 1.31396 12.1953 1.01416 12.0332 0.810059 11.8711 0.605957 11.6284 0.477051 11.3042 0.422852 10.9805 0.369141 10.7104 0.335938 10.4941 0.324219 10.2783 0.3125 10.0742 0.300293 9.88232 0.288086L9.88232 0 15.1743 0 15.1743 0.288086Z">
+			<s:fill>
+				<s:SolidColor  
+					color.up="#2c454c"
+					color.over="#3d6671"
+					color.down="#266c7f"
+					color.disabled="#2c454c"
+					/>
+			</s:fill>
+		</s:Path>
+		<s:Path data="M0 1.62012 0 0 15.4258 0 15.4258 1.62012 0 1.62012Z"
+				
+				>
+			<s:fill>
+				<s:SolidColor  
+					color.up="#2c454c"
+					color.over="#3d6671"
+					color.down="#266c7f"
+					color.disabled="#2c454c"
+					/>
+			</s:fill>
+		</s:Path>
+	</s:VGroup>
+</s:SparkButtonSkin>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+	<config>
+			<background>
+				<image>content/backgroundImages/2216535708_f8780eff81_o.jpg</image>
+				<image>content/backgroundImages/2429890435_bef60f529a_o.jpg</image>
+				<image>content/backgroundImages/4311236800_7d2574e40f_o.jpg</image>
+				<image>content/backgroundImages/4363075316_0983bc6951_o.jpg</image>
+				<image>content/backgroundImages/5085383911_59ddae5cf6_o.jpg</image>
+			</background>
+	</config>
+	<activities>
+			<activity name="Chapter Player" 
+				filter="text"
+				minItems="1" 
+	            module="modules/ChapterPlayer.swf"
+				icon="assets/iconassets/UnscrambleIcon.png" 
+	            snapshot="activitySnapshots/UnscrambleSnapshotImage.png"
+				backgroundImageUrl="assets/images/ActivityBackgroundImage.png"
+				dataUrl="content/lesson.xml"
+				required="true"
+				>
+				<description>Unscramble each sentence by dragging the words into order, then click "Check" to check your answer. If you were right, you can click "Next" to go on. If not, you can try again.</description>
+			</activity>
+			<activity name="Assessment" 
+				filter="text"
+				minItems="4" 
+	            module="modules/Assessment.swf"
+				icon="assets/iconassets/UnscrambleIcon.png" 
+	            snapshot="activitySnapshots/UnscrambleSnapshotImage.png"
+				backgroundImageUrl="assets/images/ActivityBackgroundImage.png"
+				dataUrl="content/lesson.xml" 
+				required="true"
+				activityType="Test"
+				>
+				<description>Unscramble each sentence by dragging the words into order, then click "Check" to check your answer. If you were right, you can click "Next" to go on. If not, you can try again.</description>
+			</activity>
+			<activity name="Resources" 
+				filter="text"
+				minItems="1" 
+	            module="modules/Resources.swf"
+				icon="assets/iconassets/UnscrambleIcon.png" 
+	            snapshot="activitySnapshots/UnscrambleSnapshotImage.png"
+				backgroundImageUrl="assets/images/ActivityBackgroundImage.png"
+				dataUrl="content/lesson.xml" 
+				required="true"
+				>
+				<description>Unscramble each sentence by dragging the words into order, then click "Check" to check your answer. If you were right, you can click "Next" to go on. If not, you can try again.</description>
+			</activity>
+	</activities>
+</modules>

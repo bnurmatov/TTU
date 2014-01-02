@@ -1,0 +1,102 @@
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
+			 xmlns:window="tj.ttu.lessonplayer.view.components.window.*" 
+			 minHeight="400"
+			 minWidth="300"
+			 alpha.disabledGroup="0.5" 
+			 >
+	
+	<fx:Metadata>
+		[HostComponent("Object")]
+	</fx:Metadata>
+	
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" stateGroups="disabledGroup" />
+		<s:State name="normalAndInactive" stateGroups="inactiveGroup" />
+		<s:State name="disabledAndInactive" stateGroups="disabledGroup, inactiveGroup" />
+	</s:states>
+	
+	<!-- layer 1: background fill -->
+	<!--- Defines the background color of the skin. -->
+	<s:Rect id="backgroundRect" left="1" right="1" top="1" bottom="1" >
+		<s:fill>
+			<!--- @private -->
+			<s:SolidColor id="backgroundFill"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- title bar background fill for when the title bar is inactive -->
+	<!--- Defines the background color of the title bar. -->
+	<s:Rect id="titleBarBackgroundRect" left="0" right="0" top="0" height="24" visible="{titleBar.visible}" >
+		<s:fill>
+			<!--- @private -->
+			<s:SolidColor id="titleBarBgFill" color="0xFFFFFF" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	<!-- layer 2: titlebar + content + status bar -->
+	<s:Group left="1" right="1" top="1" bottom="1" minHeight="24" minWidth="0" >
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		
+		<!-- title bar to display when not using 'systemChrome' -->
+		<!--- @copy spark.components.WindowedApplication#titleBar -->
+		<window:LessonPlayerTitleBar id="titleBar" width="100%" minHeight="24" alpha.inactiveGroup="0.5" 
+									 skinClass="tj.ttu.lessonplayer.view.skins.window.TitleBarSkin"
+									 />
+		
+		<!--<scroller:MyScroller id="scroller" width="100%" height="100%">-->
+		
+		<!-- content -->
+		<!--- @copy spark.components.SkinnableContainer#contentGroup -->
+		<s:Group id="contentGroup" width="100%" height="100%" minHeight="0" minWidth="0" bottom="24"/>
+		
+		<!--</scroller:MyScroller>-->
+		<!-- status bar -->
+		<!--- @copy spark.components.WindowedApplication#statusBar -->
+		
+		<window:LessonPlayerStatusBar id="statusBar"
+									  width="100%" height="24" bottom="0"
+									  skinClass="tj.ttu.lessonplayer.view.skins.window.StatusBarSkin"/>
+	</s:Group>
+	
+	
+	<!-- layer 3: gripper -->
+	<!--- 
+	By default, the button uses the spark.skins.spark.windowChrome.GripperSkin class
+	to define the skin for the gripper button.
+	
+	@copy spark.components.WindowedApplication#gripper
+	
+	@see spark.skins.spark.windowChrome.GripperSkin 
+	-->
+	<s:Button id="gripper" right="3" bottom="3" tabEnabled="false" 
+			  skinClass="tj.ttu.lessonplayer.view.skins.window.GripperSkin" /> 
+	
+	<!-- layer 4: border -->
+	
+	<!-- background of border for when it is alpha=0.5 -->
+	<!--- Defines the background color of the border. -->
+	<s:Group id="borderBgFill" left="0" right="0" top="0" bottom="0" >
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke weight="1" color="0xFFFFFF" />
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	
+	<!-- the border -->
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke alpha.inactiveGroup="0.5" weight="1" color="0xA6A6A6" />
+		</s:stroke>
+	</s:Rect>
+	<s:Label id="statusText" visible="false" top="2" bottom="2" left="10" right="10" verticalAlign="middle" 
+			 fontSize="10" color="0x585858" width="100%" maxDisplayedLines="1" />
+</s:SparkSkin>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					clipAndEnableScrolling="true">
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.utils.Icons;
+			import tj.ttu.base.vo.ResourceVO;
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var vo:ResourceVO = value as ResourceVO;
+				if(vo)
+					resourceIcon.source = vo.resouceType == ResourceVO.BOOK ? Icons.PdfIcon : Icons.InternetResourceIcon;	
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Image id="resourceIcon"
+			 width="30" height="30"
+			 smooth="true"
+			 verticalCenter="0" horizontalCenter="0"
+			 />
+	
+</s:GridItemRenderer>

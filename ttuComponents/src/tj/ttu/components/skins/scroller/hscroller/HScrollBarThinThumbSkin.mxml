@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" >
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	<s:Group  width="100%" height="8" rotation="0" id="hscrollbar_thumbupskin" alpha.disabled="0">
+		<s:filters>
+			<s:DropShadowFilter  blurX="2" blurY="2" strength="0.8" quality="2" angle="90" distance="0.5" color="0x000000" />
+		</s:filters>	
+		<s:Rect radiusX="3" radiusY="3" left="1" right="1" top="1" bottom="1">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color="0x1f1f1f" ratio="0"/>
+					<s:GradientEntry color="0x1a1a1a" ratio="0.24"/>
+					<s:GradientEntry color="0x141414" ratio="0.4"/>
+					<s:GradientEntry color="0x5c5c5c" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect radiusX="3" radiusY="3" left="2" right="2" top="2" bottom="2">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry color="0xffffff" ratio="0"/>
+					<s:GradientEntry color="0xa1a1a1" ratio="0.5"/>
+					<s:GradientEntry color="0xffffff" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect radiusX="2" radiusY="2" left="2" right="2" top="2" bottom="2" alpha="0.8"
+				includeIn="over" id="hscrollbar_thumboverskin">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="0" weight="1">
+					<s:GradientEntry color="0x54c6ff" ratio="0"/>
+					<s:GradientEntry color="0x00a3f5" ratio="0.5"/>
+					<s:GradientEntry color="0x54c6ff" ratio="1"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect radiusX="2" radiusY="2" left="2" right="2" top="2" bottom="2" alpha="0.8"
+				includeIn="down" id="hscrollbar_thumbdownskin">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="0" weight="1">
+					<s:GradientEntry color="0x54ff54" ratio="0"/>
+					<s:GradientEntry color="0x00f500" ratio="0.5"/>
+					<s:GradientEntry color="0x54ff54" ratio="1"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+</s:Skin>

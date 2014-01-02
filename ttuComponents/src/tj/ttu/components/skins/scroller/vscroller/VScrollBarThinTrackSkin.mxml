@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" >
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	<s:Group width="8" height="100%" alpha="1" rotation="0" id="hscrollbar_trackskin" alpha.disabled="0.4">
+		<s:Rect radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0x090c0f"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect alpha="0.4" radiusX="2" radiusY="2" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x999999" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+</s:Skin>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	creationComplete="skin1_creationCompleteHandler(event)"
+	minWidth="36" minHeight="32"
+	alpha.disabled="0.4"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function skin1_creationCompleteHandler(event:FlexEvent):void
+			{
+				hostComponent.addEventListener(FlexEvent.VALUE_COMMIT, valueCommitHandler);
+				hostComponent.addEventListener(FlexEvent.MUTED_CHANGE, valueCommitHandler);
+				valueCommitHandler();
+			}
+			
+			protected function valueCommitHandler(event:Event = null):void
+			{
+				mutedVolumeIcon.visible = hostComponent.muted;
+				volumeIcon.visible = !hostComponent.muted;
+				downBevel.alpha = hostComponent.muted ? 1 : 0;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.mediaClasses.MuteButton")]
+	</fx:Metadata>
+	<s:Group top="0" bottom="0" left="0" right="0">
+		<s:Group top="0" bottom="0" left="0" right="0" id="downBevel">
+			<s:Rect alpha="0.75" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0">
+				<s:filters>
+					<s:DropShadowFilter color="0x000000" inner="true" blurX="9" blurY="9" distance="1" quality="3" strength="1.3" alpha="1" />
+				</s:filters>
+				<s:fill>
+					<!--
+					<s:SolidColor color="0x36414c"/>
+					-->
+					<s:SolidColor color="0x2f3f49"/>
+				</s:fill>
+			</s:Rect>	
+			<s:Rect alpha="0.7" radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+				<s:stroke>
+					<s:LinearGradientStroke rotation="-90" weight="1" >
+						<s:GradientEntry color="0x51585f" ratio="0"/>
+						<s:GradientEntry color="0x212831" ratio="0.2"/>
+						<s:GradientEntry color="0x1f262e" ratio="0.5"/>
+						<s:GradientEntry color="0x1a2028" ratio="0.8"/>
+						<s:GradientEntry color="0x0f1418" ratio="1"/>
+					</s:LinearGradientStroke>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
+		<s:Group width="26" height="22" verticalCenter="0" horizontalCenter="0">
+			<s:BitmapImage 
+				id="volumeIcon"
+				width="26" height="22" fillMode="clip"
+				alpha.disabled="0.4"
+				source.up="@Embed('/embed_assets/images/volume_upIcon.png')"
+				source.disabled="@Embed('/embed_assets/images/volume_upIcon.png')"
+				source.over="@Embed('/embed_assets/images/volume_overIcon.png')"
+				source.down="@Embed('/embed_assets/images/volume_overIcon.png')"
+				/>
+			<s:BitmapImage 
+				id="mutedVolumeIcon"
+				visible="false"
+				width="26" height="22" fillMode="clip"
+				alpha.disabled="0.4"
+				source.up="@Embed('/embed_assets/images/mute_upIcon.png')"
+				source.disabled="@Embed('/embed_assets/images/mute_disabledIcon.png')"
+				source.over="@Embed('/embed_assets/images/mute_overIcon.png')"
+				source.down="@Embed('/embed_assets/images/mute_overIcon.png')"
+				/>
+		</s:Group>
+	</s:Group>
+</s:Skin>

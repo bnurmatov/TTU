@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					xmlns:button="tj.ttu.components.components.button.*"
+					clipAndEnableScrolling="true"
+					doubleClickEnabled="true"
+					doubleClick="griditemrenderer1_doubleClickHandler(event)" 
+					>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.events.DataGridEvent;
+			import tj.ttu.components.events.LessonEvent;
+			/**
+			 * Prepare our renderer
+			 */
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				enabledElement = true;
+			}
+			
+			protected function buttonDisclosure_clickHandler(event:MouseEvent):void
+			{
+				enabledElement = false;
+				owner.dispatchEvent(new LessonEvent(LessonEvent.GET_LESSONS, data));
+			}
+			
+			private function griditemrenderer1_doubleClickHandler(event:MouseEvent):void
+			{
+				enabledElement = false;
+				owner.dispatchEvent(new DataGridEvent(DataGridEvent.GRID_DOUBLE_CLICK, -1, data));
+			}
+			
+			protected function button_doubleClickHandler(event:MouseEvent):void
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+			
+			private function set enabledElement(value:Boolean):void
+			{
+				mouseEnabled = value;
+				disclosureButton.mouseEnabled = value;
+				disclosureButton.selected = !value;				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- expand and collapse button -->
+	<button:ToggleDisclosureButton id="disclosureButton" 
+								   width="20" height="20"
+								   horizontalCenter="0"
+								   verticalCenter="0"
+								   buttonMode="true"
+								   toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'collapseDepartmentButtonToolTip' ) || 'Collapse Items into Department'}"
+								   click="buttonDisclosure_clickHandler(event)"
+								   doubleClickEnabled="true"
+								   doubleClick="button_doubleClickHandler(event)"
+								   skinClass="tj.ttu.components.skins.buttons.ToggleDisclosureButtonSkin"
+								   />	
+</s:GridItemRenderer>

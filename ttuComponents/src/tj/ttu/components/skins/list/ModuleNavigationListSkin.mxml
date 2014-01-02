@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 alpha.disabled="0.5" blendMode="normal"
+			 width="100%" height="100%" minWidth="90" minHeight="280"  maxWidth="90" xmlns:scroller="tj.ttu.components.components.scroller.*"  
+			 > 
+	
+	<fx:Metadata>[HostComponent("spark.components.List")]</fx:Metadata>	
+	
+	<!--Comp States-->
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient rotation="-0">
+				<s:GradientEntry color="0x213952" ratio="0"/>
+				<s:GradientEntry color="0x162636" ratio="0.5"/>
+				<s:GradientEntry color="0x1c2f42" ratio="0.8"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!--<s:Rect width="4" right="0" top="0" bottom="0">
+	<s:fill>
+	<s:SolidColor color="0x262b2f"/>
+	</s:fill>
+	<s:stroke>
+	<s:SolidColorStroke color="0x191d22"/>
+	</s:stroke>
+	</s:Rect>-->
+	
+	<s:Group left="5" right="5" top="25" bottom="25">
+		<s:Rect radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+			<s:filters>
+				<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.4" quality="3" shadowColor="0x020202" highlightColor="0x868888" angle="90" distance="-0.4" type="inner"/>
+			</s:filters>
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" color="0x1b1d1f"/>
+					<s:GradientEntry ratio="1" color="0x30363d"/>
+				</s:LinearGradient>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" weight="1" alpha="0.2"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect radiusX="3" radiusY="3" left="1" right="1" top="1" bottom="1">
+			<s:fill>
+				<s:BitmapFill alpha="0.05" fillMode="repeat" source="@Embed('/embed_assets/images/hatching.png')"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+	<scroller:TTUScroller id="scroller"
+						  left="0" top="30" right="0" bottom="0" 
+						  focusEnabled="false" hasFocusableChildren="false" 
+						  contentBackgroundAlpha="0"
+						  >
+		<!--Data Renderer Group-->
+		<s:DataGroup id="dataGroup" 
+					 horizontalCenter="0" 
+					 horizontalScrollPosition="0"
+					 >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="center" verticalAlign="top" gap="0"/>
+			</s:layout>
+		</s:DataGroup>
+	</scroller:TTUScroller>
+</s:SparkSkin>

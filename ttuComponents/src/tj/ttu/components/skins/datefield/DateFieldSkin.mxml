@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		alpha.disabled=".5"
+		minHeight="180" minWidth="190"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.components.components.datefield.DateField")]
+	</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="open"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	
+	<fx:Script fb:purpose="styling">
+		<![CDATA[            
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			
+			/**
+			 * @private
+			 */
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				if (getStyle("borderVisible") == false)
+				{
+					if (border)
+						border.visible = false;
+					if (background)
+					{
+						background.left = background.top = background.right = background.bottom = 0;
+					}
+					if (datechooser)
+					{
+						datechooser.left = datechooser.top = datechooser.right = datechooser.bottom = 0;
+					}
+				}
+				else
+				{
+					if (border)
+						border.visible = true;
+					if (background)
+					{
+						background.left = background.top = background.right = background.bottom = 1;
+					}
+					if (datechooser)
+					{
+						datechooser.left = datechooser.top = datechooser.right = datechooser.bottom = 1;
+					}
+				}
+				
+				if (dropShadow)
+					dropShadow.visible = getStyle("dropShadowVisible");
+				
+				openButton.setStyle("cornerRadius", getStyle("cornerRadius"));
+				
+				if (borderStroke)
+				{
+					borderStroke.color = getStyle("borderColor");
+					borderStroke.alpha = getStyle("borderAlpha");
+				}
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Rect id="focusRectangle" radiusX="4" radiusY="4" left="-2" right="-2" top="-2" bottom="-2" includeIn="open">
+		<s:stroke>
+			<s:SolidColorStroke id="focusStroke" weight="4" color="0x70b2ee" alpha="0.55"/>            
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#CCCCCC" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry alpha="1.0" color="#F4F5F5" ratio="0"/>
+				<s:GradientEntry alpha="1.0" color="#FFFFFF" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#666666" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="4.0" blurY="4.0" color="#999999" distance="1" hideObject="false" inner="true" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+	</s:Rect>
+	
+	
+	<s:Group id="group"  
+			 left="2" right="2" top="2" bottom="2"
+			 width="100%" height="100%">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="0" paddingRight="2" paddingBottom="0" paddingTop="0" gap="2" verticalAlign="middle"/>
+		</s:layout>
+		<s:RichEditableText id="textField"
+							heightInLines="1" lineBreak="explicit" 
+							width="100%" height="100%"
+							paddingBottom="0" paddingTop="0" 
+							paddingLeft="5"
+							verticalAlign="middle" 
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							fontSize="14"
+							fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT) || 'Latin'}"
+							direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+							editable="false" focusEnabled="false"
+							/>
+		
+		<s:ToggleButton id="openButton" 
+						width="25" height="25" 
+						verticalCenter="1"
+						buttonMode="true"
+						skinClass="tj.ttu.components.skins.buttons.CalendarOpenButtonSkin" 
+						/>
+	</s:Group>
+	<!--- 
+	The PopUpAnchor control that opens the drop-down list. 
+	
+	<p>In a custom skin class that uses transitions, set the 
+	<code>itemDestructionPolicy</code> property to <code>none</code>.</p>
+	-->
+	<s:PopUpAnchor id="popUp"  displayPopUp.normal="false" displayPopUp.open="true" includeIn="open"
+				   left="0" top="0" bottom="0" itemDestructionPolicy="auto"
+				   popUpPosition="below" popUpWidthMatchesAnchorWidth="true"
+				   width="190" height="200"
+				   >
+		
+		<!--- 
+		This includes borders, background colors, scrollers, and filters.
+		@copy spark.components.supportClasses.DropDownListBase#dropDown
+		-->
+		<s:Group id="popupHolder" maxHeight="200" minHeight="200" minWidth="190" maxWidth="190" >
+			
+			<!--- @private -->
+			<s:RectangularDropShadow id="dropShadow" blurX="20" blurY="20" alpha="0.45" distance="7" 
+									 angle="90" color="#000000" left="0" top="0" right="0" bottom="0"/>
+			
+			<s:Group width="100%" height="100%" top="4">
+				
+				<!--- @private -->
+				<s:Rect id="border" left="0" right="0" top="0" bottom="0">
+					<s:stroke>
+						<!--- border stroke @private -->
+						<s:SolidColorStroke id="borderStroke" weight="1"/>
+					</s:stroke>
+				</s:Rect>
+				
+				<!-- fill -->
+				<!--- Defines the appearance of drop-down list's background fill. -->
+				<s:Rect id="background" left="1" right="1" top="1" bottom="1" >
+					<s:fill>
+						<!---  
+						The color of the drop down's background fill.
+						The default color is 0xFFFFFF.
+						-->
+						<s:SolidColor id="bgFill" color="#DBE3E8" />
+					</s:fill>
+				</s:Rect>
+				<s:Rect left="1" top="1" width="100%" height="34">
+					<s:fill>
+						<s:SolidColor color="#3F586E"/>
+					</s:fill>
+				</s:Rect>
+				
+				
+				<!-- background's title -->
+				<s:HGroup   width="100%" height="20" horizontalAlign="center" verticalAlign="middle" top="4">
+					<s:Rect   width="150" height="20" radiusX="10">
+						<s:filters>
+							<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="4.0" blurY="4.0" color="#202930"
+												distance="4.0" hideObject="false" inner="true" knockout="false"
+												quality="2" strength="1"/>
+						</s:filters>
+						<s:fill>
+							<s:SolidColor color="#324A5E"/>
+						</s:fill>
+					</s:Rect>
+					
+					
+					
+					
+				</s:HGroup>
+				<s:Group id="datechooser" width="100%" height="100%" left="0" top="0" right="0" bottom="0" >
+					
+					<s:layout>
+						<s:VerticalLayout gap="0" />
+					</s:layout>
+					
+					<s:Group left="0" right="0" width="100%" height="27">
+						
+						<s:layout>
+							<s:HorizontalLayout verticalAlign="middle"/>
+						</s:layout>
+						
+						<!--prevMonthButton-->
+						<s:Button  id="prevMonthButton"
+								   left="0" width="14"
+								   top="20"
+								   verticalCenter="0"
+								   buttonMode="true"
+								   skinClass="tj.ttu.components.skins.buttons.CalendarPrevButtonSkin"
+								   />
+						
+						
+						
+						<!--Month name Label-->
+						<s:Label id="currentMonthLabel" 
+								 width="100%" 
+								 textAlign="center"
+								 fontSize="12"
+								 styleName="uiFont"
+								 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+								 color="#ffffff"
+								 top="0"
+								 />
+						
+						
+						<!--Next Month Button-->
+						<s:Button id="nextMonthButton"
+								  right="0"
+								  width="20"
+								  buttonMode="true"
+								  skinClass="tj.ttu.components.skins.buttons.CalendarNextButtonSkin"
+								  />
+					</s:Group>
+					
+					
+					<!--- @copy spark.components.SkinnableDataContainer#headerDataGroup-->
+					<s:Group width="100%" height="20" color="#FFCB00">
+						
+						<s:Rect left="0" top="0" width="100%" height="20">
+							<s:fill>
+								<s:SolidColor color="#3B4144"/>
+							</s:fill>
+						</s:Rect>
+						
+						<!--Day of Week-->
+						<s:DataGroup id="headerDataGroup"
+									 left="0"
+									 top="0"
+									 mouseChildren="false" 
+									 focusEnabled="false" mouseEnabled="false"
+									 itemRenderer="tj.ttu.components.renderers.calendar.CalendarHeaderRendere"
+									 >
+							<s:layout>
+								<s:HorizontalLayout requestedColumnCount="7" paddingLeft="5" paddingRight="5"/>
+							</s:layout>
+						</s:DataGroup> 
+					</s:Group>
+					
+					<!--Day of Month-->
+					<s:DataGroup id="dataGroup" 
+								 itemRenderer="tj.ttu.components.renderers.calendar.CalendarItemRenderer">
+						<s:layout>
+							<s:TileLayout requestedColumnCount="7" requestedRowCount="6" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
+						</s:layout>
+					</s:DataGroup> 
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:PopUpAnchor>
+</s:Skin>

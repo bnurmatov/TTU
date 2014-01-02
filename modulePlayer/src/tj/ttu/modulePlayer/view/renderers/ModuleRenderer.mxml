@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				width="90" height="70" 
+				autoDrawBackground="false" 
+				buttonMode="true"
+				>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ModuleStatus;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.Icons;
+			import tj.ttu.base.vo.ModuleVO;
+			//----------------------------------
+			//  isDone
+			//----------------------------------
+			/**
+			 *  @private
+			 *  storage for the isDone property 
+			 */    
+			private var _isDone:Boolean = false;
+			
+			/**
+			 *  @inheritDoc 
+			 *
+			 *  @default false
+			 *  
+			 *  @langversion 3.0
+			 *  @playerversion Flash 10
+			 *  @playerversion AIR 1.5
+			 *  @productversion Flex 4
+			 */    
+			public function get isDone():Boolean
+			{
+				return _isDone;
+			}
+			
+			/**
+			 *  @private
+			 */    
+			public function set isDone(value:Boolean):void
+			{
+				if (value != _isDone)
+				{
+					_isDone = value;
+					invalidateRendererState();
+				}
+			}
+			
+			//----------------------------------
+			//  label
+			//----------------------------------
+			
+			/**
+			 *  @private 
+			 *  Storage var for label
+			 */ 
+			private var labelChanged:Boolean = false;
+			private var _label:String = "";
+			
+			
+			/**
+			 *  @inheritDoc 
+			 *
+			 *  @default ""    
+			 *  
+			 *  @langversion 3.0
+			 *  @playerversion Flash 10
+			 *  @playerversion AIR 1.5
+			 *  @productversion Flex 4
+			 */
+			override public function get label():String
+			{
+				return _label;
+			}
+			
+			/**
+			 *  @private
+			 */ 
+			override public function set label(value:String):void
+			{
+				if (value == _label)
+					return;
+				
+				_label = value;
+				// Push the label down into the labelDisplay,
+				// if it exists
+				if (labelDisplay)
+					labelDisplay.text = _label;
+				else
+				{
+					labelChanged = true
+					invalidateProperties();
+				}
+			}
+			
+			
+			/**
+			 * @inheritDoc
+			 */
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var item:ModuleVO  = data as ModuleVO;
+				if (item)
+				{
+					isDone = item.status == ModuleStatus.COMPLETED;
+					
+					activityIcon.source = item.icon;
+					toolTip = resourceManager.getString(ResourceConstants.ACTIVITY, item.helpName);
+					
+					var colors:Array = Icons.getColors(item.moduleName)
+					if (colors && colors.length > 0)
+						activityGradientTop.color = colors[0];
+					if (colors && colors.length > 1)
+						activityGradientBottom.color = colors[1];  
+				}
+			}
+			
+			/**
+			 *  @private
+			 */ 
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				if(labelChanged && labelDisplay)
+				{
+					labelDisplay.text = _label;
+					labelChanged = false;
+				}
+			}
+			
+			/**
+			 * @private
+			 */
+			override protected function getCurrentRendererState():String
+			{
+				if(!isDone)
+					return super.getCurrentRendererState();
+				else 
+					return super.getCurrentRendererState() + "AndDone";
+			}
+			
+			override protected function resourcesChanged():void
+			{
+				super.resourcesChanged();
+				var item:ModuleVO = data as ModuleVO;
+				if (item)
+				{
+					toolTip = resourceManager.getString(ResourceConstants.ACTIVITY, item.helpName);
+				} 
+			} 
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal" stateGroups="normalStates"/>
+		<s:State name="hovered" stateGroups="hoveredStates"/>
+		<s:State name="selected" stateGroups="selectedStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		
+		<s:State name="normalAndDone" stateGroups="doneStates, normalStates"/>
+		<s:State name="hoveredAndDone" stateGroups="doneStates, hoveredStates"/>
+		<s:State name="selectedAndDone" stateGroups="doneStates, selectedStates"/>
+		<s:State name="disabledAndDone" stateGroups="doneStates, disabledStates"/>
+	</s:states>
+	
+	
+	<s:Group  left="5" right="5" top="0" bottom="0" horizontalCenter="0" includeIn="selectedStates">
+		
+		<s:Rect width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke  color="0x89AEC4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!--Inner border and bg-->
+		<s:Rect left="1" right="1" top="1" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="4" color="#cfd9e1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="0xe7ecf0"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+	<!-- BG Button -->
+	<s:Group  width="54" height="50"  verticalCenter="0" horizontalCenter="0">
+		<s:filters>
+			<s:DropShadowFilter blurX="4" blurY="5" strength="1" quality="3" alpha="0.9" angle="90" color="0x111111" distance="2"/>
+		</s:filters>
+		
+		<s:Rect radiusX="5" radiusY="5" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry id="activityGradientTop" ratio="0" />
+					<s:GradientEntry id="activityGradientBottom" ratio="1" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<s:Rect id="disableGradient" radiusX="5" radiusY="5" left="0" right="0" top="0" bottom="0"  visible="false">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" color="0x656565" />
+					<s:GradientEntry ratio="1" color="0xb8b8b8" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- Default Border -->
+		<s:Rect id="statusRecr" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1">
+					<s:GradientEntry ratio="0.0" color="0x424242" />
+					<s:GradientEntry ratio="0.5" color="0x3f3f3f" />
+					<s:GradientEntry ratio="0.51" color="0x565656" />
+					<s:GradientEntry ratio="1.0" color="0x959595" />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		
+		<!-- Selected Border -->
+		<s:Rect id="selectedBorder" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1">
+					<s:GradientEntry ratio="0" color="0xffffff" />
+					<s:GradientEntry ratio="1" color="0xffffff" />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		<!-- Required Border -->
+		<s:Rect id="reqRec" radiusX="4" radiusY="4" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="-90" weight="1">
+					<s:GradientEntry ratio="0.0" color="0x424242" />
+					<s:GradientEntry ratio="0.5" color="0x3f3f3f" />
+					<s:GradientEntry ratio="0.51" color="0x565656" />
+					<s:GradientEntry ratio="1.0" color="0x959595" />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		
+		<!-- Hightlightin for selected -->
+		<s:Group id="highLightSelected" left="2" right="2" top="2" bottom="2"  >
+		</s:Group>
+		<!-- Background for icons -->
+		<s:Rect id="highLightRect1" alpha="0.2" radiusX="4" radiusY="4" left="8" right="8" top="8" bottom="8">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" color="0xffffff" />
+					<s:GradientEntry ratio="1" color="0xffffff"  alpha="0.3" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="highLightRect2" alpha="0.3" radiusX="4" radiusY="4" left="7" right="7" top="7" bottom="7" >
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry ratio="0" color="0xffffff" />
+					<s:GradientEntry ratio="1" color="0xffffff"  alpha="0.98" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<s:Rect id="highLightRect3" alpha="0.4" radiusX="3" radiusY="3" left="7" right="7" top="7" bottom="7">
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90" weight="1">
+					<s:GradientEntry ratio="0" color="0xffffff" alpha="0"/>
+					<s:GradientEntry ratio="1" color="0xffffff"  alpha="0.98" />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Rect>
+		
+		
+		<!-- Icon for Activity -->
+		<s:BitmapImage id="activityIcon" 
+					   left="10" right="10" 
+					   top="8" bottom="12" 
+					   fillMode="scale" 
+					   verticalCenter="0" 
+					   horizontalCenter="0"
+					   smooth="true" />
+		
+	</s:Group>
+	
+</s:ItemRenderer>

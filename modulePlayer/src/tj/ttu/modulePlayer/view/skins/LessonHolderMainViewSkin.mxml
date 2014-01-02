@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:background="tj.ttu.modulePlayer.view.components.background.*" xmlns:components="tj.ttu.moduleUtility.view.components.*" xmlns:startscreen="tj.ttu.modulePlayer.view.components.startscreen.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.modulePlayer.view.components.LessonHolderMainView")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<s:Parallel  id="openEffect" duration="500" >
+			<s:Move target="{menuGroup}" xFrom="-93" xTo="0" duration="500"/>
+			<!--<s:Move target="{contentGroup2}" xFrom="20" xTo="108" duration="500"/>-->
+		</s:Parallel>
+		<s:Parallel id="hideEffect"  duration="500">
+			<s:Move target="{menuGroup}" xFrom="0" xTo="-93" duration="500"/>
+			<!--<s:Move target="{contentGroup2}" xFrom="108" xTo="20" duration="500"/>-->
+			
+		</s:Parallel>
+	</fx:Declarations>
+	
+	
+	<!-- background color -->
+	<s:Rect id="background" 
+			width="100%" height="100%">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="#dbe3e8" alpha="1" ratio="0"/>
+				<s:GradientEntry color="#dbe3e8" alpha="1" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	
+	<!--Lesson Holder Background Comp-->
+	<background:HolderBackground id="holderBackground" 
+								 visible="{moduleLoader.visible}" 
+								 width="100%"  height="100%"
+								 left="0" right="0" top="0" bottom="0"
+								 />
+	
+	<!-- content group -->
+	<s:Group id="menuGroup" x="0" width="108" top="0" bottom="0">
+		
+		<!--Module List Comp-->
+		<s:List id="moduleList"
+				width="90" height="100%"
+				left="0"
+				allowMultipleSelection="false"
+				itemRenderer="tj.ttu.modulePlayer.view.renderers.ModuleRenderer"
+				skinClass="tj.ttu.components.skins.list.ModuleNavigationListSkin"
+				/>
+		
+		<!-- OPEN and HIDE button -->
+		<s:ToggleButton id="hideButton" 
+						automationName="anOpenHideButton"
+						height="95" width="18" 
+						verticalCenter="0" x="90"
+						selected="{hostComponent.menuHide}"
+						toolTip="{hideButton.selected ? resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'hideModuleListButtonToolTip') || 'Hide Module List' :
+						resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'openModuleListButtonToolTip') || 'Open Module List' }"
+						skinClass="tj.ttu.components.skins.buttons.OpenHideToggleButton"
+						/>
+	</s:Group>
+	
+		
+	
+	<s:Group id="contentGroup2" left="{hostComponent.menuHide ? 20 : 108}" right="0" top="0" bottom="0">
+		
+		
+		<!--Module Loader Comp-->
+		<components:ModuleLoader id="moduleLoader" 
+								 right="10" width="100%" height="100%"
+								 mask="{imageMask}"
+								 left="0"
+								 />
+		
+		<startscreen:AssessmentStartScreen id="assessmentStartScreen" 
+									   alpha="0"
+									   width="100%" height="100%"
+									   visible="false"
+									   skinClass="tj.ttu.modulePlayer.view.skins.startscreen.AssessmentStartScreenSkin"/>
+		
+		<startscreen:StartScreen id="startScreen" 
+							 width="100%" height="100%"
+							 visible="false"
+							 skinClass="tj.ttu.modulePlayer.view.skins.startscreen.StartScreenSkin"/>
+		
+		<!--Module Loader Mask Group-->
+		<s:Group id="imageMask" width="100%" height="100%" left="0">
+			<s:Rect left="0" right="0" top="0" bottom="0" alpha="0.5">
+				<s:fill>
+					<s:SolidColor color="0xFF0000"/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+	</s:Group>
+</s:Skin>

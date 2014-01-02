@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2013, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+				   minWidth="21" minHeight="21" 
+				   alpha.disabledStates="0.5">
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("spark.components.ToggleButton")]
+		]]>
+	</fx:Metadata>
+	
+	
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up" stateGroups="upStates"/>
+		<s:State name="over" stateGroups="overStates, upStates" />
+		<s:State name="down" stateGroups="downStates, upStates" />
+		<s:State name="disabled" stateGroups="disabledStates, upStates" />
+		<s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates" />
+		<s:State name="overAndSelected" stateGroups="overStates, selectedStates" />
+		<s:State name="downAndSelected" stateGroups="downStates, selectedStates" />
+		<s:State name="disabledAndSelected" stateGroups="selectedUpStates, disabledStates, selectedStates" />
+	</s:states>
+	
+	
+	<!-- background -->
+	<s:Rect left="0" top="0" right="0" bottom="0" radiusX="6" radiusY="3" verticalCenter="1" 
+			>
+		<s:fill>
+			<s:SolidColor color="#1e3455"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect width="100%" height="100%" left="1" right="1" top="0" radiusX="3" radiusY="3" verticalCenter="1"
+			>
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="#436583"
+								 color.down="#1b4265"
+								 color.over="#578ab2"
+								 color.up="#436583"
+								 color.disabledAndSelected="#436583"
+								 color.downAndSelected="#1b4265"
+								 color.overAndSelected="#578ab2"
+								 color.upAndSelected="#436583"
+								 
+								 />
+				<s:GradientEntry color="#436e94"
+								 color.down="#26537a"
+								 color.over="#26537a"
+								 color.up="#436e94"
+								 color.disabledAndSelected="#436e94"
+								 color.downAndSelected="#26537a"
+								 color.overAndSelected="#26537a"
+								 color.upAndSelected="#436e94"/>
+				<s:GradientEntry color="#457091"
+								 color.down="#305c7f"
+								 color.over="#305c7f"
+								 color.up="#457091"
+								 color.disabledAndSelected="#457091"
+								 color.downAndSelected="#305c7f"
+								 color.overAndSelected="#305c7f"
+								 color.upAndSelected="#457091"/>
+				<s:GradientEntry color="#5b8aaf"
+								 color.down="#578ab2"
+								 color.over="#1b4265"
+								 color.up="#5b8aaf"
+								 color.disabledAndSelected="#5b8aaf"
+								 color.downAndSelected="#578ab2"
+								 color.overAndSelected="#1b4265"
+								 color.upAndSelected="#5b8aaf"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:stroke>
+			<s:LinearGradientStroke rotation="-32">
+				<s:GradientEntry color="#a2bcd0"
+								 />
+			</s:LinearGradientStroke>
+		</s:stroke>
+	</s:Rect>
+	<s:Group width="20" height="20" horizontalCenter="0" verticalCenter="1"
+			 verticalCenter.down="2" verticalCenter.downAndSelected="2">
+		
+		
+		<s:Ellipse  verticalCenter="0" horizontalCenter="-1" width="20" height="20">
+			<s:fill>
+				<s:LinearGradient rotation="-90">
+					<s:GradientEntry color="#153a56"
+									 />
+					<s:GradientEntry color="#264d6c"
+									 />
+					<s:GradientEntry color="#0d2b42"
+									 />
+					
+				</s:LinearGradient>
+			</s:fill>
+			<s:stroke>
+				<s:LinearGradientStroke rotation="90">
+					<s:GradientEntry color="#0f2e49"
+									 />
+					<s:GradientEntry color="#5c83a4"
+									 />
+				</s:LinearGradientStroke>
+			</s:stroke>
+		</s:Ellipse>
+		
+		<s:BitmapImage width="16" height="18" 
+					   horizontalCenter="0" verticalCenter="0"
+					   source.upStates="@Embed('/embed_assets/images/play_icon.png')"
+					   source.selectedStates="@Embed('/embed_assets/images/Pause_icon.png')"
+					   />
+		
+	</s:Group>
+	<!-- layer 8: text -->
+	<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
+	<s:Label id="labelDisplay" 
+			 textAlign="center"
+			 verticalAlign="middle"
+			 maxDisplayedLines="1"
+			 horizontalCenter="0" verticalCenter="1"
+			 left="10" right="10" top="2" bottom="2">
+	</s:Label>
+	
+</s:SparkButtonSkin>

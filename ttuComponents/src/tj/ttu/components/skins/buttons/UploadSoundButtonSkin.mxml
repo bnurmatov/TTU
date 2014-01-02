@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2013, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		minWidth="21" minHeight="22"
+		alpha.disabled="0.5"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled"/>
+		<s:State name="down"/>
+		<s:State name="over"/>
+		<s:State name="up"/>
+	</s:states>
+	
+	<!-- background -->
+	<s:Rect left="0" top="0" right="0" bottom="0" radiusX="6" radiusY="3" verticalCenter="1" 
+			>
+		<s:fill>
+			<s:SolidColor color="#1e3455"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect width="100%" height="100%" left="1" right="1" top="0" radiusX="3" radiusY="3" verticalCenter="1"
+			>
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="#436583"
+								 color.down="#1b4265"
+								 color.over="#578ab2"
+								 color.up="#436583"/>
+				<s:GradientEntry color="#436e94"
+								 color.down="#26537a"
+								 color.over="#26537a"
+								 color.up="#436e94"/>
+				<s:GradientEntry color="#457091"
+								 color.down="#305c7f"
+								 color.over="#305c7f"
+								 color.up="#457091"/>
+				<s:GradientEntry color="#5b8aaf"
+								 color.down="#578ab2"
+								 color.over="#1b4265"
+								 color.up="#5b8aaf"/>
+			</s:LinearGradient>
+		</s:fill>
+		<s:stroke>
+			<s:LinearGradientStroke rotation="-32">
+				<s:GradientEntry color="#a2bcd0"
+								 />
+				
+				
+			</s:LinearGradientStroke>
+		</s:stroke>
+		
+	</s:Rect>
+	<s:Path width="22" height="18" horizontalCenter="0" verticalCenter="0" verticalCenter.down="1"
+			data="M23.2441 14.9739C23.2466 15.0154 23.2466 15.0569 23.2446 15.0994 23.2446 15.0999 23.2446 15.1013 23.2446 15.1023 23.2432 15.1458 23.2383 15.1902 23.2319 15.2341L22.7383 18.5447C22.6323 19.2537 21.959 19.8337 21.2427 19.8337L2.00342 19.8337C1.28662
+			19.8337 0.61377 19.2537 0.508301 18.5447L0.0141602 15.2341C0.00732422 15.1902 0.00341797 15.1458 0.000976563 15.1023 0.000976563 15.1013 0.000976563 15.0999 0.000976563 15.0994 -0.000488281 15.0569 0 15.0154 0.00195313 14.9739L0 14.9709C0 14.9709
+			0.0327148 14.4158 0.0629883 14.2585 0.0932617 14.1018 0.518066 13.6692 0.518066 13.6692L4.5459 10.8684 6.87158 10.8684 3.03418 13.9451 7.18262 13.9451 8.14746 16.7927 15.2432 16.7927 16.2085 13.9451 20.2114 13.9451 16.3745 10.8684 18.7002 10.8684
+			22.728 13.6692C22.728 13.6692 23.1528 14.1018 23.1826 14.2585 23.2134 14.4158 23.2461 14.9709 23.2461 14.9709L23.2441 14.9739ZM17.4478 5.25122 12.145 0.337158C11.6987 -0.112549 11.5474 -0.112549 11.1011 0.337158L5.79785 5.25122C5.35156 5.70142
+			5.51025 5.78003 6.15088 5.78003L9.35107 5.78003 9.35107 10.8733C9.35107 11.2917 9.70068 11.634 10.1274 11.634L13.041 11.634C13.4678 11.634 13.8169 11.2917 13.8169 10.8733L13.8169 5.78003 17.0952
+			5.78003C17.7354 5.78003 17.8945 5.70142 17.4478 5.25122Z">
+		<s:fill>
+			<s:SolidColor color="#ffffff"/>
+		</s:fill>
+	</s:Path>
+	
+</s:Skin>

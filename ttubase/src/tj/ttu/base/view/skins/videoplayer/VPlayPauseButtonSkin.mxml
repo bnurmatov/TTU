@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	alpha.disabled="0.4" alpha.disabledAndSelected="0.4"
+	>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected" />
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	
+	
+	<fx:Metadata>[HostComponent("spark.components.ToggleButton")]</fx:Metadata>
+	
+	<fx:Declarations>
+		<s:Linear id="easer1" easeInFraction="0" easeOutFraction="1" />
+	</fx:Declarations>
+	
+	<s:transitions>
+		<s:Transition fromState="*" toState="upAndSelected"> 
+			<s:Fade target="{pauseState}" duration="400" easer="{easer1}" />
+		</s:Transition>
+		<s:Transition fromState="upAndSelected" toState="*">
+			<s:Fade target="{pauseState}" duration="250" easer="{easer1}" />
+		</s:Transition>
+	</s:transitions>	
+	
+	
+	<s:Rect alpha="0.6" alpha.upAndSelected="0" radiusX="3" radiusY="3" width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0x000000"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group id="pauseState"
+			width="100%" height="100%"
+			alpha.upAndSelected="0.01" alpha="1"
+			includeIn="upAndSelected, overAndSelected, downAndSelected, disabledAndSelected"
+			>				
+			<s:BitmapImage width="28" height="28"  verticalCenter="0" horizontalCenter="0"
+					   source.upAndSelected="@Embed('/embed_assets/images/video_player_pause_up.png')"
+					   source.disabledAndSelected="@Embed('/embed_assets/images/video_player_pause_up.png')"
+					   source.overAndSelected="@Embed('/embed_assets/images/video_player_pause_over.png')"
+					   source.downAndSelected="@Embed('/embed_assets/images/video_player_pause_down.png')"
+					  />	
+	</s:Group>
+	<!-- Play -->
+	<s:Group width="100%" height="100%" includeIn="up, over, down, disabled">			
+			
+			<s:BitmapImage width="28" height="28"  verticalCenter="0" horizontalCenter="0"
+						   source.up="@Embed('/embed_assets/images/video_player_play_up.png')"
+						   source.disabled="@Embed('/embed_assets/images/video_player_play_up.png')"
+						   source.over="@Embed('/embed_assets/images/video_player_play_over.png')"
+						   source.down="@Embed('/embed_assets/images/video_player_play_down.png')"
+						   />
+	</s:Group>
+		
+</s:Skin>

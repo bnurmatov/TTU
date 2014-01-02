@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		width="100%" height="25">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Group left="0" top="0"
+			 y.down="1">
+		<s:filters>
+			<s:GlowFilter includeIn="up" alpha="0.22" blurX="19.3" blurY="19.3" color="#333333"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="over" alpha="0.52" blurX="18" blurY="18" color="#333333"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="down" alpha="0.52" blurX="18" blurY="18" color="#333333"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+			<s:GlowFilter includeIn="disabled" alpha="1.0" blurX="22.4" blurY="22.4" color="#CCCCCC"
+						  inner="true" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+	<s:BitmapImage source="@Embed('/embed_assets/images/delete_icon.png')" smooth="true"  left="0" top="0"/>
+	</s:Group>
+	
+</s:Skin>

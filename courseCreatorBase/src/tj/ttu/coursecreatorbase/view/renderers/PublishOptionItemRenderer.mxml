@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="false"
+				minHeight="50"
+				buttonMode="true"
+				toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'selectOptionCheckboxToolTip' ) || 'Select option for publish'}"
+				click="selectedCheckbox_changeHandler(event)"
+				>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.TLFUtil;
+			import tj.ttu.base.vo.PublishOptionVO;
+			import tj.ttu.components.events.PublishEvent;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Variables
+			//
+			//--------------------------------------------------------------------------
+			/**
+			 *
+			 */
+			private var latinFont:String;
+			private var cyrillicFont:String;
+			
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden methods
+			//
+			//--------------------------------------------------------------------------
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var option:PublishOptionVO = data as PublishOptionVO;
+				if(option)
+				{
+					optionTitle.textFlow = option.title ? TLFUtil.createFlow(option.title, latinFont, cyrillicFont) : null;
+					optionIcon.source = option.icon;
+				}
+			}
+			
+			
+			
+			override protected function resourcesChanged():void
+			{
+				super.resourcesChanged();
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Methods
+			//
+			//--------------------------------------------------------------------------
+			
+			protected function selectedCheckbox_changeHandler(event:Event):void
+			{
+				if(event.target != selectedCheckbox)
+					selectedCheckbox.selected = !selectedCheckbox.selected;
+				owner.dispatchEvent(new PublishEvent(PublishEvent.PUBLISH_OPTION_SELECTION_CHANGE, data));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- custom states -->
+	<s:states>
+		<s:State name="normal" stateGroups="normalStates"/>
+		<s:State name="hovered" stateGroups="hoveredStates"/>
+		<s:State name="selected" stateGroups="selectedStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+	</s:states>
+	
+	<s:Rect width="100%" height="100%" top="0" right="0" bottom="0" left="0" >
+		<s:stroke>
+			<s:SolidColorStroke color="#a6bbc6"/>
+		</s:stroke>
+	</s:Rect>
+	
+	
+	
+	<!--Correct Answer-->
+	<s:CheckBox id="selectedCheckbox"
+				width="18" height="18"
+				verticalCenter="0"
+				selected="@{data.selected}"
+				left="30"
+				toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'selectOptionCheckboxToolTip' ) || 'Select option for publish'}"
+				skinClass="tj.ttu.components.skins.checkbox.CheckBoxSkin"
+				/>
+	
+	
+	<!--Option Icon-->
+	<s:Image id="optionIcon"
+			 width="30" height="30"
+			 left="60"
+			 verticalCenter="0"
+			 smooth="true"
+			 />
+	
+	<!--Answer Text Field-->
+	<s:RichText id="optionTitle"
+				width="100%" height="100%"
+				paddingBottom="0" paddingTop="0" 
+				paddingLeft="5"
+				left="100"
+				verticalAlign="middle"
+				verticalCenter="0"
+				fontLookup="embeddedCFF"
+				fontSize="14"
+				fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+				/>
+	
+</s:ItemRenderer>

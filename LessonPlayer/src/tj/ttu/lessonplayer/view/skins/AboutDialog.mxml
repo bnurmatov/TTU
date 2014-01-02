@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" alpha.disabled=".5"
+	minWidth="380" minHeight="240"
+	addedToStage="group1_addedToStageHandler(event)"
+	> 
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.lessonplayer.Version;
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
+				addEventListener(Event.RESIZE, onAppResizeHandler);
+				
+				if(stage)
+					stage.addEventListener(MouseEvent.CLICK, onMouseClick);
+			}
+			
+			protected function onRemoveFromStage(event:Event):void
+			{
+				PopUpManager.removePopUp(this);
+				if(stage)
+					stage.removeEventListener(MouseEvent.CLICK, onMouseClick);
+				removeEventListener(Event.ADDED_TO_STAGE, group1_addedToStageHandler);
+				removeEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
+				removeEventListener(Event.RESIZE, onAppResizeHandler);
+				
+			}
+			
+			protected function onMouseClick(event:MouseEvent):void
+			{
+				if(event.target !== tlLink)
+					PopUpManager.removePopUp(this);
+			}
+			
+			protected function onAppResizeHandler(event:Event):void
+			{
+				PopUpManager.centerPopUp(this);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	<s:Group id="aboutDialog"  width="100%" height="100%">
+		<!-- fill -->
+		<!---  
+		Defines the appearance of the DropDownList component popup's rectangular background fill.
+		-->
+		<s:Group width="100%" height="100%">
+			<s:filters>
+				<s:DropShadowFilter  blurX="8" blurY="8" strength="0.8" quality="3" angle="90" distance="1" color="0x0A0A0A"/>
+				<s:DropShadowFilter  blurX="1" blurY="2" strength="1" quality="3" angle="90" distance="0" color="0xffffff" inner="true"/>
+				<s:GlowFilter alpha=".14" blurX="20" blurY="20" color="0x466079" inner="true" quality="3" strength="1" />
+				<s:BevelFilter blurX="0.8" blurY="0.8" strength="0.8" quality="3" shadowColor="0x040404" highlightColor="0xffffff" angle="90" distance="0.5" type="inner"/>
+			</s:filters>
+			
+			<s:Rect radiusX="6" radiusY="6" id="background" left="0" right="0" top="0" bottom="0" >
+				<s:fill>
+					<s:SolidColor color="0xFAFBFC" />
+				</s:fill>
+				
+			</s:Rect>
+		</s:Group>
+		
+		<!-- Header -->
+		<s:Group left="8" right="8" top="8" height="106" >
+			<s:BitmapImage width="100" height="100" top="4 " horizontalCenter="0"
+						   source="@Embed('/embed_assets/images/logo.png')"
+						   smooth="true"/>
+			
+			<!-- Separetor -->
+			<s:Rect width="100%" height="1" bottom="1">
+				<s:fill>
+					<s:LinearGradient rotation="0">
+						<s:GradientEntry color="0xcccccc" ratio="0" alpha="0" />
+						<s:GradientEntry color="0xcccccc" ratio="0.25" />
+						<s:GradientEntry color="0xcccccc" ratio="0.75" />
+						<s:GradientEntry color="0xcccccc" ratio="1" alpha="0"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:Rect width="100%" height="1" bottom="0">
+				<s:fill>
+					<s:SolidColor color="0xffffff" />
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		
+		<!-- Text -->
+		<s:Group width="100%" height="100%" left="20" right="20" top="120" bottom="30">
+			
+			<s:Label id="versionText"  top="0" left="10" right="10" verticalAlign="middle" textAlign="center"
+					 fontSize="16" fontWeight="bold" color="0x293b49" width="100%" height="25" maxDisplayedLines="1"
+					 styleName="uiFont"
+					 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+					 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'ccVersionText', [Version.VERSION]) || 'Version: ' + Version.VERSION}"
+					 />
+<!--					 fontFamily="{resourceManager.getString(ResourceNames.FONT, 'uiFont')}"
+					 direction="{resourceManager.getString(ResourceNames.FONT, 'uiDirection') || 'ltr'}"-->
+			
+			<s:RichText id="dialogText" width="90%" height="100%" top="32" bottom="30" horizontalCenter="0"
+						verticalAlign="top" textAlign="center"
+						fontSize="16" lineHeight="22"  color="0x293b49"
+						fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT) || 'Latin'}"
+						direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+						text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutDialogText', [new Date().fullYear]) || 'Copyright ' + new Date().fullYear +' Tajik Technical University.'}"
+						/>
+			
+			<s:Button id="tlLink"
+					  useHandCursor="true"
+					  fontSize="16"
+					  buttonMode="true"
+					  click="navigateToURL(new URLRequest('http://www.ttu.tj'))"
+					  label="www.ttu.tj"
+					  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+					  skinClass="tj.ttu.components.skins.buttons.LinkButtonSkin"
+					  horizontalCenter="0"
+					  bottom="4"/>
+		</s:Group>	
+	</s:Group>
+	
+</s:Group>

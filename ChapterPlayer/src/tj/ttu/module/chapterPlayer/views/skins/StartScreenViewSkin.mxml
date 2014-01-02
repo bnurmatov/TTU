@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		styleName="uiFont"
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:audio="tj.ttu.components.components.audio.*" xmlns:layout="tj.ttu.components.components.layout.*" xmlns:scroller="tj.ttu.components.components.scroller.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.module.chapterPlayer.views.components.StartScreenView")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<!--Custom States-->
+	<s:states>
+		<s:State name="aboutModule"/>	
+		<s:State name="aboutLesson"/>	
+		<s:State name="aboutAuthor"/>	
+	</s:states>
+	
+	<!-- background -->
+	<s:Rect id="bg" top="0" bottom="0" left="0" right="0">
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#E0E7EB"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--Title Box Components-->
+	<s:Group width="100%" height="50" horizontalCenter="0">
+		
+		<!--Title BG-->
+		<s:Rect left="3" right="3" top="3" bottom="3" width="100%" height="35">
+			<s:fill>
+				<s:SolidColor color="0x6A6B70"/>
+			</s:fill>
+		</s:Rect>
+		<!--Window Title-->
+		<s:Label id="titleLabel" 
+				 width="100%" height="100%" 
+				 color="0xFFFFFF"
+				 text.aboutModule="{resourceManager.getString(ResourceConstants.ACTIVITY, 'startScreenAboutModuleTitleLabel') || 'ABOUT MODULE'}"
+				 text.aboutLesson="{resourceManager.getString(ResourceConstants.ACTIVITY, 'startScreenAboutLessonTitleLabel') || 'ABOUT LESSON'}"
+				 text.aboutAuthor="{resourceManager.getString(ResourceConstants.ACTIVITY, 'startScreenAboutAuthorTitleLabel') || 'ABOUT AUTHOR'}"
+				 styleName="uiFont"
+				 fontWeight="bold"
+				 fontSize="20"
+				 textAlign="center"
+				 verticalAlign="middle" 
+				 verticalCenter="0"
+				 horizontalCenter="0"
+				 />
+	</s:Group>
+	
+	<!--Content Group-->
+	<s:VGroup width="100%" height="100%" gap="20" left="20" right="20" top="70" bottom="0">
+		
+		<!--About Module Group-->
+		<s:Group width="100%" height="100%" includeIn="aboutModule">
+			
+			<scroller:TTUScroller left="0" top="0" right="0" bottom="0" 
+								  minViewportInset="1" measuredSizeIncludesScrollBars="false" 
+								  hasFocusableChildren="false"
+								  verticalScrollPolicy="auto"
+								  horizontalScrollPolicy="off"
+								  >
+				<s:RichEditableText id="aboutModuleTextArea"
+									width="100%" height="100%"
+									paddingBottom="5"
+									paddingTop="5"
+									paddingLeft="5"
+									paddingRight="5"
+									fontSize="16"
+									editable="false"
+									fontLookup="embeddedCFF"
+									widthInChars="{(width-6)/22}"
+									styleName="uiFont"/>
+			</scroller:TTUScroller>
+		</s:Group>
+		
+		<!--About Lesson Group-->
+		<s:VGroup width="100%" height="100%" includeIn="aboutLesson" left="0" right="0" gap="15">
+			
+			<scroller:TTUScroller width="100%" height="100%"
+								  minViewportInset="1" measuredSizeIncludesScrollBars="false" 
+								  hasFocusableChildren="false"
+								  verticalScrollPolicy="auto"
+								  horizontalScrollPolicy="off"
+								  >
+				<s:RichEditableText id="aboutLessonTextArea"
+									width="100%" height="100%"
+									paddingBottom="5"
+									paddingTop="5"
+									paddingLeft="5"
+									paddingRight="5"
+									fontSize="16"
+									editable="false"
+									fontLookup="embeddedCFF"
+									widthInChars="{(width-6)/22}"
+									styleName="uiFont"/>
+			</scroller:TTUScroller>
+			
+			<s:Group width="100%" left="0" right="20" bottom="0" visible="{hostComponent.lessonSound != null}">
+				
+				<audio:TTUAudioPlayer id="audioPlayer"
+									  width="300" height="25"
+									  right="20"
+									  skinClass="tj.ttu.components.skins.audio.TTUAudioPlayerSkin"/>
+			</s:Group>
+			
+		</s:VGroup>
+		
+		<!--About Author Group-->
+		<s:Group id="mainGroup" width="100%" height="100%" includeIn="aboutAuthor">
+			<!--textArea-->
+			<s:VScrollBar stepSize="20" snapInterval="0" pageSize="4" top="3"  right="3" bottom="3" width="12" height="100%" viewport="{gr}"
+						  visible="{aboutAuthorTextArea.height >gr.height? true : false}"
+						  />
+			
+			<s:Group id="gr" 
+					 left="3"
+					 right="{aboutAuthorTextArea.height >gr.height? 19 : 3}"
+					 top="3"
+					 bottom="3"
+					 width="100%" height="100%" clipAndEnableScrolling="true">
+				<s:layout>
+					<layout:ScrollLayout/>
+				</s:layout>
+				
+				<s:RichEditableText id="aboutAuthorTextArea"
+									left="5"
+									right="5"
+									focusThickness="0"
+									paddingBottom="5"
+									paddingTop="5"
+									editable="false"
+									width="{gr.width}"
+									minHeight="{gr.height}"
+									clipAndEnableScrolling="false"
+									fontSize="16"
+									styleName="uiFont"
+									/>
+			</s:Group>
+		</s:Group>
+		
+		<!--Start Screen Control Group-->
+		<s:VGroup width="100%" height="80" horizontalAlign="center" gap="20">
+			
+			<!--State Change Tabbar-->
+			<s:TabBar id="stateTabbar"  
+					  width="110" height="15"
+					  horizontalCenter="0"
+					  dataProvider="{new ArrayCollection(new Array(3))}"
+					  skinClass="tj.ttu.components.skins.tabbar.PointTabBarSkin" >
+				<s:layout>
+					<s:HorizontalLayout gap="30" horizontalAlign="center"/>
+				</s:layout>
+			</s:TabBar>
+			
+			
+			<s:HGroup width="100%" height="35" gap="30" horizontalAlign="center">
+				<!--Start Lesson Button-->
+				<s:Button id="startButton"
+						  width="100" height="32"
+						  buttonMode="true"
+						  label="{resourceManager.getString( ResourceConstants.ACTIVITY, 'startButtonLabel' ) || 'START'}"
+						  toolTip="{resourceManager.getString( ResourceConstants.ACTIVITY, 'startButtonToolTip' ) || 'Start'}"
+						  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+						  />
+				
+				<!--Previouse Chapter Button-->
+				<s:Button id="previouseButton"
+						  width="100" height="32"
+						  buttonMode="true"
+						  enabled="{hostComponent.currentViewIndex &gt; 0}"
+						  label="{resourceManager.getString( ResourceConstants.ACTIVITY, 'previouseButtonLabel' ) || 'Prev'}"
+						  toolTip="{resourceManager.getString( ResourceConstants.ACTIVITY, 'previouseButtonToolTip' ) || 'Previouse'}"
+						  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+						  />
+				
+				
+				<!--Next Chapter Button-->
+				<s:Button id="nextButton"
+						  width="100" height="32"
+						  buttonMode="true"
+						  enabled="{hostComponent.currentViewIndex &lt; 2}"
+						  label="{resourceManager.getString( ResourceConstants.ACTIVITY, 'nextButtonLabel' ) || 'Next'}"
+						  toolTip="{resourceManager.getString( ResourceConstants.ACTIVITY, 'nextButtonToolTip' ) || 'Next'}"
+						  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+						  />
+			</s:HGroup>
+		</s:VGroup>
+	</s:VGroup>
+</s:Skin>

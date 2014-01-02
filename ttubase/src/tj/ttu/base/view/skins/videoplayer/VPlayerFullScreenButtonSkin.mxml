@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	minWidth="30" minHeight="24" alpha.disabled="0.4" alpha.disabledAndSelected="0.4"
+	>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected" />
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	<fx:Metadata>
+		[HostComponent("spark.components.ToggleButton")]
+	</fx:Metadata>
+	<!-- Button -->
+	<s:Group width="100%" height="100%">
+		<s:Rect alpha="0" radiusX="2" radiusY="2" left="1" right="1" top="1" bottom="1">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		
+			
+		<s:BitmapImage width="19" height="16" verticalCenter="0" horizontalCenter="0"
+						   source.up="@Embed('/embed_assets/images/full_screen_up.png')"
+						   source.disabled="@Embed('/embed_assets/images/full_screen_up.png')"
+						   source.over="@Embed('/embed_assets/images/full_screen_over.png')"
+						   source.down="@Embed('/embed_assets/images/full_screen_down.png')"
+						   
+						   source.upAndSelected="@Embed('/embed_assets/images/normal_screen_up.png')"
+						   source.disabledAndSelected="@Embed('/embed_assets/images/normal_screen_up.png')"
+						   source.overAndSelected="@Embed('/embed_assets/images/normal_screen_over.png')"
+						   source.downAndSelected="@Embed('/embed_assets/images/normal_screen_down.png')"
+						   alpha.disabled="0.4"
+						   alpha.disabledAndSelected="0.4">
+		<s:filters>
+			<s:BevelFilter blurX="0.8" blurY="0.8" strength="1.2" quality="3" shadowColor="0x1b1b1b" highlightColor="0x868888" angle="90" distance="0.4" distance.down="-0.4" type="inner"/>
+			<s:GlowFilter blurX="7" blurY="6" alpha="0.8" strength="0.6"  color="0xffffff" inner="false" quality="3" includeIn="over"/>
+		</s:filters>
+		</s:BitmapImage>
+	</s:Group>
+	
+</s:Skin>

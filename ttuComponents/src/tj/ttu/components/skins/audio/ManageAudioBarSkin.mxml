@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.components.components.audio.ManageAudioBar")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<!--Main Group-->
+	<s:Group width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+		
+		<!--Controll bar-->
+		<s:HGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="left"  gap="10">
+						
+				<!--Play Sound Button-->
+				<s:Button id="recordAudioButton"
+						  width="43" height="35"
+						  buttonMode="true"
+						  verticalCenter="0"
+						  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'recordAudioButtonToolTip' ) || 'Record audio'}"
+						  skinClass="tj.ttu.components.skins.buttons.RecordSoundButtonSkin"
+						  />
+
+				<!--Play or Pause Sound Button-->
+				<s:ToggleButton id="playPauseAudioButton"
+								width="43" height="35"
+								enabled="{hostComponent.hasAudioUrl &amp;&amp; hostComponent.enabled}"
+								buttonMode="true"
+								verticalCenter="0"
+								selected="{hostComponent.playPauseSelected}"
+								toolTip="{!playPauseAudioButton.selected ? resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'playAudioButtonToolTip' ) || 'Play audio' : resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'pauseAudioButtonToolTip' ) || 'Pause Sound'}"
+								skinClass="tj.ttu.components.skins.buttons.PlayToggleButtonSkin"
+								/>
+				
+				<!--Stop Sound Button-->
+				<s:Button id="stopAudioButton"
+						  width="43" height="35"
+						  enabled="{hostComponent.hasAudioUrl}"
+						  verticalCenter="0"
+						  buttonMode="true"
+						  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'stopAudioButtonToolTip' ) || 'Stop audio'}"
+						  skinClass="tj.ttu.components.skins.buttons.StopSoundButtonSkin"
+						  />
+				
+				
+			<!--Upload Sound Button-->
+			<s:Button id="uploadAudioButton"
+					  buttonMode="true"
+					  width="43" height="35"
+					  verticalCenter="0"
+					  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'uploadAudioButtonLabel' ) || 'Upload audio'}"
+					  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'uploadAudioButtonToolTip' ) || 'Upload audio'}"
+					  skinClass="tj.ttu.components.skins.buttons.UploadSoundButtonSkin"
+					  />
+			<!--Delete Sound Button-->
+			<s:Button id="deleteAudioButton"
+					  width="43" height="35"
+					  enabled="{hostComponent.hasAudioUrl}"
+					  verticalCenter="0"
+					  buttonMode="true"
+					  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'deleteAudioButtonLabel' ) || 'Delete audio'}"
+					  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'deleteAudioButtonToolTip' ) || 'Delete audio'}"
+					  skinClass="tj.ttu.components.skins.buttons.DeleteSoundButtonSkin"
+					  />
+			<!--Vertical Line-->
+			<s:Rect height="100%" width="1" top="10" bottom="10" >
+				<s:fill>
+					<s:SolidColor color="#89AEC4"/>
+				</s:fill>
+				<s:filters>
+					<s:DropShadowFilter alpha="0.7000000000000001" angle="180" blurX="0" blurY="0" color="#FFFFFF" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+				</s:filters>
+			</s:Rect>
+		</s:HGroup>
+	</s:Group>
+</s:Skin>

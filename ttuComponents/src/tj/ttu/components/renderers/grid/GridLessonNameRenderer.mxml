@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					clipAndEnableScrolling="true"
+					doubleClickEnabled="true"
+					doubleClick="griditemrenderer1_doubleClickHandler(event)"
+					>
+	
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.formats.TextDecoration;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.TLFUtil;
+			import tj.ttu.components.events.DataGridEvent;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Variables
+			//
+			//--------------------------------------------------------------------------
+			private var latinFont:String;
+			private var cyrillicFont:String;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden methods
+			//
+			//--------------------------------------------------------------------------
+			
+			/**
+			 * Prepare our renderer
+			 */
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				if(data)
+				{
+					lessonNameLabel.textFlow = data.name ? TLFUtil.createFlow( data.name, latinFont, cyrillicFont) : null;
+					enabledElement = true;
+				}
+			}
+			
+			override public function set hovered(value:Boolean):void
+			{
+				super.hovered = value;
+				if(lessonNameLabel)
+				{
+					var styleValue:String = value ? TextDecoration.UNDERLINE : TextDecoration.NONE;
+					lessonNameLabel.setStyle("textDecoration",styleValue);
+				}
+			}
+			
+			
+			
+			override protected function resourcesChanged():void
+			{
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Event Handler Methods
+			//
+			//--------------------------------------------------------------------------
+			private function griditemrenderer1_doubleClickHandler(event:MouseEvent):void
+			{
+				enabledElement = false;
+				owner.dispatchEvent(new DataGridEvent(DataGridEvent.GRID_DOUBLE_CLICK, -1, data));
+			}
+			protected function button_doubleClickHandler(event:MouseEvent):void
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+			
+			private function set enabledElement(value:Boolean):void
+			{
+				mouseEnabled = value;
+				lessonNameLabel.mouseEnabled = value;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:RichText id="lessonNameLabel" left="0" right="0" top="0" bottom="0" minWidth="200"
+				color="0x495c66"
+				fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+				fontSize="14"
+				maxDisplayedLines="1" paddingLeft="5" paddingRight="5"
+				showTruncationTip="true"
+				verticalAlign="middle"
+				buttonMode="true"
+				doubleClickEnabled="true"
+				doubleClick="button_doubleClickHandler(event)"
+				click="griditemrenderer1_doubleClickHandler(event)"
+				/>
+	
+</s:GridItemRenderer>

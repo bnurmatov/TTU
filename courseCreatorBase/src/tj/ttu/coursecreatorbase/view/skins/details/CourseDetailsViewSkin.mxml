@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:validator="tj.ttu.components.components.validator.*" xmlns:audio="tj.ttu.components.components.audio.*" xmlns:layout="tj.ttu.components.components.layout.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.coursecreatorbase.view.components.details.CourseDetailsView")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Fade  id="buttonBlink" alphaFrom="1" alphaTo="0.5"
+				 targets="{[saveButton]}" duration="500"
+				 repeatCount="0" repeatBehavior="reverse"/>
+	</fx:Declarations>
+	
+	<!-- background -->
+	<s:Rect id="bg" top="0" bottom="0" left="0" right="0">
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#E0E7EB"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--Header Component Group-->
+	
+	<!--Course Title Group-->
+	<s:Group  right="0" top="10" minWidth="0" minHeight="0" height="20">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="4" paddingBottom="4" gap="0" verticalAlign="middle" horizontalAlign="right" />
+		</s:layout>
+		<s:Label  height="100%"
+				  fontSize="14"
+				  fontStyle="italic"
+				  textAlign="right"
+				  verticalAlign="middle"
+				  paddingLeft="0" paddingRight="0"
+				  styleName="uiFont"
+				  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				  text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'courseTitleLabelText' ) || 'Title:'}"
+				  />
+		
+		
+		<!--Lesson Title Label-->
+		<s:RichText id="lessonTitleLabel"
+					width="100%" height="100%"
+					fontSize="14"
+					fontWeight="bold"
+					textAlign="left"
+					verticalAlign="middle"
+					paddingLeft="5" paddingRight="0"
+					fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT) || 'Latin'}"
+					direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+					/>
+		
+	</s:Group>
+	
+	<!--Course Creation Date Information-->
+	<s:Group  right="0" minWidth="0" minHeight="0" top="35" height="35">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="4" paddingBottom="4" gap="0" verticalAlign="middle" horizontalAlign="right" />
+		</s:layout>
+		
+		<s:Label height="100%"
+				 fontSize="14"
+				 fontStyle="italic"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 paddingLeft="0" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'createdCourseDateLabelText' ) || 'Created:'}"
+				 />
+		
+		<s:Label width="80" height="100%"
+				 fontSize="14"
+				 fontWeight="bold"
+				 textAlign="left"
+				 verticalAlign="middle"
+				 paddingLeft="5" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{hostComponent.createdDate}"
+				 />
+		
+		<s:Spacer width="40"/>
+		
+		<s:Label height="100%"
+				 fontSize="14"
+				 fontStyle="italic"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 paddingLeft="0" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'lastModifiedDate' ) || 'Last Modified:'}"
+				 />
+		
+		<!--Lesson Last Modified date-->
+		<s:Label width="80" height="100%"
+				 fontSize="14"
+				 textAlign="left"
+				 fontWeight="bold"
+				 verticalAlign="middle"
+				 paddingLeft="5" paddingRight="0"
+				 styleName="uiFont"
+				 direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
+				 text="{hostComponent.lastModifiedDate}"
+				 />
+	</s:Group>
+	
+	
+	<!--Course Details Component Group-->
+	
+	<s:Group bottom="45" top="70" left="20" right="20">
+		<!--Outer border-->
+		<s:Rect width="100%" height="100%" left="0" right="0" top="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke  color="0x89AEC4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!--Inner border and bg-->
+		<s:Rect left="1" right="1" top="1" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="4" color="#cfd9e1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="0xe7ecf0"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!--Main Group-->
+		<s:HGroup width="100%" height="100%" 
+				  gap="50" 
+				  left="10" right="10" 
+				  bottom="10" top="10"
+				  paddingLeft="20" paddingRight="20"
+				  >
+			
+			<!--Left Group-->
+			<s:VGroup width="100%" height="100%" left="0" right="0" bottom="0" top="0" gap="0">
+				
+				<s:HGroup width="100%" height="30" gap="0" paddingLeft="5"  paddingBottom="0" paddingTop="0">
+					
+					<!--About author Label Text-->
+					<s:Label height="30"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 fontSize="14"
+							 fontWeight="bold"
+							 paddingLeft="0" paddingRight="5"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'aboutAuthorLabelText' ) || 'About Author:'}"
+							 />
+					
+					<!--Label Required-->
+					<s:Label width="10" height="30"
+							 textAlign="left"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 paddingLeft="0" paddingRight="0"
+							 fontSize="14"
+							 color="0xFF0000"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+							 />
+					
+				</s:HGroup>
+				
+				<s:Group id="mainGroup" width="100%" height="100%" minHeight="190">
+					<!--textArea-->
+					<s:VScrollBar stepSize="20" snapInterval="0" pageSize="4" top="3"  right="3" bottom="3" width="15" height="100%" viewport="{gr}"
+								  visible="{aboutAuthorTextArea.height >gr.height? true : false}"
+								  />
+					<s:Rect id="focusGroup" top="0" left="0" bottom="0" right="0" radiusX="4" radiusY="4" >
+						<s:stroke>
+							<s:SolidColorStroke id="stroke" color="#cccccc"  weight="0" alpha="0.5"/>
+						</s:stroke>
+					</s:Rect>
+					
+					<s:Group id="gr" 
+							 left="3"
+							 right="{aboutAuthorTextArea.height >gr.height? 19 : 3}"
+							 top="3"
+							 bottom="3"
+							 width="100%" height="100%" clipAndEnableScrolling="true">
+						<s:layout>
+							<layout:ScrollLayout/>
+						</s:layout>
+						<s:Rect id="background" height="{aboutAuthorTextArea.height}" width="100%"  radiusX="4" radiusY="4"
+								minHeight="{gr.height}">
+							<s:fill>
+								<!--- @private Defines the background fill color. -->
+								<s:SolidColor id="bgFill" color="0xFFFFFF" />
+							</s:fill>
+						</s:Rect>
+						
+						<s:RichEditableText id="aboutAuthorTextArea"
+											left="5"
+											right="5"
+											focusThickness="0"
+											paddingBottom="5"
+											paddingTop="5"
+											width="{gr.width}"
+											minHeight="{gr.height}"
+											clipAndEnableScrolling="false"
+											fontSize="14"
+											fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT)}"
+											/>
+					</s:Group>
+				</s:Group>
+				
+				
+				
+				<!--Horizontal Line-->
+				<s:Group width="100%" height="20">
+					<s:Rect height="1" width="100%" verticalCenter="0">
+						<s:fill>
+							<s:SolidColor color="#89AEC4"/>
+						</s:fill>
+						<s:filters>
+							<s:DropShadowFilter alpha="0.7000000000000001" angle="90" blurX="0" blurY="0" color="#FFFFFF" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+						</s:filters>
+					</s:Rect>
+				</s:Group>
+				
+				
+				<s:HGroup width="100%" height="35" verticalAlign="middle">
+					
+					<!--Manage Audio Bar-->
+					<audio:ManageAudioBar id="manageAudioBar"
+										  width="100%" height="100%"
+										  skinClass="tj.ttu.components.skins.audio.ManageAudioBarSkin"
+										  />
+					
+					<!--insertImage Button-->
+					<s:Button id="insertImage"
+							  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR , 'insertImageButtonToolTip' ) || 'Insert image'}"
+							  buttonMode="true"
+							  width="45" height="35"
+							  skinClass="tj.ttu.components.skins.buttons.InsertImageButtonSkin"
+							  />
+					
+					<s:Spacer width="100%"/>
+					
+				</s:HGroup>
+			</s:VGroup>
+			
+			<!--Vertical Line-->
+			<s:Rect height="100%" width="1" top="10" bottom="10" >
+				<s:fill>
+					<s:SolidColor color="#89AEC4"/>
+				</s:fill>
+				<s:filters>
+					<s:DropShadowFilter alpha="0.7000000000000001" angle="180" blurX="0" blurY="0" color="#FFFFFF" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+				</s:filters>
+			</s:Rect>
+			
+			<!--Right Group-->
+			<s:VGroup width="100%" height="100%" left="0" right="0" bottom="0" top="0" gap="0">
+				
+				<s:HGroup width="100%" height="30" gap="0" left="10"  paddingBottom="0" paddingTop="0">
+					<!--Creator Label-->
+					<s:Label height="30"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 textAlign="right"
+							 paddingLeft="0" paddingRight="5"
+							 fontSize="14"
+							 fontWeight="bold"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'creatorLabelTex' ) || 'Creator/Author:'}"
+							 />
+					
+					<!--Label Required-->
+					<s:Label width="10" height="30"
+							 textAlign="left"
+							 verticalAlign="middle"
+							 verticalCenter="0"
+							 paddingLeft="0" paddingRight="0"
+							 fontSize="14"
+							 color="0xFF0000"
+							 styleName="uiFont"
+							 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+							 />
+					
+				</s:HGroup>
+				
+				<!--Creator Text Field-->
+				<s:TextArea id="creatorTextField"
+							heightInLines="1" lineBreak="explicit" 
+							width="100%" height="30"
+							paddingBottom="0" paddingTop="0" 
+							paddingLeft="5"
+							verticalAlign="middle" 
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							fontSize="14"
+							fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+							skinClass="tj.ttu.components.skins.input.SingleLineTextAreaSkin"
+							/>
+				
+				<!--Author Site-->
+				<s:Label width="100%" height="30"
+						 verticalAlign="middle"
+						 verticalCenter="0"
+						 fontSize="14"
+						 fontWeight="bold"
+						 styleName="uiFont"
+						 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'authorSiteLabelText' ) || 'Author Site:'}"
+						 />
+				
+				<!--Author Site Text Field-->
+				<s:TextArea id="urlTextField"
+							heightInLines="1" lineBreak="explicit" 
+							width="100%" height="30"
+							paddingBottom="0" paddingTop="0" 
+							paddingLeft="5"
+							verticalAlign="middle" 
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							validationSubField=""
+							fontSize="14"
+							fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.EN_FONT )}"
+							skinClass="tj.ttu.components.skins.input.SingleLineTextAreaSkin"
+							/>
+				
+				
+				<!--Description Label Text-->
+				<s:Label width="100%" height="30"
+						 verticalAlign="middle"
+						 verticalCenter="0"
+						 fontSize="14"
+						 fontWeight="bold"
+						 paddingLeft="0" paddingRight="5"
+						 styleName="uiFont"
+						 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'descriptionLabelText' ) || 'Lesson Description:'}"
+						 />
+				
+				<!--Description text Area-->
+				<s:TextArea id="descriptionTextArea"
+							width="100%" height="100%"
+							paddingBottom="5"
+							paddingTop="5"
+							paddingLeft="5"
+							paddingRight="5"
+							horizontalScrollPolicy="off"
+							fontSize="14"
+							fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT)}"
+							skinClass="tj.ttu.components.skins.input.RoundedTextAreaSkin"
+							/>
+				
+			</s:VGroup>
+		</s:HGroup>
+		
+	</s:Group>
+	
+	<!--Navigation Button Group-->
+	
+	
+	<!--Right Buttons Group-->
+	<s:Group  right="0" bottom="0" minWidth="0" minHeight="0" width="100%">
+		
+		<!--Label Required-->
+		<s:Label width="10" height="40"
+				 textAlign="right"
+				 verticalAlign="middle"
+				 verticalCenter="0"
+				 paddingLeft="0" paddingRight="0"
+				 fontSize="14"
+				 right="410"
+				 color="0xFF0000"
+				 styleName="uiFont"
+				 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+				 />
+		
+		<!--Lesson Title Label-->
+		<s:Label id="reqiredLabel" height="40" width="70"
+					right="340"
+					fontSize="14"
+					fontStyle="italic"
+					textAlign="left"
+					verticalAlign="middle"
+					paddingLeft="5" paddingRight="0"
+					styleName="uiFont"
+					text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'requiredMessageLabelText' ) || 'Required'}"
+					/>
+		
+		<!--Lesson Details Button-->
+		<s:Button id="detailsButton"
+				  width="43" height="32"
+				  right="290"
+				  buttonMode="true"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'lessonDetailsButtonLabel' ) || 'Lesson Details'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'lessonDetailsToolTip' )}"
+				  skinClass="tj.ttu.components.skins.buttons.EditDetailsButtonSkin"
+				  />
+		
+		
+		<!--Save Button-->
+		<s:Button id="saveButton"
+				  width="100" height="32"
+				  right="180"
+				  enabled="{hostComponent.hasChange &amp;&amp; !hostComponent.isSaveInProcess}"
+				  buttonMode="true"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonLabel' ) || 'Save'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveButtonToolTip' ) || 'Save'}"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+		<!--Save And Next Button-->
+		<s:Button id="saveAndNextButton"
+				  width="150" height="32"
+				  right="20"
+				  buttonMode="true"
+				  enabled="{!hostComponent.isSaveInProcess}"
+				  label="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveAndNextButtonLabel' ) || 'Save &amp; Next'}"
+				  toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'saveAndNextButtonToolTip' ) || 'Save And Next'}"
+				  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+				  />
+		
+	</s:Group>
+	
+</s:Skin>

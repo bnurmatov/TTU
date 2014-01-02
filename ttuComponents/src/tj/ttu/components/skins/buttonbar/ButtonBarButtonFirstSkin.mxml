@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+                   xmlns:s="library://ns.adobe.com/flex/spark" 
+                   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+				   minWidth="122" minHeight="32"
+				   width="200" height="32"
+				   alpha.disabledStates="1">
+    <!-- host component -->
+	<fx:Metadata>[HostComponent("tj.ttu.components.components.buttonbar.ButtonBarButtonExt")]</fx:Metadata>
+    <!-- states -->
+    <s:states>
+        <s:State name="up" />
+        <s:State name="over" stateGroups="overStates" />
+        <s:State name="down" stateGroups="downStates" />
+        <s:State name="disabled" stateGroups="disabledStates" />
+        <s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates" />
+        <s:State name="overAndSelected" stateGroups="overStates, selectedStates" />
+        <s:State name="downAndSelected" stateGroups="downStates, selectedStates" />
+        <s:State name="disabledAndSelected" stateGroups="selectedUpStates, disabledStates, selectedStates" />
+    </s:states>
+	<s:BitmapImage  left="41" right="41" horizontalCenter="0" verticalCenter="0" fillMode="repeat"
+					source.selectedStates="@Embed('/embed_assets/images/tab_selected.png')" 
+					source="@Embed('/embed_assets/images/tab_normal.png')" 
+					source.over="@Embed('/embed_assets/images/tab_over.png')"
+					source.disabled="@Embed('/embed_assets/images/tab_disabled.png')"
+					/>
+	<s:BitmapImage  left="0" verticalCenter="0"
+					source.selectedStates="@Embed('/embed_assets/images/tab_left_selected.png')"
+					source="@Embed('/embed_assets/images/tabFirst_left_normal.png')"
+					source.over="@Embed('/embed_assets/images/tabFirst_left_over.png')"
+					source.disabled="@Embed('/embed_assets/images/tabFirst_left_disabled.png')"
+					/> 
+	<s:BitmapImage  right="0" verticalCenter="0"
+					source.selectedStates="@Embed('/embed_assets/images/tab_right_selected.png')"
+					source="@Embed('/embed_assets/images/tab_right_normal.png')"
+					source.over="@Embed('/embed_assets/images/tab_right_over.png')"
+					source.disabled="@Embed('/embed_assets/images/tab_right_disabled.png')"
+					/>
+	
+	<!-- layer 8: text -->
+	<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
+	<s:Label id="labelDisplay"
+			 textAlign="center"
+			 verticalAlign="middle"
+			 horizontalCenter="0" top="9"
+			 fontSize.selectedStates="17"
+			 fontSize="18"
+			 color="#263b4c"
+			 fontWeight.selectedStates="bold"
+			 fontWeight="normal"
+			 styleName="uiFont"
+			 alpha.disabledStates=".4"
+			 >
+		<s:filters>
+			<s:DropShadowFilter blurX="1" blurY="1" distance="1" hideObject="false" inner="false" color="0xffffff" strength="1" alpha="0.25" quality="2" knockout="false" angle="90"/>
+		</s:filters>
+	</s:Label>
+	
+</s:SparkButtonSkin>

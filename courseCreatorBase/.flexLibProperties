@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.CourseBase"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.CourseBaseSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.view.CourseView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.create.CreateCourse"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.view.CourseViewSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.create.CreateCourseSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.CourseCreatorMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.create.CreateCourseMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.view.CourseViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.states.CourseBaseState"/>
+    <classEntry path="tj.ttu.coursecreatorbase.states.CreateCourseStates"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.details.CourseDetailsView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.details.CourseDetailsViewSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.chapter.EditChaptersView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.chapter.EditChaptersViewSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.resource.EditResourcesView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.resource.EditResourcesViewSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.details.CourseDetailsViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.chapter.EditChaptersViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.resource.EditResourcesViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.create.BaseCreateCourseView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.create.BaseCreateCourseViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.popup.CourseManagePopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.popup.CreateCoursePopupSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.popup.CourseManagePopupMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.popups.ShowCourseManagePopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.model.CourseProxy"/>
+    <classEntry path="tj.ttu.coursecreatorbase.constants.CourseCreatorNotifications"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.common.RegisterCommands"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.common.RemoveCommand"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.events.CourseEvent"/>
+    <classEntry path="tj.ttu.coursecreatorbase.states.CourseViewStates"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.popups.ShowInsertImagePopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.popups.ShowSoundRecorderPopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.popups.ShowChapterCommentPopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.popup.comment.ChapterCommentPopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.popup.comment.ChapterCommentPopupSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.popup.comment.ChapterCommentMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.question.EditQuestionsView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.question.EditQuestionsViewSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.question.EditQuestionsViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.renderers.AnswerItemRenderer"/>
+    <classEntry path="tj.ttu.coursecreatorbase.utils.QuestionUtil"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.popup.UnsavedPopupMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.popups.ShowUnsavedPopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.publish.PublishLessonView"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.publish.PublishLessonViewSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.publish.PublishLessonViewMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.renderers.PublishOptionItemRenderer"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.renderers.LessonArtifactItemRenderer"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.components.popup.image.EditImagePopup"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.skins.popup.image.EditImagePopupSkin"/>
+    <classEntry path="tj.ttu.coursecreatorbase.view.mediators.popup.image.EditImagePopupMediator"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.popups.ShowEditImagePopupCommand"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.state.CreateLessonStateChangeCommand"/>
+    <classEntry path="tj.ttu.coursecreatorbase.controller.state.MainViewStateChangeCommand"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

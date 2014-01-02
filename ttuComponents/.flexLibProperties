@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="tj.ttu.components.skins.dropdown.HelpDropDownListSkin"/>
+    <classEntry path="tj.ttu.components.renderers.HelpDropDownItemRenderer"/>
+    <classEntry path="tj.ttu.components.components.buttonbar.ButtonBarButtonExt"/>
+    <classEntry path="tj.ttu.components.skins.buttonbar.ButtonBarSkin"/>
+    <classEntry path="tj.ttu.components.skins.buttonbar.ButtonBarButtonSkin"/>
+    <classEntry path="tj.ttu.components.skins.buttonbar.ButtonBarButtonFirstSkin"/>
+    <classEntry path="tj.ttu.components.skins.tabbar.NavigationTabBarSkin"/>
+    <classEntry path="tj.ttu.components.skins.tabbar.NavigationTabBarButtonSkin"/>
+    <classEntry path="tj.ttu.components.renderers.language.LanguageItemRenderer"/>
+    <classEntry path="tj.ttu.components.skins.dropdown.LanguageDropDownListSkin"/>
+    <classEntry path="tj.ttu.components.components.dropdown.LanguageDropDownList"/>
+    <classEntry path="tj.ttu.components.renderers.DropDownListItemRenderer"/>
+    <classEntry path="tj.ttu.components.components.category.DepartmentItemView"/>
+    <classEntry path="tj.ttu.components.skins.category.DepartmentItemViewSkin"/>
+    <classEntry path="tj.ttu.components.skins.buttons.DepartmentLinkButton"/>
+    <classEntry path="tj.ttu.components.components.button.ToggleDisclosureButton"/>
+    <classEntry path="tj.ttu.components.skins.buttons.ToggleDisclosureButtonSkin"/>
+    <classEntry path="tj.ttu.components.skins.grid.CategoryDataGridSkin"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridDisclosureDepartmentItemRenderer"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridDepartmentNameRenderer"/>
+    <classEntry path="tj.ttu.components.events.DataGridEvent"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridLessonNameRenderer"/>
+    <classEntry path="tj.ttu.components.events.LessonEvent"/>
+    <classEntry path="tj.ttu.components.skins.grid.LessonsDataGridSkin"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridCommandItemRenderer"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridDeleteItemRenderer"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridCloneItemRenderer"/>
+    <classEntry path="tj.ttu.components.events.AudioEvent"/>
+    <classEntry path="tj.ttu.components.skins.buttons.CommandButtonSkin"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridItemNumberRenderer"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridChapterNameRenderer"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridChapterNameEditRenderer"/>
+    <classEntry path="tj.ttu.components.events.ChapterEvent"/>
+    <classEntry path="tj.ttu.components.components.editor.ChapterContentEditor"/>
+    <classEntry path="tj.ttu.components.skins.editor.ChapterContentEditorSkin"/>
+    <classEntry path="tj.ttu.components.vo.InsertContentVO"/>
+    <classEntry path="tj.ttu.components.renderers.InsertContentRenderer"/>
+    <classEntry path="tj.ttu.components.events.QuestionEvent"/>
+    <classEntry path="tj.ttu.components.skins.input.MultilineTextAreaSkin"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridQuestionTextRenderer"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridDeleteQuestionRenderer"/>
+    <classEntry path="tj.ttu.components.components.popup.UnsavedPopup"/>
+    <classEntry path="tj.ttu.components.skins.list.ModuleNavigationListSkin"/>
+    <classEntry path="tj.ttu.components.events.AudioSettingEvent"/>
+    <classEntry path="tj.ttu.components.components.audio.TTUAudioPlayer"/>
+    <classEntry path="tj.ttu.components.skins.audio.TTUAudioPlayerSkin"/>
+    <classEntry path="tj.ttu.components.components.scroller.TTUScroller"/>
+    <classEntry path="tj.ttu.components.skins.buttons.OpenHideToggleButton"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridResourceIconRenderer"/>
+    <classEntry path="tj.ttu.components.events.ResourceEvent"/>
+    <classEntry path="tj.ttu.components.renderers.grid.GridResourceTitleRenderer"/>
+    <classEntry path="tj.ttu.components.skins.list.PublishListSkin"/>
+    <classEntry path="tj.ttu.components.events.PublishEvent"/>
+    <classEntry path="tj.ttu.components.vo.BusyProgressbarVO"/>
+    <classEntry path="tj.ttu.components.skins.buttonbar.ButtonBarLastButtonSkin"/>
+    <classEntry path="tj.ttu.components.skins.dropdown.InsertDropDownSkin"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

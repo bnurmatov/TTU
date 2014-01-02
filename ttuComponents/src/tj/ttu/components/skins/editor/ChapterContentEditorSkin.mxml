@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:vo="tj.ttu.components.vo.*" xmlns:audio="tj.ttu.components.components.audio.*" xmlns:layout="tj.ttu.components.components.layout.*">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.components.components.editor.ChapterContentEditor")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.utils.Icons;
+			import mx.collections.ArrayCollection;
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<audio:AudioPlayer id="audioPlayer" />
+		
+		<s:ArrayCollection id="fontNameDP">
+			<fx:String >{resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)}</fx:String>
+			<fx:String >{resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)}</fx:String>
+			<fx:String >{resourceManager.getString(ResourceConstants.FONT, FontConstants.RU_FONT)}</fx:String>
+		</s:ArrayCollection>
+	</fx:Declarations>
+	
+	<!-- border -->
+	<!--- @private -->
+	<s:Rect left="0" right="0" top="0" bottom="0" id="border">
+		<s:stroke>
+			<!--- @private -->
+			<s:SolidColorStroke id="borderStroke" weight="1" />
+		</s:stroke>
+	</s:Rect>    
+	
+	<!--Title BG-->
+	<s:Rect width="100%" height="34" left="1" right="1" top="1">
+		<s:fill>
+			<s:SolidColor color="0xCFD9E2"/>
+		</s:fill>
+	</s:Rect>
+	
+	
+	<!--Title Button Group-->
+	<s:HGroup left="2" top="2" width="100%" height="32" gap="8">
+		<!-- bold style button  -->
+		<s:HGroup gap="1" height="100%">
+			<s:ToggleButton id="boldButton" width="38" height="32"
+							buttonMode="true"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'boldButtonToolTip')|| 'Bold'}"
+							skinClass="tj.ttu.components.skins.buttons.BoldToggleButton"
+							/>
+			
+			<!-- italic style button  -->
+			<s:ToggleButton id="italicButton" width="38" height="32"
+							buttonMode="true"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'italicButtonToolTip') || 'Italic'}"
+							skinClass="tj.ttu.components.skins.buttons.ItalicToggleButton"
+							/>
+			<!-- link style button  -->
+			<s:ToggleButton id="underlineButton" width="38" height="32"
+							buttonMode="true"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'underlineButtonToolTip') || 'Underline' }"
+							skinClass="tj.ttu.components.skins.buttons.LinkToggleButton"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="1" height="100%">
+			
+			<!-- left align button  -->
+			<s:ToggleButton id="leftAlignButton" width="38" height="32"
+							buttonMode="true" selected="true"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'leftAlignButtonToolTip') || 'Left Align'}"
+							skinClass="tj.ttu.components.skins.buttons.AlignLeftToggleButton"
+							/>
+			
+			<!-- center align button  -->
+			<s:ToggleButton id="centerAlignButton" width="38" height="32"
+							buttonMode="true"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'centerAlignButtonToolTip') || 'Center Align'}"
+							skinClass="tj.ttu.components.skins.buttons.AlignCenterToggleButton"
+							/>
+			
+			<!-- right align button  -->
+			<s:ToggleButton id="rightAlignButton" width="38" height="32"
+							buttonMode="true"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'rightAlignButtonToolTip') || 'Right Align'}"
+							skinClass="tj.ttu.components.skins.buttons.AlignRightToggleButton"
+							/>
+		</s:HGroup>
+		
+		<s:HGroup gap="1" height="100%">
+			<!--- @private -->
+			<s:DropDownList id="fontSizeDDList" width="55" height="32"
+							dataProvider="{new ArrayCollection([6,7,8,9,10,11,12,13,14,15,16,18,20,22,24,26,28,32,36,40,44,48,54,60,66,72,80,88,96])}"
+							fontSize="14" horizontalScrollPolicy="off"
+							selectedItem="24"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'fontSizeDropDownListToolTip')|| 'Font Size'}"
+							skinClass="tj.ttu.components.skins.dropdown.DropDownListSkin"
+							/>
+			
+			<!--- @private -->
+			<s:DropDownList id="fontFamilyDDList"
+							width="70" height="32"
+							fontSize="14" 
+							horizontalScrollPolicy="off" 
+							selectedIndex="0"
+							dataProvider="{fontNameDP}"
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'fontFamilyDropDownListToolTip')|| 'Font Family'}"
+							skinClass="tj.ttu.components.skins.dropdown.DropDownListSkin"
+							/>
+			
+			<!--- @private -->
+			<s:DropDownList id="insertDDList"
+							width="130" height="32"
+							fontSize="14" 
+							horizontalScrollPolicy="off" 
+							toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'insertDropDownListToolTip')|| 'Insert media content'}"
+							prompt="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'insertDropDownListPrompt')|| 'Insert'}"
+							itemRenderer="tj.ttu.components.renderers.InsertContentRenderer"
+							skinClass="tj.ttu.components.skins.dropdown.InsertDropDownSkin"
+							>
+				<s:ArrayCollection>
+					<vo:InsertContentVO label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'recordAudioButtonLabel' )}" 
+										toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'recordAudioButtonToolTip' )}"
+										command="{InsertContentVO.RECORD_SOUND}"
+										icon="{Icons.RecordSoundIcon}"/>
+					<vo:InsertContentVO  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'uploadAudioButtonLabel' ) || 'Upload audio'}"
+										 toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'uploadAudioButtonToolTip' ) || 'Upload audio'}"
+										 command="{InsertContentVO.UPLOAD_SOUND}"
+										 icon="{Icons.UploadSoundIcon}"/>
+					<vo:InsertContentVO label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'insertImageButtonLabel' )}" 
+										toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR , 'insertImageButtonToolTip' ) || 'Insert image'}"
+										command="{InsertContentVO.UPLOAD_IMAGE}"
+										icon="{Icons.UploadImageIcon}"/>
+					<vo:InsertContentVO label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'uploadVideoButtonLabel' )}" 
+										toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR , 'uploadVideoButtonToolTip' ) || 'Upload video'}"
+										command="{InsertContentVO.UPLOAD_VIDEO}"
+										icon="{Icons.UploadVideoIcon}"/>
+				</s:ArrayCollection>
+			</s:DropDownList>
+			
+		</s:HGroup>
+	</s:HGroup>
+	
+	<s:Group id="mainGroup" width="100%" height="100%" minHeight="190" top="36">
+		<!--textArea-->
+		<s:VScrollBar stepSize="20" snapInterval="0" pageSize="4" top="3"  right="3" bottom="3" width="15" height="100%" viewport="{gr}"
+					  visible="{contentText.height >gr.height? true : false}"
+					  />
+		<s:Rect id="focusGroup" top="0" left="0" bottom="0" right="0" radiusX="4" radiusY="4" >
+			<s:stroke>
+				<s:SolidColorStroke id="stroke" color="#cccccc"  weight="0" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<s:Group id="gr" 
+				 left="3"
+				 right="{contentText.height >gr.height? 19 : 3}"
+				 top="3"
+				 bottom="3"
+				 width="100%" height="100%" clipAndEnableScrolling="true">
+			<s:layout>
+				<layout:ScrollLayout/>
+			</s:layout>
+			<s:Rect id="background" height="{contentText.height}" width="100%"  radiusX="4" radiusY="4"
+					minHeight="{gr.height}">
+				<s:fill>
+					<!--- @private Defines the background fill color. -->
+					<s:SolidColor id="bgFill" color="0xFFFFFF" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:RichEditableText id="contentText"
+								left="5"
+								right="5"
+								focusThickness="0"
+								paddingBottom="5"
+								paddingTop="5"
+								width="{gr.width}"
+								minHeight="{gr.height}"
+								clipAndEnableScrolling="false"
+								fontSize="14"
+								fontFamily="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_FONT)}"
+								/>
+		</s:Group>
+	</s:Group>
+	
+	
+	
+</s:Skin>

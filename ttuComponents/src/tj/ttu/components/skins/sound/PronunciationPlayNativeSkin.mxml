@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:fc="http://ns.adobe.com/thermo/2009" 
+		xmlns:mx="library://ns.adobe.com/flex/halo"
+		xmlns:sound="tj.ttu.components.components.sound.*"
+		width="100%" minHeight="100">
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	<s:Group left="0" right="0" top="0" bottom="0">	
+		<!-- BG -->		
+		<s:Group left="0" right="0" top="0" bottom="0">
+			<s:Rect alpha="0.7" radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+				<s:fill>
+					<s:LinearGradient rotation="-90">
+						<s:GradientEntry color="0x252525" ratio="0"/>
+						<s:GradientEntry color="0x212121" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		<s:Group left="70" right="8" top="7" bottom="7">
+			<s:Rect radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+				<s:fill>
+					<s:LinearGradient rotation="-90">
+						<s:GradientEntry color="0x323232" ratio="0"/>
+						<s:GradientEntry color="0x1a1a1a" ratio="0.5"/>
+						<s:GradientEntry color="0x404040" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:Rect alpha="0.7" radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+				<s:stroke>
+					<s:LinearGradientStroke rotation="-90" weight="-1">
+						<s:GradientEntry color="0x141414" ratio="0"/>
+						<s:GradientEntry color="0x262626" ratio="1"/>
+					</s:LinearGradientStroke>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
+		
+		<!-- CONTENT -->
+		<!-- Audio wave-->
+		<!--<comps:AudioWaveSkin height="88" left="56" right="16" top="8" bottom="8" />-->
+		<s:Group left="70" right="10" top="8" bottom="8">	
+			<!--
+			<s:Group left="8" right="8" top="7" bottom="7">
+			-->
+			<s:Group left="0" right="0" top="1" bottom="1">
+				<s:Rect radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+					<s:fill>
+						<s:LinearGradient rotation="-90">
+							<s:GradientEntry color="0x323232" ratio="0"/>
+							<s:GradientEntry color="0x1a1a1a" ratio="0.5"/>
+							<s:GradientEntry color="0x404040" ratio="1"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Rect alpha="0.7" radiusX="3" radiusY="3" left="0" right="0" top="0" bottom="0">
+					<s:stroke>
+						<s:LinearGradientStroke rotation="-90" weight="-1">
+							<s:GradientEntry color="0x141414" ratio="0"/>
+							<s:GradientEntry color="0x262626" ratio="1"/>
+						</s:LinearGradientStroke>
+					</s:stroke>
+				</s:Rect>
+			</s:Group>
+			<!-- Lines -->
+			<s:Group left="6" right="6" top="4" bottom="4">
+				<s:Rect width="1" height="100%" alpha="0.2" left="0">
+					<s:fill>
+						<s:SolidColor color="0xBBBBBB"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="1" height="100%" alpha="0.2" right="0">
+					<s:fill>
+						<s:SolidColor color="0xBBBBBB"/>
+					</s:fill>
+				</s:Rect>
+				<s:BitmapImage alpha="0.2" height="1" left="2" right="2" top="2" source="@Embed('/embed_assets/images/lineDotted.png')" fillMode="repeat"/>
+				<s:BitmapImage alpha="0.12" height="1" left="2" right="2" verticalCenter="-17" source="@Embed('/embed_assets/images/lineDotted.png')" fillMode="repeat"/>
+				<s:BitmapImage alpha="0.3" height="1" left="2" right="2" verticalCenter="-1" source="@Embed('/embed_assets/images/lineDotted.png')" fillMode="repeat"/>
+				<s:BitmapImage alpha="0.3" height="1" left="2" right="2" verticalCenter="1" source="@Embed('/embed_assets/images/lineDotted.png')" fillMode="repeat"/>
+				<s:BitmapImage alpha="0.12" height="1" left="2" right="2" verticalCenter="17" source="@Embed('/embed_assets/images/lineDotted.png')" fillMode="repeat"/>
+				<s:BitmapImage alpha="0.2" height="1" left="2" right="2" bottom="2" source="@Embed('/embed_assets/images/lineDotted.png')" fillMode="repeat"/>
+				
+				<s:BitmapImage alpha="0.9" left="2" right="2" top="4" bottom="4" source="@Embed('/embed_assets/images/BgLineSolidAudioWave.png')" fillMode="repeat"/>
+				<!-- CONTENT ForWave-->
+				<s:Group id="contentGroup" left="0" right="0" top="2" bottom="2">
+					<!-- SolidColor for Wave: 0xfff599 | alpha: 1 
+					GradientColor for Wave: rat0: 0xfffacc; rat0.5: 0xfff599; rat1: 0xfffacc	
+					!!! Next step for new wave line - width 3 px
+					-->
+				</s:Group>
+				
+			</s:Group>
+			
+		</s:Group>
+		<sound:WaveForm id="waveForm" left="75" right="17" top="8" bottom="8" waveColor="0xADBEAA"
+						toolTip="{ resourceManager.getString(ResourceConstants.TTU_COMPONENTS,'waveFormToolTip') || 'Wave Form'}"
+						/>
+		
+	</s:Group>
+</s:Skin>

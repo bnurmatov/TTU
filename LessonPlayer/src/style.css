@@ -1,0 +1,88 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace default "spark.skins.default.*";
+@namespace scroller "tj.ttu.components.components.scroller.*";
+mx|global
+{
+	textFieldClass: ClassReference("mx.core.UIFTETextField");
+}
+mx|ToolTip
+{
+	fontFamily:"Latin";
+	textFieldClass:ClassReference("mx.core.UIFTETextField")
+}
+mx|Menu
+{
+	textFieldClass:ClassReference("mx.core.UIFTETextField");
+	separatorSkin: ClassReference("mx.skins.spark.MenuSeparatorSkin");
+}
+s|Scroller
+{
+	skin-class: ClassReference("tj.ttu.components.skins.scroller.ScrollerThinSkin");	
+}
+scroller|TTUScroller
+{
+	skin-class: ClassReference("tj.ttu.components.skins.scroller.ScrollerThinSkin");	
+}
+s|VScrollBar
+{
+	skin-class: ClassReference("tj.ttu.components.skins.scroller.vscroller.VScrollBarThinSkin"); 
+}
+s|HScrollBar
+{
+	skin-class: ClassReference("tj.ttu.components.skins.scroller.hscroller.HScrollBarThinSkin"); 
+}
+.startLearningButtonSkin
+{
+	color:#d3d3d3;
+}
+.startLearningButtonSkin:over 
+{
+	color:#d8d8d8;
+}
+
+.startLearningButtonSkin s|Label
+{
+	font-size:21;
+	font-style:normal;
+	text-align:left;
+	vertical-align:middle;
+	line-height:19;	
+	padding-left:6;
+	padding-right:0;
+	padding-top:2;
+	padding-bottom:2;
+}
+.verticalLabel
+{
+	color: #958bc0;
+	fontFamily: Arial;
+	textAlign: left;
+	fontSize: 28;
+	fontWeight: bold;
+}
+
+.learnLabel
+{
+	color:#ffffff;
+	horizontalCenter:0px;
+	verticalCenter:0px;
+	verticalAlign:middle;
+	fontSize:14px;
+}
+
+
+.courseItemTitle
+{
+	fontSize:28px;
+	color:#ffffff;
+}
+
+.titleLabel
+{
+	color: #6f6598;
+	fontFamily: Arial;
+	textAlign: left;
+	fontSize: 26;
+}

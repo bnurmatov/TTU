@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemEditor xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				  xmlns:s="library://ns.adobe.com/flex/spark" 
+				  xmlns:mx="library://ns.adobe.com/flex/mx" 
+				  xmlns:gridEditorClasses="spark.components.gridEditorClasses.*" 
+				  top="1"
+				  >
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.formats.TextLayoutFormat;
+			import flashx.textLayout.operations.InsertInlineGraphicOperation;
+			import flashx.textLayout.operations.InsertTextOperation;
+			
+			import spark.events.TextOperationEvent;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.TLFUtil;
+			import tj.ttu.components.events.ChapterEvent;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  variables
+			//
+			//--------------------------------------------------------------------------
+			private var latinFont:String;
+			private var latinDirection:String; 
+			private var cyrillicFont:String ;
+			private var cyrillicDirection:String;
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden properties
+			//
+			//--------------------------------------------------------------------------
+			
+			override protected function resourcesChanged():void
+			{
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+				cyrillicDirection = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_DIRECTION)||"ltr";
+				latinDirection = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_DIRECTION)||"ltr";
+			}
+			
+			/**
+			 *  @private
+			 */ 
+			override public function get value():Object
+			{
+				return chapterNameTextArea.text;            
+			}
+			
+			/**
+			 *  @private
+			 */ 
+			override public function set value(newValue:Object):void
+			{
+				if(newValue)
+				{
+					chapterNameTextArea.textFlow = TLFUtil.createFlow( newValue.toString(), latinFont, cyrillicFont ) ;
+					chapterNameTextArea.selectRange( chapterNameTextArea.text.length, chapterNameTextArea.text.length );
+				}
+			}
+			
+			/**
+			 *  @private
+			 */ 
+			override public function prepare():void
+			{
+				super.prepare();
+				column.grid.validateNow();
+				var cellBounds:Rectangle = column.grid.getCellBounds(rowIndex, columnIndex);
+				var localCellOrigin:Point = cellBounds.topLeft;
+				this.setLayoutBoundsSize( cellBounds.width, cellBounds.height );
+				this.setLayoutBoundsPosition(localCellOrigin.x, localCellOrigin.y);
+			} 
+			
+			/**
+			 *  @private
+			 */ 
+			override public function setFocus():void
+			{
+				if(chapterNameTextArea)
+				{
+					chapterNameTextArea.setFocus();
+				}
+			}
+			
+			override public function save():Boolean
+			{
+				var result:Boolean = super.save();
+				/* if(data is BykiCard)
+				{
+				var card:BykiCard = CloneUtil.cloneBykiCard(data as BykiCard);
+				if(result && dataGrid && textArea.text == card.cardSide1Text)
+				{
+				dataGrid.dispatchEvent( new ListEvent( ListEvent.ITEM_SAVE, -1,  card ));
+				}
+				} */
+				return result;
+			} 
+			
+			protected function textArea_changeHandler(event:Event):void
+			{
+				if(!this.dataGrid.itemEditorInstance )
+					return;
+				if(event.type == TextOperationEvent.CHANGE)
+				{
+					if(TextOperationEvent(event).operation is InsertInlineGraphicOperation)
+					{
+						event.preventDefault();
+					}
+					else if(TextOperationEvent(event).operation is InsertTextOperation)
+					{
+						var operation:InsertTextOperation = TextOperationEvent(event).operation as InsertTextOperation;
+						var currentPosition:int = Math.max( chapterNameTextArea.selectionAnchorPosition, chapterNameTextArea.selectionActivePosition);
+						var srt:String = chapterNameTextArea.text;
+						if(currentPosition > srt.length)
+							currentPosition = srt.length;
+						
+						var format:TextLayoutFormat =  new TextLayoutFormat();
+						format.fontFamily =  TLFUtil.getFont(operation.text, latinFont, cyrillicFont);
+						chapterNameTextArea.setFormatOfRange(format, currentPosition - operation.text.length, currentPosition);
+					}
+				}
+				dataGrid.dispatchEvent( new ChapterEvent( ChapterEvent.CHAPTER_TITLE_TEXT_BINDING, chapterNameTextArea.text));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!--- The editor's TextArea component. 
+	
+	@langversion 3.0
+	@playerversion Flash 10
+	@playerversion AIR 2.5
+	@productversion Flex 4.5
+	-->
+	<s:TextArea id="chapterNameTextArea" 
+				skinClass="tj.ttu.components.skins.input.SingleLineTextAreaSkin"
+				left="1" right="1" top="1" bottom="1"
+				focusColor="#666666"
+				fontLookup="embeddedCFF" 
+				maxChars="255"
+				horizontalScrollPolicy="off" verticalScrollPolicy="off"
+				paddingTop="0" paddingBottom="0"
+				paddingLeft="0" paddingRight="0"
+				fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+				direction="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_DIRECTION )}"
+				change="textArea_changeHandler(event)"
+				selectionChange="textArea_changeHandler(event)"
+				clear="textArea_changeHandler(event)"
+				/>
+	
+</s:GridItemEditor>

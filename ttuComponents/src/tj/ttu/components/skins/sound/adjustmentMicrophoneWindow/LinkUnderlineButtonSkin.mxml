@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:fx="http://ns.adobe.com/mxml/2009"  >
+	
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	
+	<!--States-->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	
+	<s:Group width="100%" minHeight="20" bottom="0" horizontalCenter="0">
+		
+		<s:BitmapImage width="10" height="12" left="3" bottom="3"
+					   fillMode="clip" alpha.disabled="0.4"
+					   source.up="@Embed('/embed_assets/images/icLinkPoint_up.png')" 
+					   source.disabled="@Embed('/embed_assets/images/icLinkPoint_up.png')"
+					   source.over="@Embed('/embed_assets/images/icLinkPoint_over.png')"
+					   source.down="@Embed('/embed_assets/images/icLinkPoint_down.png')"
+					   />
+		
+		
+		<s:Label id="labelDisplay"
+				 minWidth="40" minHeight="20" left="15" right="2" top="2" bottom="2" verticalAlign="bottom" textAlign="left"
+				 fontSize="15" lineHeight="18" fontStyle="normal" fontWeight="normal"
+				 color.up="0x94dbf2" color.over="0xebc270" color.down="0x9afa87"
+				 textDecoration="underline"
+				 >
+			<s:filters>
+				<s:BevelFilter blurX="0.5" blurY="0.5" strength="0.5" quality="3" shadowColor="0x040404" highlightColor="0xffffff" angle="110" distance="-0.6" type="inner"/>
+			</s:filters>
+		</s:Label>
+	</s:Group>	
+</s:Skin>

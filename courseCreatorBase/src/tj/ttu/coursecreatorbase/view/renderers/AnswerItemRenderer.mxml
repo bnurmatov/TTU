@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true"
+				minHeight="60"
+				>
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.formats.Direction;
+			import flashx.textLayout.formats.TextAlign;
+			import flashx.textLayout.formats.TextLayoutFormat;
+			import flashx.textLayout.operations.InsertInlineGraphicOperation;
+			import flashx.textLayout.operations.InsertTextOperation;
+			
+			import spark.events.TextOperationEvent;
+			
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.base.utils.StringUtil;
+			import tj.ttu.base.utils.TLFUtil;
+			import tj.ttu.base.utils.TrimUtil;
+			import tj.ttu.base.vo.AnswerVo;
+			import tj.ttu.components.events.QuestionEvent;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Variables
+			//
+			//--------------------------------------------------------------------------
+			/**
+			 *
+			 */
+			private var latinFont:String;
+			private var cyrillicFont:String;
+			private var cyrillicDirection:String; 
+			private var latinDirection:String;
+			
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Overridden methods
+			//
+			//--------------------------------------------------------------------------
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var answer:AnswerVo = data as AnswerVo;
+				if(answer && answer.text != answerTextArea.text)
+				{
+					var cursorPosition:int = Math.max(answerTextArea.selectionAnchorPosition, answerTextArea.selectionActivePosition);
+					answerTextArea.textFlow = answer.text ? TLFUtil.createFlow(answer.text, latinFont, cyrillicFont) : null;
+					checkOnEmptyText();
+					if(cursorPosition != -1)
+						answerTextArea.selectRange(cursorPosition, cursorPosition);
+				}
+			}
+			
+			
+			
+			override protected function resourcesChanged():void
+			{
+				super.resourcesChanged();
+				latinFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_FONT)||"Latin";
+				cyrillicFont = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_FONT)||"Cyrillic";
+				cyrillicDirection = resourceManager.getString(ResourceConstants.FONT, FontConstants.TJ_DIRECTION)||"ltr";
+				latinDirection = resourceManager.getString(ResourceConstants.FONT, FontConstants.EN_DIRECTION)||"ltr";
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Methods
+			//
+			//--------------------------------------------------------------------------
+			private function checkOnEmptyText():void
+			{
+				if(answerTextArea)
+					answerTextArea.errorString = StringUtil.isNullOrEmpty(answerTextArea.text) ? resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'emptyAnswerTextError') || 'Answer text is missing.' : '';
+			}
+			
+			protected function trashButton_clickHandler(event:MouseEvent):void
+			{
+				owner.dispatchEvent(new QuestionEvent(QuestionEvent.DELETE_ANSWER, data));
+			}
+			
+			/** 
+			 * @private
+			 * Sets Direction and font of text control based on user's input
+			 */
+			private function formatInputText(control:TextArea, event:TextOperationEvent):void
+			{
+				if(event.operation is InsertInlineGraphicOperation )
+				{
+					event.preventDefault();
+				}
+				else if(event.operation is InsertTextOperation)
+				{
+					var operation:InsertTextOperation = event.operation as InsertTextOperation;
+					var currentPosition:int = Math.max( control.selectionAnchorPosition, control.selectionActivePosition);
+					var srt:String = control.text;
+					if(currentPosition > srt.length)
+						currentPosition = srt.length;
+					
+					if(operation.text == " ")
+						return;
+					
+					var regExp:RegExp = /\S/ig;
+					var format:TextLayoutFormat =  new TextLayoutFormat();
+					if(regExp.test(operation.text))
+						format.fontFamily =  TLFUtil.getFont(operation.text, latinFont, cyrillicFont);
+					if(format.fontFamily == cyrillicFont && latinDirection == Direction.RTL && control.getStyle("direction") == Direction.LTR)
+					{
+						control.setStyle("direction",  Direction.RTL);
+						control.setStyle("textAlign",  TextAlign.RIGHT);
+					}
+					else if (format.fontFamily == latinFont && cyrillicDirection == Direction.LTR && control.getStyle("direction") == Direction.RTL)
+					{
+						control.setStyle("direction",  Direction.LTR);
+						control.setStyle("textAlign",  TextAlign.LEFT);
+					}
+					control.setFormatOfRange(format, currentPosition - operation.text.length, currentPosition);
+				}
+			}
+			
+			protected function selectedCheckbox_changeHandler(event:Event):void
+			{
+				owner.dispatchEvent(new QuestionEvent(QuestionEvent.ANSWER_SELECTION_CHANGE, data));
+			}
+			
+			protected function answerTextArea_changeHandler(event:TextOperationEvent):void
+			{
+				formatInputText(answerTextArea, event);
+				if(data)
+					data.text = TrimUtil.leftTrim(answerTextArea.text);
+				checkOnEmptyText();
+				owner.dispatchEvent(new QuestionEvent(QuestionEvent.ANSWER_TEXT_CHANGE, data));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- custom states -->
+	<s:states>
+		<s:State name="normal" stateGroups="normalStates"/>
+		<s:State name="hovered" stateGroups="hoveredStates"/>
+		<s:State name="selected" stateGroups="selectedStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+	</s:states>
+	
+	
+	<!--Correct Answer-->
+	<s:CheckBox id="selectedCheckbox"
+				width="18" height="18"
+				verticalCenter="0"
+				selected="@{data.isCorrect}"
+				change="selectedCheckbox_changeHandler(event)"
+				left="30"
+				toolTip="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'correctAnswerCheckboxToolTip' ) || 'Make it correct answer.'}"
+				skinClass="tj.ttu.components.skins.checkbox.CheckBoxSkin"
+				/>
+	
+	<!--Label Required-->
+	<s:Label width="10" height="30"
+			 textAlign="left"
+			 verticalAlign="middle"
+			 verticalCenter="0"
+			 paddingLeft="0" paddingRight="0"
+			 fontSize="14"
+			 left="80"
+			 color="0xFF0000"
+			 fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+			 text="{resourceManager.getString( ResourceConstants.COURSE_CREATOR, 'asterixLabelText' ) || '*'}"
+			 />
+	
+	<!--Answer Text Field-->
+	<s:TextArea id="answerTextArea"
+				heightInLines="1" lineBreak="explicit" 
+				width="100%" height="100%"
+				paddingBottom="0" paddingTop="0" 
+				paddingLeft="5"
+				left="90" right="80"
+				top="2" bottom="2"
+				verticalCenter="0"
+				fontLookup="embeddedCFF"
+				widthInChars="{(width-6)/22}"
+				maxChars="255"
+				fontSize="14"
+				change="answerTextArea_changeHandler(event)"
+				fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+				skinClass="tj.ttu.components.skins.input.MultilineTextAreaSkin"
+				/>
+	
+	<!--Remove Answer Button-->
+	<s:Button id="trashButton" 
+			  width="22" height="22" right="30"
+			  buttonMode="true"
+			  verticalCenter="0"
+			  tabFocusEnabled="false"
+			  visible.selectedStates="true"
+			  visible.hoveredStates="true"
+			  visible.normalStates="false"
+			  click="trashButton_clickHandler(event)"
+			  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'deleteItemToolTip' ) || 'Delete Selected Item'}"
+			  skinClass="tj.ttu.components.skins.buttons.TrashCanButtonSkin"
+			  />
+</s:ItemRenderer>

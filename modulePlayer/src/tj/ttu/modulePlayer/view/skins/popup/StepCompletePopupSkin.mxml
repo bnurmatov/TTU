@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2012, Transparent Language, Inc.
+All Rights Reserved.
+Transparent Language Confidential Information
+-->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		contentBackgroundAlpha="0" 
+		height="100%" width="100%"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.modulePlayer.view.components.popup.LearningPopup")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<s:Group height="380" width="600"
+			 verticalCenter="0" horizontalCenter="0"
+			 >
+		<!-- background frame -->
+		<s:Rect id="background" 
+				top="0" bottom="0" left="0" right="0" radiusX="5" alpha="0.5">
+			<s:filters>
+				<s:DropShadowFilter alpha="0.75" angle="270" blurX="4" blurY="4" color="#000000" distance="0" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+				<s:BevelFilter angle="90" blurX="1" blurY="1" distance="1" highlightAlpha="0.1" highlightColor="0xFFFFFF" knockout="false" quality="2" shadowAlpha="0.1" shadowColor="0x000000" strength="1" type="inner"/>
+			</s:filters>
+			<s:fill>
+				<s:SolidColor color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- background color -->
+		<s:Rect	top="5" bottom="5" left="5" right="5" radiusX="5" alpha="1">
+			<s:fill>
+				<s:SolidColor color="#dae2e7"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke caps="none" color="#92999e" joints="miter" miterLimit="4" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!-- title background color -->
+		<s:Rect top="5" left="5" right="4" height="42" radiusX="5" alpha="1">
+			<s:stroke>
+				<s:LinearGradientStroke weight="1" caps="none" miterLimit="4" joints="miter" rotation="90">
+					<s:GradientEntry color="#8EA7B6" alpha="1.0" ratio="0"/>
+					<s:GradientEntry color="#64879B" alpha="1.0" ratio="1"/>
+				</s:LinearGradientStroke>
+			</s:stroke>
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="#ADBFCA" alpha="1.0" ratio="0"/>
+					<s:GradientEntry color="#8EA7B6" alpha="1.0" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter blurX="0" blurY="0" distance="2" hideObject="false" inner="true" color="#FFFFFF" strength="1" alpha="0.47000000000000003" quality="2" knockout="false" angle="129"/>
+				<s:DropShadowFilter blurX="4.0" blurY="4.0" distance="2" hideObject="false" inner="false" color="#435A68" strength="1" alpha="0.5" quality="2" knockout="false" angle="90"/>
+			</s:filters>
+		</s:Rect>
+		
+		<!-- title label -->
+		<s:Label id="titleLabel" 
+				 styleName="uiFont"
+				 left="20" right="67" top="15" height="24"
+				 color="#263b4c"
+				 fontSize="18" 
+				 maxDisplayedLines="1"
+				 textAlign="left"
+				 verticalAlign="middle" 
+				 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'titleStepCompletePopupLabel')||'Step Complete'}"
+				 />
+		
+		<!-- title content label -->
+		<s:Label id="titleContentLabel" 
+				 styleName="uiFont"
+				 horizontalCenter="0" top="85" height="24"
+				 color="#545454"
+				 fontSize="22" fontWeight="bold"
+				 maxDisplayedLines="0"
+				 textAlign="left"
+				 verticalAlign="middle" 
+				 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'titleContentStepCompletePopupLabel', [hostComponent.step])||'Step ' + hostComponent.step + ' Complete'}"
+				 />
+		
+		<!-- content label -->
+		<s:Label id="contentLabel" 
+				 styleName="uiFont"
+				 horizontalCenter="0" top="130" left="40" right="40" bottom="160"
+				 color="#4b6570"
+				 fontSize="18" 
+				 maxDisplayedLines="0"
+				 textAlign="left"
+				 verticalAlign="top" 
+				 text="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'contentStepCompletePopupLabel')||
+				 'You have completed this step. Click Retake to take the step again, continue learning with this step, or go to the next step for this lesson.'}"
+				 />
+		
+		
+		<!-- bottom panel -->
+		<s:HGroup width="100%" height="35" gap="20" 
+				  horizontalCenter="0" horizontalAlign="center" bottom="40"
+				  >
+			
+			<!-- Retake button -->
+			<s:Button id="retakeButton"
+					  buttonMode="true"
+					  width="145" height="35"
+					  label="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'retakeButtonLabel')||'Retake'}"
+					  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'retakeButtonToolTip')}"
+					  skinClass="tj.ttu.components.skins.buttons.BlueBgButtonSkin"
+					  />
+			
+			<!-- Next step button -->
+			<s:Button id="nextStepButton"
+					  buttonMode="true"
+					  width="145" height="35"
+					  label="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'nextStepButtonLabel')||'Next Step'}"
+					  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'nextStepButtonToolTip')}"
+					  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+					  />
+			
+			<!-- Stay Here button -->
+			<s:Button id="stayHereButton"
+					  buttonMode="true"
+					  width="145" height="35"
+					  label="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'stayHereButtonLabel')||'Stay Here'}"
+					  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'stayHereButtonToolTip')|| 'Continue Using Current Step'}"
+					  skinClass="tj.ttu.components.skins.buttons.BlueBgButtonSkin"
+					  />
+			
+		</s:HGroup>	
+	</s:Group>
+</s:Skin>

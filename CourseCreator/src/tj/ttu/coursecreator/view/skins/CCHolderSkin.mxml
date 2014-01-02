@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:comps="tj.ttu.coursecreator.view.components.*"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.coursecreator.view.components.CCHolder")]
+	</fx:Metadata>
+	
+	<!--App Header-->
+	<comps:CCHeader id="header"
+					width="100%" height="90"
+					skinClass="tj.ttu.coursecreator.view.skins.CCHeaderSkin"
+					/>
+	
+	<!--App Main View-->
+	<comps:CCMainView id="mainView" top="55"
+					  width="100%" height="100%"
+					  skinClass="tj.ttu.coursecreator.view.skins.CCMainViewSkin"
+					  />
+</s:Skin>

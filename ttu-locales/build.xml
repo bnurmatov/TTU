@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ttu-locales" basedir="." default="build">
+
+    <!-- =======================================================================
+        Property, tasks definitions, etc.
+    ======================================================================== -->
+
+    <!-- build properties -->
+    <property file="build.properties"/>
+
+    <property environment="env"/>
+
+    <!-- Set flex.sdk location -->
+    <condition property="flex.sdk" value="${env.FLEX_HOME}">
+        <isset property="env.FLEX_HOME"/>
+    </condition>
+    <fail unless="flex.sdk">
+        Property 'flex.sdk' isn't set.
+        Use FLEX_HOME env variable or command line parameter to specify flex sdk location.
+    </fail>
+
+    <!-- for the flex task -->
+    <property name="FLEX_HOME" location="${flex.sdk}"/>
+    <property name="APP_ROOT" location="${basedir}"/>
+    <property name="LOCALE" value="en_US"/>
+
+    <!-- FlexAntTasks (Compiling Flex Applications) -->
+    <taskdef resource="flexTasks.tasks" classpath="${flex.sdk}/ant/lib/flexTasks.jar"/>
+
+    <!-- ensure that build.type is set correctly -->
+    <condition property="build.fail" value="true">
+        <and>
+            <not>
+                <equals arg1="${build.type}" arg2="debug"/>
+            </not>
+            <not>
+                <equals arg1="${build.type}" arg2="release"/>
+            </not>
+        </and>
+    </condition>
+    <fail if="build.fail">
+        Property build.type is set to invalid value "${build.type}".  Use "debug" or "release".
+    </fail>
+
+    <!-- Define "build.debug" based on value of build.type -->
+    <condition property="build.debug" value="true" else="false">
+        <equals arg1="${build.type}" arg2="debug"/>
+    </condition>
+
+    <!-- get a build timestamp -->
+    <tstamp>
+        <format property="build.timestamp" pattern="yyy-MM-dd'T'HH:mm:ss.SSSZ"/>
+    </tstamp>
+
+   
+    <!-- =======================================================================
+        Targets
+    ======================================================================== -->
+
+    <!-- =======================================================================
+        Clean, Prepare
+    ======================================================================== -->
+    <target name="clean" description="Clean up results from previous build">
+        <mkdir dir="${lib.bin}"/>
+        <mkdir dir="${lib.deploy}"/>
+        <mkdir dir="${project.libs}/locale"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${lib.bin}" includes="**/*"/>
+            <fileset dir="${lib.deploy}" includes="**/*"/>
+            <fileset dir="${project.libs}/locale" includes="**/*"/>
+        </delete>
+    </target>
+
+   
+
+    <!-- =======================================================================
+        Build resource bundle
+    ======================================================================== -->
+    <target name="build.ttu.rb" description="Build resource bundles for given set of locales">
+        <!-- Ant-Contrib Tasks (http://ant-contrib.sourceforge.net) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+            classpath="${project.libs}/${conf.external}/ant-contrib.jar"/>
+
+        <delete includeemptydirs="true">
+            <fileset dir="${lib.bin}" includes="**/*"/>
+        </delete>
+        <foreach list="${localeset}" param="current.locale" delimiter=";" target="build.current.rb">
+            <param name="rb.swf" value="${player.module.name}"/>
+            <param name="bundles" value="${player.bundles}"/>
+        </foreach>
+        <zip
+            basedir="${lib.bin}"
+            destfile="${lib.deploy}/locale.zip"/>
+    </target>
+
+    
+    <target name="build.current.rb" description="Build resources">
+        
+        <echo>Compiling resource bundle ${rb.swf} (${current.locale})...</echo>
+        <echo>Included: ${bundles}</echo>
+    	<java jar="${flex.sdk}/lib/mxmlc.jar" fork="true" failonerror="true" maxmemory="512m">
+    	            <arg value="+flexlib=${flex.sdk}/frameworks"/>
+    	            <arg value="-target-player=${player.version}"/>
+    	            <arg value="-strict=true"/>
+    	            <arg value="-static-link-runtime-shared-libraries=true"/>
+    	            <arg value="-library-path+=${lib.root.dir}/locale/{locale}"/>
+    	            <arg value="-include-resource-bundles+=${bundles}"/>
+    	            <arg value="-debug=${build.debug}"/>
+    	            <arg value="-locale=${current.locale}"/>
+    	            <arg value="-source-path=${lib.root.dir}/locale/{locale}"/>
+    	            <arg value="-output=${lib.bin}/locale/${current.locale}/${rb.swf}"/>
+    	        </java>
+    </target>
+
+    <!-- =======================================================================
+        Kit
+    ======================================================================== -->
+    <target name="kit" description="Create zip kit">
+        <zip
+            basedir="${lib.bin}"
+            destfile="${lib.deploy}/locale.zip"/>
+    </target>
+
+    <!-- =======================================================================
+        Build
+    ======================================================================== -->
+    <target name="build" depends="clean">
+        <antcall target="build.ttu.rb"/>
+    	
+    </target>
+</project>

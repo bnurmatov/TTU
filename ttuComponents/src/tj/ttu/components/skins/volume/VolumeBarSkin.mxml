@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	alpha.disabled=".5"
+	width="34"> 
+	
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.mediaClasses.VolumeBar")]
+	</fx:Metadata>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="open" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:PopUpAnchor id="popUp"  displayPopUp.normal="false" displayPopUp.open="true" includeIn="open"
+				   left="0" right="0" top="0" bottom="0" popUpPosition="below" popUpWidthMatchesAnchorWidth="true">
+		
+		<!--- @copy spark.components.mediaClasses.VolumeBar#dropDown -->
+		<s:Group id="dropDown" width="34" height="144" top="0" horizontalCenter="0">
+			<s:filters>
+				<s:DropShadowFilter blurX="6" blurY="6" strength="1.2" quality="2" angle="90" distance="1" color="0x000000" />
+			</s:filters>
+			<s:Rect radiusX="2" radiusY="2" alpha="0.2" width="100%" height="100%" >
+				<s:fill>
+					<s:SolidColor color="0x999999"/>
+				</s:fill>
+			</s:Rect>
+			<s:Rect radiusX="2" radiusY="2" alpha="0.94" width="100%" height="100%" left="1" right="1" top="1" bottom="1">
+				<s:fill>
+					<s:SolidColor color="0x000000"/>
+				</s:fill>
+			</s:Rect>
+			
+			<s:Group top="20" bottom="20" width="16" horizontalCenter="0">
+				
+				<!-- Line top -->
+				<s:Rect height="1" left="7" right="7" top="20" alpha="0.7">
+					<s:fill>
+						<s:SolidColor color="0x999999"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect height="1" left="12" right="12" top="20" alpha="0.9">
+					<s:fill>
+						<s:SolidColor color="0x050505"/>
+					</s:fill>
+				</s:Rect>
+				<!-- Line bottom -->
+				<s:Rect height="1" left="7" right="7" bottom="20" alpha="0.7">
+					<s:fill>
+						<s:SolidColor color="0x999999"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect height="1" left="12" right="12" bottom="20" alpha="0.9">
+					<s:fill>
+						<s:SolidColor color="0x050505"/>
+					</s:fill>
+				</s:Rect>
+				
+				
+				<!-- top icon -->
+				<s:BitmapImage width="12" height="12" top="4" horizontalCenter="0"
+							   source="@Embed('/embed_assets/images/volumeLoud_icon.png')" fillMode="clip"/>
+				<s:BitmapImage width="12" height="12" bottom="4" horizontalCenter="0"
+							   source="@Embed('/embed_assets/images/volumeSoftly_icon.png')" fillMode="clip"/>
+				<s:Group top="20" bottom="20" width="16" horizontalCenter="0">
+					<!--- The skin pat that defines the drop-down slider track.  -->
+					<s:Button id="track" horizontalCenter="0" top="0" bottom="0"
+							  skinClass="tj.ttu.components.skins.volume.VSliderTrackSkin" />
+					
+					<!--- The skin pat that defines the thumb in the drop-down slider track.  -->
+					<s:Button id="thumb" horizontalCenter="0" width="10" height="9" 
+							  skinClass="tj.ttu.components.skins.volume.VSliderThumb" />
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:PopUpAnchor>
+	
+	<s:MuteButton id="muteButton" 
+				  left="0" right="0" top="0" bottom="0" focusEnabled="false" 
+				  skinClass="tj.ttu.components.skins.volume.VolumeButtonSkin"
+				  />
+	
+</s:SparkSkin>

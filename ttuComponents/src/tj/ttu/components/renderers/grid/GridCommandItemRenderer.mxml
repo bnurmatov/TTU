@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" clipAndEnableScrolling="true">
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.events.DataGridEvent;
+			protected function editButton_clickHandler(event:MouseEvent):void
+			{
+				owner.dispatchEvent(new DataGridEvent(DataGridEvent.ITEM_EDIT, -1, data));
+			}
+			
+			override protected function resourcesChanged():void
+			{
+				if(editButton)
+					editButton.width = resourceManager.localeChain[0] == 'ru_RU' ? 130 : 95;
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<!-- edit lesson -->
+	<s:Button id="editButton"  height="32"
+			  label="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'editButtonLabel') || 'Edit'}"
+			  toolTip="{resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'editLessonButtonToolTip') || 'Edit this Lesson'}"
+			  buttonMode="true" 
+			  verticalCenter="0" horizontalCenter="0"
+			  click="editButton_clickHandler(event)"
+			  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+			  />
+	
+</s:GridItemRenderer>

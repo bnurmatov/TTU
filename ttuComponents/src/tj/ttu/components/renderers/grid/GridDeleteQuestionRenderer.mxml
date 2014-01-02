@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" clipAndEnableScrolling="true">
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.ResourceConstants;
+			import tj.ttu.components.events.DataGridEvent;
+			
+			protected function onDeleteButtonClicked(event:MouseEvent):void
+			{
+				owner.dispatchEvent( new DataGridEvent(DataGridEvent.ITEM_DELETE, -1, data));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	
+	<!-- custom states -->
+	<s:states>
+		<s:State name="normal" stateGroups="normalStates"/>
+		<s:State name="hovered" stateGroups="hoveredStates"/>
+		<s:State name="selected" stateGroups="selectedStates"/>
+		<s:State name="down" stateGroups="downStates"/>
+	</s:states>
+	
+	<!-- delete lesson -->
+	<s:Button id="deleteButton" visible="false" 
+			  width="18" height="18" buttonMode="true"
+			  verticalCenter="0" left="10"
+			  click="onDeleteButtonClicked(event)"
+			  visible.selectedStates="true"
+			  visible.hoveredStates="true"
+			  visible.normalStates="false"
+			  toolTip="{resourceManager.getString( ResourceConstants.TTU_COMPONENTS, 'deleteItemToolTip' ) || 'Delete Selected Item'}"
+			  skinClass="tj.ttu.components.skins.buttons.TrashCanButtonSkin"
+			  />	
+	
+</s:GridItemRenderer>

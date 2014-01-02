@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="tj.ttu.base.view.interfaces.IAudioController"/>
+    <classEntry path="tj.ttu.base.constants.TTUConstants"/>
+    <classEntry path="tj.ttu.base.model.font.FontManagerProxy"/>
+    <classEntry path="tj.ttu.base.events.font.FontEvent"/>
+    <classEntry path="tj.ttu.base.font.FontManager"/>
+    <classEntry path="tj.ttu.base.model.resource.ResourceProxy"/>
+    <classEntry path="tj.ttu.base.font.IFontManager"/>
+    <classEntry path="tj.ttu.base.constants.FontConstants"/>
+    <classEntry path="tj.ttu.base.utils.LanguageInfoUtil"/>
+    <classEntry path="tj.ttu.base.model.config.AppConfigProxy"/>
+    <classEntry path="tj.ttu.base.model.AppBaseProxy"/>
+    <classEntry path="tj.ttu.base.constants.LocaleConstants"/>
+    <classEntry path="tj.ttu.base.constants.ResourceConstants"/>
+    <classEntry path="tj.ttu.base.utils.TrimUtil"/>
+    <classEntry path="tj.ttu.base.vo.DepartmentVO"/>
+    <classEntry path="tj.ttu.base.vo.SpecialityVO"/>
+    <classEntry path="tj.ttu.base.coretypes.LessonVO"/>
+    <classEntry path="tj.ttu.base.vo.ImageVO"/>
+    <classEntry path="tj.ttu.base.loader.ImageFileLoader"/>
+    <classEntry path="tj.ttu.base.events.LoaderEvent"/>
+    <classEntry path="tj.ttu.base.loader.ImageUrlLoader"/>
+    <classEntry path="tj.ttu.base.coretypes.ChapterVO"/>
+    <classEntry path="tj.ttu.base.vo.SoundVO"/>
+    <classEntry path="tj.ttu.base.utils.ContentTextFlowUtil"/>
+    <classEntry path="tj.ttu.base.view.mediators.ImageViewWindowMediator"/>
+    <classEntry path="tj.ttu.base.controller.popup.ShowImageViewWindowCommand"/>
+    <classEntry path="tj.ttu.base.view.components.popup.ErrorWindow"/>
+    <classEntry path="tj.ttu.base.view.skins.popup.ErrorWindowSkin"/>
+    <classEntry path="tj.ttu.base.view.mediators.ErrorWindowMediator"/>
+    <classEntry path="tj.ttu.base.controller.popup.ShowErrorWindowCommand"/>
+    <classEntry path="tj.ttu.base.vo.VideoVO"/>
+    <classEntry path="tj.ttu.base.view.components.busyindicator.BusyIndicator"/>
+    <classEntry path="tj.ttu.base.view.components.videoplayer.TTUVideoPlayer"/>
+    <classEntry path="tj.ttu.base.view.components.videoplayer.VideoPlayerPopup"/>
+    <classEntry path="tj.ttu.base.view.skins.videoplayer.VideoPlayerPopupSkin"/>
+    <classEntry path="tj.ttu.base.view.mediators.videoplayer.VideoPlayerPopupMediator"/>
+    <classEntry path="tj.ttu.base.controller.popup.ShowVideoPlayerWindowCommand"/>
+    <classEntry path="tj.ttu.base.vo.ModuleVO"/>
+    <classEntry path="tj.ttu.base.constants.ModuleStatus"/>
+    <classEntry path="tj.ttu.base.utils.ModuleData"/>
+    <classEntry path="tj.ttu.base.vo.ResourceVO"/>
+    <classEntry path="tj.ttu.base.vo.PublishOptionVO"/>
+    <classEntry path="tj.ttu.base.vo.LessonArtifactVO"/>
+    <classEntry path="tj.ttu.base.vo.QuestionVo"/>
+    <classEntry path="tj.ttu.base.vo.AnswerVo"/>
+    <classEntry path="tj.ttu.base.utils.XMLToLessonUtil"/>
+    <classEntry path="tj.ttu.base.utils.ImageNormalizer"/>
+    <classEntry path="tj.ttu.base.utils.ScrollerUtil"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

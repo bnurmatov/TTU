@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:scroller="tj.ttu.components.components.scroller.*" 
+		styleName="uiFont"
+		>
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("tj.ttu.module.assesment.views.components.StartScreenView")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import tj.ttu.base.constants.FontConstants;
+			import tj.ttu.base.constants.ResourceConstants;
+		]]>
+	</fx:Script>
+	
+	<!-- background -->
+	<s:Rect id="bg" top="0" bottom="0" left="0" right="0">
+		<s:filters>
+			<s:GlowFilter alpha="1.0" blurX="1" blurY="1" color="#FFFFFF" inner="true" knockout="false" quality="2" strength="1"/>
+			<s:DropShadowFilter alpha="0.5" angle="45.0" blurX="10" blurY="10" color="0x000000" distance="2" hideObject="false" inner="false" knockout="false" quality="2" strength="1"/>
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#E0E7EB"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--Title Box Components-->
+	<s:Group width="100%" height="50" horizontalCenter="0">
+		
+		<!--Title BG-->
+		<s:Rect left="3" right="3" top="3" bottom="3" width="100%" height="35">
+			<s:fill>
+				<s:SolidColor color="0x6A6B70"/>
+			</s:fill>
+		</s:Rect>
+		<!--Window Title-->
+		<s:Label id="titleLabel" 
+				 width="100%" height="100%" 
+				 color="0xFFFFFF"
+				 text="{resourceManager.getString(ResourceConstants.ACTIVITY, 'startScreenAboutModuleTitleLabel') || 'ABOUT MODULE'}"
+				 styleName="uiFont"
+				 fontWeight="bold"
+				 fontSize="20"
+				 textAlign="center"
+				 verticalAlign="middle" 
+				 verticalCenter="0"
+				 horizontalCenter="0"
+				 />
+	</s:Group>
+	
+	<!--About Module Group-->
+	<scroller:TTUScroller left="20" top="60" right="20" bottom="60" 
+						  minViewportInset="1" measuredSizeIncludesScrollBars="false" 
+						  hasFocusableChildren="false"
+						  verticalScrollPolicy="auto"
+						  horizontalScrollPolicy="off"
+						  >
+		<s:RichEditableText id="aboutModuleTextArea"
+							width="100%" height="100%"
+							paddingBottom="5"
+							paddingTop="5"
+							paddingLeft="5"
+							paddingRight="5"
+							fontSize="16"
+							editable="false"
+							fontLookup="embeddedCFF"
+							widthInChars="{(width-6)/22}"
+							styleName="uiFont"/>
+	</scroller:TTUScroller>
+	
+	<!--Start Lesson Button-->
+	<s:Button id="startButton"
+			  width="100" height="32"
+			  buttonMode="true"
+			  horizontalCenter="0"
+			  bottom="20"
+			  label="{resourceManager.getString( ResourceConstants.ACTIVITY, 'startButtonLabel' ) || 'START'}"
+			  toolTip="{resourceManager.getString( ResourceConstants.ACTIVITY, 'startButtonToolTip' ) || 'Start'}"
+			  skinClass="tj.ttu.components.skins.buttons.RedBgButtonSkin"
+			  />
+</s:Skin>
