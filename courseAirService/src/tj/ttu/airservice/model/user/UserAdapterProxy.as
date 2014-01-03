@@ -153,6 +153,7 @@ package tj.ttu.airservice.model.user
 			statement.parameters[':userId']				= settingVO.userId;
 			statement.parameters[':lessonUuid']			= settingVO.currentLessonUUID;
 			statement.parameters[':viewIndex']			= settingVO.createViewIndex ;
+			statement.parameters[':locale']				= settingVO.locale ;
 			
 			var request:AirRequestVO = new AirRequestVO();
 			request.statement = statement;

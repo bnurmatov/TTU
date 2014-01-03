@@ -96,6 +96,29 @@ package tj.ttu.coursecreatorbase.model
 				_userPrefs = value;
 			}
 		}
+		//----------------------------------------
+		// userPrefs
+		//----------------------------------------
+		private var _currentLocale:String;
+
+		public function get currentLocale():String
+		{
+			return _currentLocale;
+		}
+
+		public function set currentLocale(value:String):void
+		{
+			if( _currentLocale !== value)
+			{
+				_currentLocale = value;
+				if(_currentLocale && _userPrefs && _userPrefs.locale != _currentLocale)
+				{
+					_userPrefs.locale = _currentLocale;
+					sendNotification(CourseServiceNotification.UPDATE_USER_SETTINGS, _userPrefs);
+				}
+			}
+		}
+
 
 		//----------------------------------------
 		// currentMainViewState

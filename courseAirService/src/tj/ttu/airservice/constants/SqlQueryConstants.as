@@ -941,7 +941,8 @@ package tj.ttu.airservice.constants
 																			SET
 																				`user_id` 				= :userId,
 																				`lesson_uuid` 			= :lessonUuid,
-																				`view_index` 			= :viewIndex
+																				`view_index` 			= :viewIndex,
+																				`locale` 				= :locale
 																	WHERE user_id=:userId
 																]]> ).toString();
 		
@@ -955,6 +956,7 @@ package tj.ttu.airservice.constants
 					 SELECT `user_id` as userId,
 							`lesson_uuid` as currentLessonUUID,
 							`view_index` as createViewIndex,
+							`locale`,	
 			(SELECT 1 
 			FROM tbl_User_Lessons USER_LESSONS 
 			WHERE USER_LESSONS.users_user_id = :userId) as hasLesson

@@ -6,6 +6,7 @@
 package tj.ttu.coursecreator.view.components
 {
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 	
 	import mx.core.FlexGlobals;
 	import mx.core.mx_internal;
@@ -73,12 +74,29 @@ package tj.ttu.coursecreator.view.components
 			super();
 		}
 		
-		
 		//--------------------------------------------------------------------------
 		//
 		//  Properties
 		//
 		//--------------------------------------------------------------------------
+		private var selectedIndexChange:Boolean = false;
+		private var _selectedIndex:int = 0;
+
+		public function get selectedIndex():int
+		{
+			return _selectedIndex;
+		}
+
+		public function set selectedIndex(value:int):void
+		{
+			if( _selectedIndex !== value)
+			{
+				_selectedIndex = value;
+				selectedIndexChange = true;
+				invalidateProperties();
+			}
+		}
+
 		private var _language:LocaleVO;
 
 		public function get language():LocaleVO
@@ -101,6 +119,15 @@ package tj.ttu.coursecreator.view.components
 		//  Overridden methods
 		//
 		//--------------------------------------------------------------------------
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			if(selectedIndexChange && languageSelector)
+			{
+				selectedIndexChange = false;
+				languageSelector.setSelectedIndex(_selectedIndex, true);
+			}
+		}
 		
 		override protected function partAdded(partName:String, instance:Object):void
 		{
@@ -111,7 +138,6 @@ package tj.ttu.coursecreator.view.components
 			if(instance == languageSelector)
 			{
 				languageSelector.addEventListener(DropDownEvent.CLOSE, onLanguageChange);
-				languageSelector.addEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
 			}
 			
 		}
@@ -124,7 +150,6 @@ package tj.ttu.coursecreator.view.components
 			if(instance == languageSelector)
 			{
 				languageSelector.removeEventListener(DropDownEvent.CLOSE, onLanguageChange);
-				languageSelector.removeEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
 			}
 			
 			super.partRemoved(partName, instance);
@@ -140,7 +165,20 @@ package tj.ttu.coursecreator.view.components
 		/**
 		 *  @public
 		 */
-		
+		public function changeLanguageByLocale(locale:String):void
+		{
+			if(!locale || !languageSelector.dataProvider)
+				return;
+			for(var i:int=0; i<languageSelector.dataProvider.length; i++)
+			{
+				var item:LocaleVO = languageSelector.dataProvider.getItemAt(i) as LocaleVO;
+				if(item && item.locale == locale)
+				{
+					selectedIndex = i;
+					language = item;
+				}
+			}
+		}
 		/**
 		 *  @private
 		 */
@@ -174,13 +212,6 @@ package tj.ttu.coursecreator.view.components
 				PopUpManager.centerPopUp( view );
 			}
 			helpMenu.selectedIndex = -1;
-		}
-		
-		protected function onUpdateComplete(event:FlexEvent):void
-		{
-			languageSelector.setSelectedIndex(0, true );
-			language = languageSelector.selectedItem as LocaleVO;
-			languageSelector.removeEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
 		}
 		
 		protected function onLanguageChange(event:DropDownEvent):void

@@ -200,6 +200,47 @@ package tj.ttu.coursecreatorbase.view.components.view
 				invalidateSkinState();
 			}
 		}
+		
+		//--------------------------------------
+		//  locale
+		//--------------------------------------
+		private var _locale:String;
+
+		[Bindable(event="localeChange")]
+		public function get locale():String
+		{
+			return _locale;
+		}
+
+		public function set locale(value:String):void
+		{
+			if( _locale !== value)
+			{
+				_locale = value;
+				departmentLabelField = getDepartmentLabelFieldByLocale(value);
+				dispatchEvent(new Event("localeChange"));
+			}
+		}
+		//--------------------------------------
+		//  departmentLabelField
+		//--------------------------------------
+		private var _departmentLabelField:String;
+
+		[Bindable(event="departmentLabelFieldChange")]
+		public function get departmentLabelField():String
+		{
+			return _departmentLabelField;
+		}
+
+		public function set departmentLabelField(value:String):void
+		{
+			if( _departmentLabelField !== value)
+			{
+				_departmentLabelField = value;
+				dispatchEvent(new Event("departmentLabelFieldChange"));
+			}
+		}
+
 		//--------------------------------------------------------------------------
 		//
 		//  Overridden methods
@@ -305,7 +346,14 @@ package tj.ttu.coursecreatorbase.view.components.view
 		/**
 		 *  @public
 		 */
-		
+		private function getDepartmentLabelFieldByLocale(locale:String):String
+		{
+			if(locale == "tg_TJ")
+				return  "departmentTjName";
+			else if(locale == "en_US")
+				return  "departmentEnName";
+			return "departmentRuName";
+		}
 		/**
 		 *  @private
 		 */

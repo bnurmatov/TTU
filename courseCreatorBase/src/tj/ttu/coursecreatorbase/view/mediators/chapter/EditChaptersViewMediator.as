@@ -57,6 +57,7 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 		private var removingChapter:ChapterVO;
 		private var spinMessage:String;
 		private var spinEndNote:String;
+		private var nextNote:String;
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -153,6 +154,7 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 			removingChapter = null;
 			spinMessage = null;
 			spinEndNote = null;
+			nextNote = null;
 			hideBusyProgressBar(CourseServiceNotification.CHAPTERS_RETRIEVED);
 			super.onRemove();
 		}
@@ -181,8 +183,13 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 							if(courseProxy.unsavedPopupShown)
 							{
 								courseProxy.unsavedPopupShown = false;
-								if(component.checkOnValid())
-									sendNotification(CourseCreatorNotifications.START_PREVIOUSE_ACTION);
+								if(nextNote == CourseCreatorNotifications.SHOW_MY_LESSONS)
+								{
+									courseProxy.shouldCheckOnValid = false;
+									sendNotification(nextNote);
+								}
+								else if(component.checkOnValid())
+									sendNotification(nextNote);
 							}
 						}
 					}
@@ -259,7 +266,7 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 					{
 						courseProxy.shouldCheckOnValid = false;
 						courseProxy.unsavedPopupShown = false;
-						sendNotification(CourseCreatorNotifications.START_PREVIOUSE_ACTION);
+						sendNotification(nextNote);
 					}
 					break;
 				}
@@ -284,10 +291,12 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 						component.moveDownHolder();
 					break;
 				}
+				case TTUConstants.LANGUAGE_CHANGE:
 				case CourseCreatorNotifications.USER_IS_GOING_TO_LEAVE_THIS_PAGE:
 				{
 					if(courseProxy && !courseProxy.hasQuestionsChange)
 					{
+						nextNote = note.getName() == TTUConstants.LANGUAGE_CHANGE ? CourseCreatorNotifications.SHOW_MY_LESSONS : CourseCreatorNotifications.START_PREVIOUSE_ACTION;
 						if(courseProxy.hasChange)
 						{
 							courseProxy.unsavedPopupShown = true;
@@ -295,8 +304,13 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 						}
 						else
 						{
-							if(courseProxy.shouldCheckOnValid && component && component.checkOnValid())
-								sendNotification(CourseCreatorNotifications.START_PREVIOUSE_ACTION);
+							if(nextNote == CourseCreatorNotifications.SHOW_MY_LESSONS)
+							{
+								courseProxy.shouldCheckOnValid = false;
+								sendNotification(nextNote);
+							}
+							else if(courseProxy.shouldCheckOnValid && component && component.checkOnValid())
+								sendNotification(nextNote);
 						}
 					}
 					break;
@@ -355,6 +369,7 @@ package tj.ttu.coursecreatorbase.view.mediators.chapter
 			arr.push(CourseServiceNotification.IMAGE_UPDATED);
 			arr.push(CourseServiceNotification.IMAGE_REMOVED);
 			arr.push(CourseCreatorNotifications.REMOVE_IMAGE_ELEMENT);
+			arr.push(TTUConstants.LANGUAGE_CHANGE);
 			arr.push(TTUConstants.SPIN_START);
 			return arr;
 		}

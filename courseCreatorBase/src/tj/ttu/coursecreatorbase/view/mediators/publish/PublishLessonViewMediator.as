@@ -173,6 +173,11 @@ package tj.ttu.coursecreatorbase.view.mediators.publish
 					}
 					break;
 				}	
+				case TTUConstants.LANGUAGE_CHANGE:
+				{
+					sendNotification(CourseCreatorNotifications.SHOW_MY_LESSONS);
+					break;
+				}	
 			}
 		}
 		
@@ -182,6 +187,7 @@ package tj.ttu.coursecreatorbase.view.mediators.publish
 			arr.push( CourseServiceNotification.LESSON_PUBLISHED );
 			arr.push( CourseServiceNotification.ARTIFACTS_RETRIEVED );
 			arr.push(CourseServiceNotification.CHAPTERS_RETRIEVED);
+			arr.push(TTUConstants.LANGUAGE_CHANGE);
 			return arr;
 		}
 		

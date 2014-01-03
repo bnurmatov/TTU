@@ -55,7 +55,7 @@
 												itemRenderer="tj.ttu.components.renderers.grid.GridDisclosureDepartmentItemRenderer"
 												/>
 				
-				<gridcollumn:AdvancedGridColumn dataField="departmentRuName"
+				<gridcollumn:AdvancedGridColumn dataField="{hostComponent.departmentLabelField}"
 												headerText="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'departmentHeaderTextCaps') || 'DEPARTMENT'}" 
 												itemRenderer="tj.ttu.components.renderers.grid.GridDepartmentNameRenderer"
 												headerToolTip="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'departmentHeaderToolTip') || 'Reverse Order of Departments'}"

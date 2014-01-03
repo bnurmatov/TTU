@@ -36,10 +36,11 @@
 			override public function set data(value:Object):void
 			{
 				super.data = value;
+				var field:String = this.column.dataField || "departmentRuName";
 				var item:DepartmentVO  = value as DepartmentVO;
 				if(item)
 				{
-					departmentButton.textFlow = item.departmentRuName ? TLFUtil.createFlow( item.departmentRuName, latinFont, cyrillicFont) : null;;
+					departmentButton.textFlow = item[field] ? TLFUtil.createFlow( item[field], latinFont, cyrillicFont) : null;;
 					enabledElement = true;
 				}
 			}
@@ -87,7 +88,7 @@
 	
 	<s:RichText id="departmentButton" left="0" right="0" top="0" bottom="0" minWidth="200"
 				color="0xFFFFFF"
-				fontFamily="{resourceManager.getString( ResourceConstants.FONT, FontConstants.UI_FONT )}"
+				styleName="uiFont"
 				fontSize="14"
 				maxDisplayedLines="1" paddingLeft="5" paddingRight="5"
 				showTruncationTip="true"

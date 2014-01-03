@@ -315,6 +315,7 @@
 					<!--Return to My Lessons Button-->
 					<s:Button id="returnToLessonsButton" width="200" height="32"
 							  buttonMode="true"
+							  enabled="{hostComponent.closeEnable}"
 							  direction="{resourceManager.getString(ResourceConstants.FONT, FontConstants.UI_DIRECTION) || 'ltr'}"
 							  label="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'returnToLessonsButtonLabel') || 'Return to My Lessons'}"
 							  toolTip="{resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'returnToLessonsButtonToolTip') || 'Return to My Lessons'}"

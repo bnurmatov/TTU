@@ -14,6 +14,7 @@ package tj.ttu.coursecreatorbase.view.mediators
 	
 	import tj.ttu.base.constants.TTUConstants;
 	import tj.ttu.base.coretypes.LessonVO;
+	import tj.ttu.base.vo.LocaleVO;
 	import tj.ttu.components.vo.BusyProgressbarVO;
 	import tj.ttu.coursecreatorbase.constants.CourseCreatorNotifications;
 	import tj.ttu.coursecreatorbase.model.CourseProxy;
@@ -127,12 +128,22 @@ package tj.ttu.coursecreatorbase.view.mediators
 			super.handleNotification(note);
 			switch(note.getName())
 			{
+				case TTUConstants.LANGUAGE_CHANGE:
+				{
+					var vo:LocaleVO = note.getBody() as LocaleVO;
+					if(vo && courseProxy)
+					{
+						courseProxy.currentLocale = vo.locale;
+					}
+					break;
+				}
 				case CourseServiceNotification.USER_SETTINGS_RETRIEVED:
 				{
 					var userPrefs:UserSettingsVO = note.getBody() as UserSettingsVO;
 					if(userPrefs)
 					{
 						courseProxy.userPrefs = userPrefs;
+						courseProxy.currentLocale = userPrefs.locale;
 						courseProxy.currentStateIndex 	= userPrefs.createViewIndex;
 						
 						if(userPrefs.currentLessonUUID)
@@ -169,6 +180,12 @@ package tj.ttu.coursecreatorbase.view.mediators
 				{
 					if(component)
 						component.currentViewIndex = CourseBaseState.getViewIndex( note.getBody() as String);
+					break;
+				}
+				case CourseCreatorNotifications.SHOW_MY_LESSONS:
+				{
+					if(component)
+						component.currentViewIndex = CourseBaseState.getViewIndex( CourseBaseState.COURSE_LIST);
 					break;
 				}
 				case CourseCreatorNotifications.HAS_CHANGE:
@@ -254,6 +271,7 @@ package tj.ttu.coursecreatorbase.view.mediators
 			arr.push(CourseServiceNotification.USER_SETTINGS_RETRIEVED);
 			arr.push(CourseServiceNotification.LESSON_BY_UUID_RETRIEVED);
 			arr.push(CourseCreatorNotifications.CHANGE_MAIN_VIEW);
+			arr.push(CourseCreatorNotifications.SHOW_MY_LESSONS);
 			arr.push(CourseCreatorNotifications.HAS_CHANGE);
 			arr.push(CourseCreatorNotifications.HAS_QUESTIONS_CHANGE);
 			arr.push(CourseCreatorNotifications.START_PREVIOUSE_ACTION);
@@ -264,6 +282,7 @@ package tj.ttu.coursecreatorbase.view.mediators
 			arr.push(TTUConstants.BACK_TO_VIEW);
 			arr.push(TTUConstants.SHOW_ERROR_WINDOW);
 			arr.push(TTUConstants.FONT_LOADED);
+			arr.push(TTUConstants.LANGUAGE_CHANGE);
 			arr.push(CourseCreatorNotifications.SHOW_CREATE_LESSON_POPUP);
 			arr.push(CourseCreatorNotifications.ENABLE_MAIN_TAB_BY_INDEX);
 			arr.push(CourseCreatorNotifications.DISABLE_MAIN_TAB_BY_INDEX);

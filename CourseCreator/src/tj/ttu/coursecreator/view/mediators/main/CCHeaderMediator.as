@@ -13,6 +13,8 @@ package tj.ttu.coursecreator.view.mediators.main
 	import tj.ttu.base.constants.TTUConstants;
 	import tj.ttu.coursecreator.view.components.CCHeader;
 	import tj.ttu.coursecreator.view.events.AppHeaderEvent;
+	import tj.ttu.courseservice.constants.CourseServiceNotification;
+	import tj.ttu.courseservice.model.vo.UserSettingsVO;
 	
 	/**
 	 * CCHeaderMediator class 
@@ -63,6 +65,7 @@ package tj.ttu.coursecreator.view.mediators.main
 			return viewComponent as CCHeader;
 		}
 		
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Overridden methods
@@ -96,12 +99,23 @@ package tj.ttu.coursecreator.view.mediators.main
 		{
 			// TODO Auto Generated method stub
 			super.handleNotification(notification);
+			switch(notification.getName())
+			{
+				case CourseServiceNotification.USER_SETTINGS_RETRIEVED:
+				{
+					var userPrefs:UserSettingsVO = notification.getBody() as UserSettingsVO;
+					if(userPrefs && component)
+					{
+						component.changeLanguageByLocale(userPrefs.locale);
+					}
+					break;
+				}
+			}
 		}
 		
 		override public function listNotificationInterests():Array
 		{
-			// TODO Auto Generated method stub
-			return super.listNotificationInterests();
+			return [CourseServiceNotification.USER_SETTINGS_RETRIEVED];
 		}
 		
 		

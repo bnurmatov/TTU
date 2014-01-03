@@ -17,6 +17,7 @@ package tj.ttu.coursecreatorbase.view.mediators.view
 	import tj.ttu.base.constants.ResourceConstants;
 	import tj.ttu.base.constants.TTUConstants;
 	import tj.ttu.base.coretypes.LessonVO;
+	import tj.ttu.base.model.resource.ResourceProxy;
 	import tj.ttu.base.vo.DepartmentVO;
 	import tj.ttu.components.events.DataGridEvent;
 	import tj.ttu.components.events.LessonEvent;
@@ -91,6 +92,16 @@ package tj.ttu.coursecreatorbase.view.mediators.view
 		{
 			return ResourceManager.getInstance();
 		}
+		
+		private var _resourceProxy:ResourceProxy;
+		
+		public function get resourceProxy():ResourceProxy
+		{
+			if(!_resourceProxy)
+				_resourceProxy = facade.retrieveProxy( ResourceProxy.NAME ) as ResourceProxy;
+			return _resourceProxy;
+		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Overridden methods
@@ -255,8 +266,11 @@ package tj.ttu.coursecreatorbase.view.mediators.view
 		 */
 		private function retrieveDepartments():void
 		{
-			if(component)
+			if(component && resourceProxy)
+			{
 				component.isDepartment = true;
+				component.locale = resourceProxy.locale;
+			}
 			var message:String = resourceManager.getString(ResourceConstants.COURSE_CREATOR, 'retrieveDepartmentsProgressMessage') || 'Retrieving departments';
 			showBusyProgressBar(message, CourseServiceNotification.DEPARTMENTS_RETRIEVED);
 			sendNotification(CourseServiceNotification.RETRIEVE_DEPARTMENTS);

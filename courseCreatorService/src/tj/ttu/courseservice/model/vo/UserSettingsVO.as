@@ -122,6 +122,26 @@ package tj.ttu.courseservice.model.vo
 		
 		
 		//--------------------------------
+		//  locale
+		//--------------------------------
+		private var _locale:String;
+
+		[Bindable(event="localeChange")]
+		public function get locale():String
+		{
+			return _locale;
+		}
+
+		public function set locale(value:String):void
+		{
+			if( _locale !== value)
+			{
+				_locale = value;
+				dispatchEvent(new Event("localeChange"));
+			}
+		}
+
+		//--------------------------------
 		//  hasLesson
 		//--------------------------------
 		private var _hasLesson:Boolean;

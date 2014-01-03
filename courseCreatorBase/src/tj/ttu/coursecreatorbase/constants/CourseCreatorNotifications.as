@@ -32,6 +32,7 @@ package tj.ttu.coursecreatorbase.constants
 		public static const SHOW_CHAPTER_COMMENT_POPUP:String = 'showChapterCommentPopup';	
 		public static const SHOW_UNSAVED_POPUP:String = 'showUnsavedPopup';	
 		public static const CHANGE_MAIN_VIEW:String = 'changeMainView';	
+		public static const SHOW_MY_LESSONS:String = 'showMyLessons';	
 		public static const HAS_CHANGE:String = 'hasChange';	
 		public static const HAS_QUESTIONS_CHANGE:String = 'hasQuestionsChange';	
 		public static const SAVE_CHANGES:String = 'saveChanges';	
