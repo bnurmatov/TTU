@@ -152,6 +152,11 @@ package tj.ttu.airservice.utils
 			return lessonStorageDirectory;
 		}
 		
+		private var appStorageDirectory:String;
+		public function get applicationStorageDirectory():File
+		{
+			return new File(appStorageDirectory);
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Overridden methods
@@ -183,10 +188,11 @@ package tj.ttu.airservice.utils
 		 * @param lesson					The <code>LessonVO</code> object representing the lesson
 		 * @param lessonStorageDirectory		The directory where lists are stored, i.e.: b4x/ or harmoneLists/
 		 */
-		public function convertLessonToB4x(lesson:LessonVO, lessonStorageDirectory:String, isCleanupOggs:Boolean = true):void
+		public function convertLessonToB4x(lesson:LessonVO, appStorageDirectory:String, lessonStorageDirectory:String, isCleanupOggs:Boolean = true):void
 		{
 			this.isCleanupOggs 			= isCleanupOggs;
 			this.lesson 				= lesson;
+			this.appStorageDirectory	= appStorageDirectory;
 			this.lessonStorageDirectory	= lessonStorageDirectory;
 			
 			//CardUtil.removeRootPaths(bykiList.cards, SOUND_PATH, IMAGE_PATH);
@@ -359,7 +365,7 @@ package tj.ttu.airservice.utils
 			var imageFile:File;
 			for each(var assetPath:String in imagePaths)
 			{
-				imageFile = File.applicationStorageDirectory.resolvePath(assetPath);
+				imageFile = applicationStorageDirectory.resolvePath(assetPath);
 				if(imageFile.exists)
 					addAssetToB4x(imageFile, relativeFolderPath + imageFile.name);
 			}
@@ -377,11 +383,11 @@ package tj.ttu.airservice.utils
 			var oggSoundFile:File;
 			for each(var assetPath:String in soundPaths)
 			{
-				mp3SoundFile = File.applicationStorageDirectory.resolvePath(assetPath);
+				mp3SoundFile = applicationStorageDirectory.resolvePath(assetPath);
 				if(mp3SoundFile.exists)
 					addAssetToB4x(mp3SoundFile, relativeFolderPath + mp3SoundFile.name);
 				assetPath = assetPath.replace(/\.mp3$/ig, ".ogg");
-				oggSoundFile = File.applicationStorageDirectory.resolvePath(assetPath);
+				oggSoundFile = applicationStorageDirectory.resolvePath(assetPath);
 				if(oggSoundFile.exists)
 					addAssetToB4x(oggSoundFile, relativeFolderPath + oggSoundFile.name);
 			}
@@ -398,7 +404,7 @@ package tj.ttu.airservice.utils
 			var videoFile:File;
 			for each(var assetPath:String in videoPaths)
 			{
-				videoFile = File.applicationStorageDirectory.resolvePath(assetPath);
+				videoFile = applicationStorageDirectory.resolvePath(assetPath);
 				if(videoFile.exists)
 					addAssetToB4x(videoFile, relativeFolderPath + videoFile.name);
 			}
@@ -414,7 +420,7 @@ package tj.ttu.airservice.utils
 			var resourceFile:File;
 			for each(var assetPath:String in resourcePaths)
 			{
-				resourceFile = File.applicationStorageDirectory.resolvePath(assetPath);
+				resourceFile = applicationStorageDirectory.resolvePath(assetPath);
 				if(resourceFile.exists)
 					addAssetToB4x(resourceFile, relativeFolderPath + resourceFile.name);
 			}

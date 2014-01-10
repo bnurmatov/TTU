@@ -20,6 +20,7 @@ package tj.ttu.coursecreatorbase.view.components.resource
 	import flashx.textLayout.formats.TextLayoutFormat;
 	import flashx.textLayout.operations.InsertInlineGraphicOperation;
 	import flashx.textLayout.operations.InsertTextOperation;
+	import flashx.textLayout.operations.PasteOperation;
 	
 	import mx.binding.utils.ChangeWatcher;
 	import mx.collections.IList;
@@ -218,7 +219,7 @@ package tj.ttu.coursecreatorbase.view.components.resource
 				resourceTitle 	= _currentResource ? _currentResource.title : null;
 				comment 		= _currentResource ? _currentResource.comment : null;
 				url 			= _currentResource ? _currentResource.url : null;
-				resourcePath 	= _currentResource ? _currentResource.resourcePath : null;
+				resourcePath 	= _currentResource ? _currentResource.resourceNativePath : null;
 				resourceType 	= _currentResource ? _currentResource.resouceType : null;
 				if(_currentResource)
 					resourcePathWatcher = ChangeWatcher.watch(_currentResource, "resourcePath", resourcePathChange);
@@ -406,13 +407,15 @@ package tj.ttu.coursecreatorbase.view.components.resource
 			if(instance == titleTextArea)
 			{
 				titleTextArea.addEventListener(TextOperationEvent.CHANGE, onTitleTextChange);
+				titleTextArea.addEventListener(TextOperationEvent.CHANGING, onPreventPasteOperation);
 				titleTextArea.addEventListener(Event.PASTE, onTitlePasteText);
 				titleTextArea.enabled = false;
 			}
 			if(instance == urlTextArea)
 			{
 				urlTextArea.addEventListener(TextOperationEvent.CHANGE, onUrlTextChange);
-				//urlTextArea.addEventListener(Event.PASTE, onUrlPasteText);
+				urlTextArea.addEventListener(TextOperationEvent.CHANGING, onPreventPasteOperation);
+				urlTextArea.addEventListener(Event.PASTE, onUrlPasteText);
 				urlTextArea.enabled = false;
 			}
 			if(instance == commentTextArea)
@@ -449,12 +452,14 @@ package tj.ttu.coursecreatorbase.view.components.resource
 			if(instance == titleTextArea)
 			{
 				titleTextArea.removeEventListener(TextOperationEvent.CHANGE, onTitleTextChange);
+				titleTextArea.removeEventListener(TextOperationEvent.CHANGING, onPreventPasteOperation);
 				titleTextArea.removeEventListener(Event.PASTE, onTitlePasteText);
 			}
 			if(instance == urlTextArea)
 			{
 				urlTextArea.removeEventListener(TextOperationEvent.CHANGE, onUrlTextChange);
-				//urlTextArea.removeEventListener(Event.PASTE, onUrlPasteText);
+				urlTextArea.removeEventListener(TextOperationEvent.CHANGING, onPreventPasteOperation);
+				urlTextArea.removeEventListener(Event.PASTE, onUrlPasteText);
 			}
 			if(instance == commentTextArea)
 			{
@@ -739,6 +744,17 @@ package tj.ttu.coursecreatorbase.view.components.resource
 			formatInputText(urlTextArea, event );
 			compareChanges();
 			
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */		
+		private function onPreventPasteOperation(event:TextOperationEvent):void
+		{
+			if(event.operation is PasteOperation)
+				event.preventDefault();
 		}
 		
 		protected function onRadioButtonClick(event:Event):void

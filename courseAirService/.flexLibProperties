@@ -123,6 +123,7 @@
     <classEntry path="tj.ttu.airservice.controller.settings.RetrieveUserSettingsCommand"/>
     <classEntry path="tj.ttu.airservice.controller.lesson.update.UpdateLocalLessonMaxActiveViewIndexCommand"/>
     <classEntry path="tj.ttu.airservice.controller.lesson.retrieve.RetrieveLocalLessonByUuidCommand"/>
+    <classEntry path="tj.ttu.airservice.utils.Workers"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

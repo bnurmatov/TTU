@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 package tj.ttu.base.vo
 {
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	import flash.events.Event;
 
 	[Bindable]
 	/**
@@ -113,6 +113,24 @@ package tj.ttu.base.vo
 			_url = value;
 		}
 		
+		//------------------------------------------
+		// resourceNativePath
+		//------------------------------------------
+		private var _resourceNativePath:String;
+
+		public function get resourceNativePath():String
+		{
+			return _resourceNativePath;
+		}
+
+		public function set resourceNativePath(value:String):void
+		{
+			if( _resourceNativePath !== value)
+			{
+				_resourceNativePath = value;
+			}
+		}
+
 		//------------------------------------------
 		// resourcePath
 		//------------------------------------------

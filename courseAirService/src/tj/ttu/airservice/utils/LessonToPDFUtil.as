@@ -24,6 +24,10 @@ package tj.ttu.airservice.utils
 	import flashx.textLayout.formats.ITextLayoutFormat;
 	import flashx.textLayout.formats.TextDecoration;
 	
+	import mx.collections.IList;
+	import mx.resources.IResourceManager;
+	import mx.resources.ResourceManager;
+	
 	import org.purepdf.Font;
 	import org.purepdf.colors.RGBColor;
 	import org.purepdf.elements.Chunk;
@@ -49,11 +53,13 @@ package tj.ttu.airservice.utils
 	import spark.components.RichText;
 	
 	import tj.ttu.airservice.utils.events.UtilEvent;
+	import tj.ttu.base.constants.ResourceConstants;
 	import tj.ttu.base.coretypes.ChapterVO;
 	import tj.ttu.base.coretypes.LessonVO;
 	import tj.ttu.base.font.TTFFontManager;
 	import tj.ttu.base.utils.InsertMediaUtil;
 	import tj.ttu.base.utils.LanguageInfoUtil;
+	import tj.ttu.base.vo.QuestionVo;
 	
 	/**
 	 * LessonToPDFUtil class 
@@ -123,33 +129,7 @@ package tj.ttu.airservice.utils
 		 * 
 		 */				
 		private var isImagesLoaded:Boolean = false;
-		/**
-		 * 
-		 * <code>l1FontName</code>First font's name for the first loaded font.
-		 * 
-		 */		
-		private var l1FontName:String;
 		
-		/**
-		 * 
-		 * <code>l2FontName</code>Second font's name for the second loaded font.
-		 * 
-		 */		
-		private var l2FontName:String;
-		
-		/**
-		 * 
-		 * <code>_l1Code</code> First language code.
-		 * 
-		 */ 
-		private var _l1Code:String;
-		
-		/**
-		 * 
-		 * <code>_l2Code</code> Second language code.
-		 * 
-		 */ 
-		private var _l2Code:String;
 		private var headerText:String;
 		
 		
@@ -243,16 +223,13 @@ package tj.ttu.airservice.utils
 		 */
 		protected function createDocument( subject: String=null, author:String=null, creator:String=null, rect: RectangleElement=null ): void
 		{
-			
 			if ( rect == null )
 				rect = PageSize.A4;
-			
 			leading = 8;
 			startBodyElementIndex = 0;
 			elements = [];
 			errors = [];
 			errorParagraph = new Paragraph("");
-			
 			
 			line = getLine();
 			
@@ -462,124 +439,7 @@ package tj.ttu.airservice.utils
 				}
 			}
 		}
-		/*		protected function fromMxmlChildren(mxmlChildren:Array):void
-		{
-		var children:FlowElement;
 		
-		for (var i:int = 0; i < mxmlChildren.length; i++)
-		{
-		var obj:Object = mxmlChildren[i];
-		children =obj as FlowElement;
-		if (children is DivElement)
-		{
-		var divFormat:ITextLayoutFormat = children.computedFormat;
-		fromMxmlChildren(DivElement(children).mxmlChildren)
-		}
-		else if (children is ParagraphElement)
-		{
-		var paragraphFormat:ITextLayoutFormat = children.computedFormat;
-		
-		direction = paragraphFormat.direction;
-		initContainer();
-		
-		fromMxmlChildren(ParagraphElement(children).mxmlChildren);
-		paragraph.leading = leading;
-		
-		paragraph.spacingBefore = parseInteger(paragraphFormat.paddingTop);
-		paragraph.spacingAfter = parseInteger(paragraphFormat.paddingBottom);
-		paragraph.indentationLeft = parseInteger(paragraphFormat.paddingLeft);
-		paragraph.indentationRight = parseInteger(paragraphFormat.paddingRight);
-		
-		// not implemented in exeption
-		paragraph.alignment = Element.ALIGN_LEFT
-		addContainer();
-		}
-		else if (children is InlineGraphicElement)
-		{
-		var ige:InlineGraphicElement = children as InlineGraphicElement;
-		var alignment:int;
-		var image: ImageElement = ImageElement.getBitmapDataInstance( ige.source as BitmapData );
-		image.scaleAbsolute(Number(ige.width), Number(ige.height));
-		if(ige.float == Float.LEFT)
-		alignment = ImageElement.LEFT;
-		else if(ige.float == Float.RIGHT)
-		alignment = ImageElement.RIGHT;
-		if(ige.float == Float.NONE)
-		alignment = ImageElement.MIDDLE;
-		image.alignment = alignment;
-		document.add( image );
-		
-		}
-		else if (children is FlowLeafElement)
-		{
-		var childText:String = FlowLeafElement(children).text;
-		childText = childText.replace(/\u2028/ig, "\n");	// <br/> -> u2028 -> \n
-		var spanFormat:ITextLayoutFormat = children.computedFormat;
-		var pdfFontFamilyName:String = spanFormat.fontFamily;
-		var font:Font = getFont(spanFormat);
-		var backgroundColor:Number = getBackgroundColor(spanFormat);
-		var lineHeightString:String = spanFormat.getStyle("initLineHeight");
-		lineHeightString = lineHeightString ? lineHeightString+"%" : spanFormat.lineHeight;
-		if (lineHeightString.indexOf("%")>0)
-		{
-		leading = Math.max(leading, font.getCalculatedLeading( parseInt(lineHeightString)/100 ));
-		}
-		else
-		{
-		leading =  Math.max(leading, parseInt(lineHeightString));
-		}
-		
-		chunkBackground = RGBColor.fromARGB(backgroundColor)
-		
-		var parts:Array = splitText(childText);
-		var len:int = parts.length
-		for (var j:int = 0; j < len ; j++) 
-		{
-		childText = parts[j];
-		var chunk:Chunk = new Chunk("", font);
-		if (spanFormat.textAlpha==0)
-		chunk.setTextRenderMode(PdfContentByte.TEXT_RENDER_MODE_INVISIBLE, PdfContentByte.TEXT_RENDER_MODE_STROKE, null);
-		chunk.setBackground(chunkBackground);
-		chunk.append(childText);
-		
-		var pdfChunk:PdfChunk;
-		var errorString:String;
-		
-		try
-		{
-		pdfChunk = PdfChunk.fromChunk(chunk, null);
-		}
-		catch (e:Error)
-		{
-		errorString = "Unsupported:" + e.toString();
-		}
-		
-		if (errorString)
-		{
-		trace(errorString);
-		childText = errorString;
-		chunk =  getErrorChunk(childText);
-		errorParagraph.add(chunk);
-		errors.push(errorParagraph);
-		errorParagraph = new Paragraph("");
-		}
-		else
-		{
-		// put
-		phrase.leading = leading;
-		paragraph.leading = leading;
-		phrase.add(chunk);
-		paragraph.add(chunk);						
-		}
-		
-		paragraphChildText += childText;
-		
-		addContainer();
-		initContainer();
-		}
-		}
-		}
-		}*/
 		
 		private function splitText(text:String):Array
 		{
@@ -593,6 +453,50 @@ package tj.ttu.airservice.utils
 				index+=MAX_TEXT_LENGTH;
 			} while(index, index<LEN);
 			return parts;
+		}
+		
+		private function addLongTextToParagraph(str:String, font:Font):Paragraph
+		{
+			var par:Paragraph = new Paragraph("");
+			var parts:Array = splitText(str);
+			var len:int = parts.length;
+			var partStr:String;
+			for (var i:int = 0; i < len ; i++) 
+			{
+				partStr = parts[i];
+				var chunk:Chunk = new Chunk("", font);
+				chunk.append(partStr);
+				
+				var pdfChunk:PdfChunk;
+				var errorString:String;
+				
+				try
+				{
+					pdfChunk = PdfChunk.fromChunk(chunk, null);
+				}
+				catch (e:Error)
+				{
+					errorString = "Unsupported:" + e.toString();
+				}
+				
+				if (errorString)
+				{
+					trace(errorString);
+					partStr = errorString;
+					chunk =  getErrorChunk(partStr);
+					errorParagraph.add(chunk);
+					errors.push(errorParagraph);
+					errorParagraph = new Paragraph("");
+				}
+				else
+				{
+					// put
+					par.leading = font.size * 1.2;
+					par.add(chunk);
+					par.add( new Chunk( "\n", font ) );
+				}
+			}
+			return par;	
 		}
 		
 		private function getErrorChunk(value:String):Chunk
@@ -647,7 +551,8 @@ package tj.ttu.airservice.utils
 				headerText = lesson.name;
 				createDocument(lesson.name, lesson.creator, lesson.creatorURL);
 				addBookTitlePage()
-				addHeaderPages();
+				addAboutAuthorPages();
+				addAboutLessonPages();
 				startBodyElementIndex = elements.length - 1;
 				for each(var item:ChapterVO in lesson.chapters)
 				{
@@ -664,21 +569,52 @@ package tj.ttu.airservice.utils
 							fromMxmlChildren( richText.textFlow.mxmlChildren );
 						
 						elements.push(Paragraph.fromChunk( Chunk.NEWLINE));
+						addChapterQuestionsPage(item.questions);
 					}
 				}
 				addElementsToDocument();
 			}
 		}
 		
+		private function get resourceManager():IResourceManager
+		{
+			return ResourceManager.getInstance();
+		}
 		private function addBookTitlePage():void
 		{
-			var bookNameFont:Font = defaultFont.clone() as Font;
-			bookNameFont.size = 36;
-			bookNameFont.style = 1;
+			var titlePageFont:Font = defaultFont.clone() as Font;
+			titlePageFont.size = 22;
+			titlePageFont.style = 1;
 			if(lesson)
 			{
-				var paragraph:Paragraph =  new Paragraph(lesson.name , bookNameFont);
-				paragraph.alignment = Element.ALIGN_CENTER;
+				var ttuTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'ttuLabelText');
+				var ttuParagraph:Paragraph =  addLongTextToParagraph(ttuTitle , titlePageFont);
+				ttuParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(ttuParagraph);
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
+				var departmentTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'depatrmentTitleLabelText', [lesson.departmentName]);
+				var departmentParagraph:Paragraph =  addLongTextToParagraph(departmentTitle , titlePageFont);
+				departmentParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(departmentParagraph);
+				
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
+				var specilaityTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'specialityTitleLabelText', [lesson.specialityName]);
+				var specilaityParagraph:Paragraph =  addLongTextToParagraph(specilaityTitle , titlePageFont);
+				specilaityParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(specilaityParagraph);
+				
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
+				var disciplineTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'diciplineTitleLabelText', [lesson.discipline]);
+				var disciplineParagraph:Paragraph =  addLongTextToParagraph(disciplineTitle , titlePageFont);
+				disciplineParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(disciplineParagraph);
+				
 				
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
@@ -691,27 +627,103 @@ package tj.ttu.airservice.utils
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				var bookNameFont:Font = defaultFont.clone() as Font;
+				bookNameFont.size = 36;
+				bookNameFont.style = 1;
+				var titleParagraph:Paragraph =  new Paragraph(lesson.name , bookNameFont);
+				titleParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(titleParagraph);
+				
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
+				var dushanbeTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'dushanbeTitleLabelText', [new Date().fullYear]);
+				var dushanbeParagraph:Paragraph =  new Paragraph(dushanbeTitle , titlePageFont);
+				dushanbeParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(dushanbeParagraph);
+			}
+		}
+		
+		private function addChapterQuestionsPage(questions:IList):void
+		{
+			var questionsNameFont:Font = defaultFont.clone() as Font;
+			questionsNameFont.size = 22;
+			questionsNameFont.style = 1;
+			if(lesson && questions && questions.length > 0)
+			{
+				var richText:RichText = new RichText();
+				elements.push(Paragraph.fromChunk( Chunk.NEXTPAGE));
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				var questionTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'chapterQuestionsLabelText');
+				var paragraph:Paragraph =  new Paragraph(questionTitle , questionsNameFont);
+				paragraph.alignment = Element.ALIGN_CENTER;
 				elements.push(paragraph);
+				var i:int = 1;
+				for each(var item:QuestionVo in questions)
+				{
+					elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+					richText.textFlow = InsertMediaUtil.createChapterFlowForPDF( i + ". " + item.text);
+					if(richText.textFlow)
+						fromMxmlChildren( richText.textFlow.mxmlChildren );
+					i++;
+				}
 				elements.push(Paragraph.fromChunk( Chunk.NEXTPAGE));
 			}
 		}
 		
-		private function addHeaderPages():void
+		private function addAboutAuthorPages():void
 		{
 			var richText:RichText = new RichText();
 			var tableOfContents:String = "";
 			var count:int = 1;
 			if(lesson)
 			{
+				var titlePageFont:Font = defaultFont.clone() as Font;
+				titlePageFont.size = 22;
+				titlePageFont.style = 1;
+				
+				var authorTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutAuthorTitleLabelText');
+				var authorParagraph:Paragraph =  new Paragraph(authorTitle , titlePageFont);
+				authorParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(authorParagraph);
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
 				richText.textFlow = InsertMediaUtil.createChapterFlowForPDF(lesson.aboutCreator, lesson.aboutCreatorImages);
 				if(richText.textFlow)
 					fromMxmlChildren( richText.textFlow.mxmlChildren );
+				elements.push(Paragraph.fromChunk( Chunk.NEXTPAGE));
+			}
+		}
+		
+		private function addAboutLessonPages():void
+		{
+			if(lesson)
+			{
+				var titlePageFont:Font = defaultFont.clone() as Font;
+				titlePageFont.size = 22;
+				titlePageFont.style = 1;
+				
+				var lessonTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutLessonTitleLabelText');
+				var aboutLessonParagraph:Paragraph =  new Paragraph(lessonTitle , titlePageFont);
+				aboutLessonParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(aboutLessonParagraph);
+				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
+				
+				var descParagraph:Paragraph =  addLongTextToParagraph(lesson.description , defaultFont);
+				descParagraph.alignment = Element.ALIGN_CENTER;
+				elements.push(descParagraph);
+				
 				elements.push(Paragraph.fromChunk( Chunk.NEXTPAGE));
 			}
 		}
@@ -804,24 +816,21 @@ package tj.ttu.airservice.utils
 		 * @see com.transparent.utils.language.LanguageInfoManager
 		 * 
 		 */		
-		public function setFonts( l1Code:String, l2Code:String ) : void
+		public function setFonts():void
 		{
-			var manager:LanguageInfoUtil = LanguageInfoUtil.getInstance();
-			
-			var tempL1FontName:String = manager.getFontByLanguageCode( l1Code );
-			var tempLl2FontName:String = manager.getFontByLanguageCode( l2Code );
-			l1FontName = tempL1FontName? tempL1FontName + "TTF": "LatinTTF";
-			l2FontName = tempLl2FontName? tempLl2FontName + "TTF": "LatinTTF";
+			var fonts:Array = LanguageInfoUtil.getInstance().getFonts();
+			var pdfFontsToLoad:Array = [];
+			for each(var fontName:String in fonts)
+			{
+				pdfFontsToLoad.push('fonts/ttfForPdf/' + fontName + "TTF.swf");
+			}
 			
 			isFontLoaded = false;
 			fontLoader = new TTFFontManager();
 			fontLoader.addEventListener( IOErrorEvent.IO_ERROR, onIOErrorEventHandler );
 			fontLoader.addEventListener( Event.COMPLETE, onFontsLoadComplete );
 			fontLoader.addEventListener( ProgressEvent.PROGRESS, onProgressEventHandler );
-			fontLoader.load( [ 'fonts/ttfForPdf/' + l1FontName + '.swf', 'fonts/ttfForPdf/' + l2FontName + '.swf' ] );
-			
-			_l1Code = l1Code;
-			_l2Code = l2Code;
+			fontLoader.load( pdfFontsToLoad );
 		}
 		
 		/**
@@ -863,8 +872,11 @@ package tj.ttu.airservice.utils
 			fontLoader.removeEventListener( IOErrorEvent.IO_ERROR, onIOErrorEventHandler );
 			fontLoader.removeEventListener( ProgressEvent.PROGRESS, onProgressEventHandler );
 			var loadedFonts:Array = [];
-			loadedFonts.push( fontLoader.getFont(l1FontName));
-			loadedFonts.push( fontLoader.getFont(l2FontName));
+			var fontsArray:Array = LanguageInfoUtil.getInstance().getFonts();
+			for each(var fontName:String in fontsArray)
+			{
+				loadedFonts.push(fontLoader.getFont(fontName + "TTF"));
+			}
 			fonts = loadedFonts;
 			isFontLoaded = true;
 			startProcess();

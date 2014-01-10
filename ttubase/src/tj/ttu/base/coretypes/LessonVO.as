@@ -99,11 +99,20 @@ package tj.ttu.base.coretypes
 		 *  Lesson department.
 		 */
 		public var departmentId:int;
+		
+		/**
+		 *  Lesson department.
+		 */
+		public var departmentName:String;
 
 		/**
 		 *  Lesson speciality Id.
 		 */
 		public var specialityId:int;
+		/**
+		 *  Lesson speciality name.
+		 */
+		public var specialityName:String;
 
 		/**
 		 *  Lesson speciality Id.

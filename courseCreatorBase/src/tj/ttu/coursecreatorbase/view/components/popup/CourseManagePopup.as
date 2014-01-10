@@ -160,7 +160,9 @@ package tj.ttu.coursecreatorbase.view.components.popup
 				dispatchEvent(new Event("lessonChange"));
 				title = _lesson ? _lesson.name : null;
 				departmentId = _lesson ? _lesson.departmentId : null;
+				departmentName = _lesson ? _lesson.departmentName : null;
 				specialityId = _lesson ? _lesson.specialityId : null;
+				specialityName = _lesson ? _lesson.specialityName : null;
 				discipline = _lesson ? _lesson.discipline : null;
 			}
 		}
@@ -229,6 +231,7 @@ package tj.ttu.coursecreatorbase.view.components.popup
 		//-----------------------------------------
 		// department
 		//-----------------------------------------
+		private var departmentName:String;
 		private var _departmentId:int;
 		
 		public function get departmentId():int
@@ -288,6 +291,7 @@ package tj.ttu.coursecreatorbase.view.components.popup
 		//-----------------------------------------
 		// speciality
 		//-----------------------------------------
+		private var specialityName:String;
 		private var _specialityId:int;
 		
 		public function get specialityId():int
@@ -630,9 +634,11 @@ package tj.ttu.coursecreatorbase.view.components.popup
 		public function resetComponent():void
 		{
 			specialityId 	= 0;
+			specialityName 	= null;
 			specialities 	= null;
 			lesson 			= null;
 			departments 	= null;
+			departmentName 	= null;
 			departmentId 	= 0;
 			title 			= null;
 			discipline 		= null;
@@ -780,7 +786,9 @@ package tj.ttu.coursecreatorbase.view.components.popup
 			var lesson:LessonVO = new LessonVO();
 			lesson.name = _title;
 			lesson.departmentId = _departmentId;
+			lesson.departmentName = departmentName;
 			lesson.specialityId = _specialityId;
+			lesson.specialityName = specialityName;
 			lesson.discipline = _discipline;
 			dispatchEvent(new CourseEvent(CourseEvent.CREATE_LESSON, lesson));
 		}
@@ -792,6 +800,8 @@ package tj.ttu.coursecreatorbase.view.components.popup
 				lesson.name = _title;
 				lesson.departmentId = _departmentId;
 				lesson.specialityId = _specialityId;
+				lesson.departmentName = departmentName;
+				lesson.specialityName = specialityName;
 				lesson.discipline = _discipline;
 				dispatchEvent(new CourseEvent(CourseEvent.SAVE_LESSON, lesson));
 			}
@@ -804,7 +814,9 @@ package tj.ttu.coursecreatorbase.view.components.popup
 				var clonnigLesson:LessonVO = new LessonVO();
 				clonnigLesson.name 			= _title;
 				clonnigLesson.departmentId 	= _departmentId;
-				clonnigLesson.specialityId 	= _specialityId;
+				clonnigLesson.departmentName = departmentName;
+				clonnigLesson.specialityId   = _specialityId;
+				clonnigLesson.specialityName = specialityName;
 				clonnigLesson.discipline 	= _discipline;
 				clonnigLesson.guid 			= lesson.guid;
 				clonnigLesson.version 		= lesson.version;
@@ -831,6 +843,7 @@ package tj.ttu.coursecreatorbase.view.components.popup
 			{
 				var vo:SpecialityVO = specialtyList.selectedItem as SpecialityVO;
 				_specialityId = vo.id;
+				specialityName = vo[specialityLabelField];
 			}
 			compareChanges();
 		}
@@ -841,6 +854,7 @@ package tj.ttu.coursecreatorbase.view.components.popup
 			{
 				var vo:DepartmentVO = departmentList.selectedItem as DepartmentVO;
 				_departmentId = vo.departmentCode;
+				departmentName = vo[departmentLabelField];
 			}
 			compareChanges();
 		}

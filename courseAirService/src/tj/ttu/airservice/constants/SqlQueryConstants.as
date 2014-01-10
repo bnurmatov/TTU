@@ -24,9 +24,9 @@ package tj.ttu.airservice.constants
 		public static const GET_ALL_DEPARTMENTS_SQL:String = ( <![CDATA[
 																		SELECT DP.fKaf_Code as departmentCode,
 																				DP.fKaf_Faculty as facultyCode,
-																				DP.fKaf_NameTaj as departmentTjName,
-																				DP.fKaf_NameRus as departmentRuName,
-																				DP.fKaf_NameEng as departmentEnName,
+																				DP.fKaf_Name_tg_TJ as departmentTjName,
+																				DP.fKaf_Name_ru_RU as departmentRuName,
+																				DP.fKaf_Name_en_US as departmentEnName,
 																				DP.fKaf_NameTajShort as departmentTjShortName,
 																				DP.fKaf_NameRusShort as departmentRuShortName,
 																				DP.fKaf_NameEngShort as departmentEnShortName,
@@ -41,9 +41,9 @@ package tj.ttu.airservice.constants
 		public static const GET_DEPARTMENTS_SQL:String = ( <![CDATA[
 																		SELECT DP.fKaf_Code as departmentCode,
 																				DP.fKaf_Faculty as facultyCode,
-																				DP.fKaf_NameTaj as departmentTjName,
-																				DP.fKaf_NameRus as departmentRuName,
-																				DP.fKaf_NameEng as departmentEnName,
+																				DP.fKaf_Name_tg_TJ as departmentTjName,
+																				DP.fKaf_Name_ru_RU as departmentRuName,
+																				DP.fKaf_Name_en_US as departmentEnName,
 																				DP.fKaf_NameTajShort as departmentTjShortName,
 																				DP.fKaf_NameRusShort as departmentRuShortName,
 																				DP.fKaf_NameEngShort as departmentEnShortName,
@@ -65,9 +65,9 @@ package tj.ttu.airservice.constants
 		public static const GET_SPECIALITIES_SQL:String = ( <![CDATA[
 																		SELECT SP.fID as id,
 																			SP.fSpec_Faculty as facultyCode,
-																			SP.fSpec_NameTaj as specialityTjName,
-																			SP.fSpec_NameRus as specialityRuName,
-																			SP.fSpec_NameEng as specialityEnName,
+																			SP.fSpec_Name_tg_TJ as specialityTjName,
+																			SP.fSpec_Name_ru_RU as specialityRuName,
+																			SP.fSpec_Name_en_US as specialityEnName,
 																			SP.fSpec_NameTajShort as specialityTjShortName,
 																			SP.fSpec_NameRusShort as specialityRuShortName,
 																			SP.fSpec_NameEngShort as specialityEnShortName,
@@ -192,6 +192,7 @@ package tj.ttu.airservice.constants
 			WHERE LESSON.departmentId = :departmentId AND
 			LESSON.specialityId = :specialityId AND
 			LESSON.name = :lessonName AND
+			LESSON.locale = :locale AND
 			USERLESSON.users_user_id = :userId AND LESSON.published = 0
 															]]> ).toString();
 		
@@ -213,7 +214,9 @@ package tj.ttu.airservice.constants
 							LESSON.`creation_date` as creationDate,
 							LESSON.`last_modified_date` as lastModifiedDate,
 							LESSON.`departmentId`,
+							(SELECT CASE  WHEN LESSON.`locale` = 'tg_TJ' THEN  KAFEDRA.`fKaf_Name_tg_TJ` ELSE CASE LESSON.`locale` WHEN LESSON.`locale` = 'ru_RU' THEN KAFEDRA.`fKaf_Name_ru_RU` ELSE KAFEDRA.`fKaf_Name_en_US` END END FROM `tblSpr_Kafedra` KAFEDRA WHERE KAFEDRA.`fKaf_Code` = LESSON.`departmentId`) as departmentName,
 							LESSON.`specialityId`,
+							(SELECT CASE  WHEN LESSON.`locale` = 'tg_TJ' THEN  SPEC.`fSpec_Name_tg_TJ` ELSE CASE LESSON.`locale` WHEN LESSON.`locale` = 'ru_RU' THEN SPEC.`fSpec_Name_ru_RU` ELSE SPEC.`fSpec_Name_en_US` END END FROM `tbl_Spec` SPEC WHERE SPEC.`fID` = LESSON.`specialityId`) as specialityName,
 							LESSON.`discipline`,
 							LESSON.`list_state` as lessonState,
 							LESSON.`visibility`,
@@ -250,7 +253,9 @@ package tj.ttu.airservice.constants
 							LESSON.`creation_date` as creationDate,
 							LESSON.`last_modified_date` as lastModifiedDate,
 							LESSON.`departmentId`,
+							(SELECT CASE  WHEN LESSON.`locale` = 'tg_TJ' THEN  KAFEDRA.`fKaf_Name_tg_TJ` ELSE CASE LESSON.`locale` WHEN LESSON.`locale` = 'ru_RU' THEN KAFEDRA.`fKaf_Name_ru_RU` ELSE KAFEDRA.`fKaf_Name_en_US` END END FROM `tblSpr_Kafedra` KAFEDRA WHERE KAFEDRA.`fKaf_Code` = LESSON.`departmentId`) as departmentName,
 							LESSON.`specialityId`,
+							(SELECT CASE  WHEN LESSON.`locale` = 'tg_TJ' THEN  SPEC.`fSpec_Name_tg_TJ` ELSE CASE LESSON.`locale` WHEN LESSON.`locale` = 'ru_RU' THEN SPEC.`fSpec_Name_ru_RU` ELSE SPEC.`fSpec_Name_en_US` END END FROM `tbl_Spec` SPEC WHERE SPEC.`fID` = LESSON.`specialityId`) as specialityName,
 							LESSON.`discipline`,
 							LESSON.`list_state` as lessonState,
 							LESSON.`visibility`,

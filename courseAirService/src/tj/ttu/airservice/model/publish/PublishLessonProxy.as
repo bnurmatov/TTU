@@ -7,6 +7,10 @@ package tj.ttu.airservice.model.publish
 {
 	import flash.data.SQLStatement;
 	import flash.events.Event;
+	import flash.filesystem.File;
+	import flash.system.MessageChannel;
+	import flash.system.Worker;
+	import flash.system.WorkerDomain;
 	import flash.utils.ByteArray;
 	
 	import tj.ttu.airservice.constants.SqlQueryConstants;
@@ -17,6 +21,8 @@ package tj.ttu.airservice.model.publish
 	import tj.ttu.airservice.utils.LessonToDVDContentUtil;
 	import tj.ttu.airservice.utils.LessonToInstallerUtil;
 	import tj.ttu.airservice.utils.LessonToPDFUtil;
+	import tj.ttu.airservice.utils.PublishLessonWorker;
+	import tj.ttu.airservice.utils.Workers;
 	import tj.ttu.airservice.utils.events.UtilEvent;
 	import tj.ttu.base.constants.TTUConstants;
 	import tj.ttu.base.coretypes.LessonVO;
@@ -68,12 +74,9 @@ package tj.ttu.airservice.model.publish
 		
 		public var publishBuildingCompleteNotification:String;
 		
-		private var b4xUtil:LessonToB4XUtil;
-		
-		private var installerUtil:LessonToInstallerUtil;
-		
-		private var dvdContentUtil:LessonToDVDContentUtil;
-		private var pdfUtil:LessonToPDFUtil;
+		private var publishLessonWorker:Worker;
+		private var publishLessonWorkerToMain:MessageChannel;
+		private var mainToPublishLessonWorker:MessageChannel;
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -156,14 +159,57 @@ package tj.ttu.airservice.model.publish
 		{
 			currentOption = publishOptions ? publishOptions[--currentPublishOptionIndex] : null;
 		}
-		
+		private var w:PublishLessonWorker;
 		public function publishLesson():void
 		{
 			if(!lesson || !serviceVO)
 				return;
 			removeArtifactsByLessonUUID(lesson.guid, null, true);
 			removeArtifactsByLessonFromLocalStorage(lesson);
+			initPublishLessonWorker();
+			var settings:Object = {"lesson":lesson, "appStorageDirectory":File.applicationStorageDirectory.nativePath, "appDirectory":File.applicationDirectory.nativePath };
+			/*w = new PublishLessonWorker();
+			w.sett = settings;*/
+			sendMessageToWorker("settings", settings);
 			publishFromNextOption();
+		}
+		
+		/**
+		 *  @public
+		 */
+		private function initPublishLessonWorker():void
+		{
+			publishLessonWorker = WorkerDomain.current.createWorker(Workers.PublishLessonWorker, true);
+			publishLessonWorkerToMain = publishLessonWorker.createMessageChannel(Worker.current);
+			mainToPublishLessonWorker = Worker.current.createMessageChannel(publishLessonWorker);
+			
+			publishLessonWorker.setSharedProperty("workerToMain", publishLessonWorkerToMain);
+			publishLessonWorker.setSharedProperty("mainToWorker", mainToPublishLessonWorker);
+			
+			publishLessonWorker.addEventListener(Event.CHANNEL_MESSAGE, onWorkerToMain);
+			publishLessonWorker.start();
+		}
+		
+		private function sendMessageToWorker(name:String, body:Object = null):void
+		{
+			if(mainToPublishLessonWorker)
+			{
+				var message:Object = {"name":name, "body":body};
+				mainToPublishLessonWorker.send(message);
+			}
+		}
+		
+		/**
+		 *  @public
+		 */
+		private function destroyPublishLessonWorker():void
+		{
+			sendMessageToWorker("destroy");
+			publishLessonWorker.removeEventListener(Event.CHANNEL_MESSAGE, onWorkerToMain);
+			publishLessonWorkerToMain = null;
+			mainToPublishLessonWorker = null;
+			publishLessonWorker.terminate();
+			publishLessonWorker = null;
 		}
 		
 		private function publishFromNextOption():void
@@ -172,114 +218,11 @@ package tj.ttu.airservice.model.publish
 			if(!currentOption)
 			{
 				retrieveArtifactsByLessonUuid(lesson.guid, publishBuildingCompleteNotification);
-				//sendNotification(publishBuildingCompleteNotification);
 				return;
 			}
-			
-			switch(currentOption.publishType)
-			{
-				case PublishOptionVO.PDF:
-				{
-					generatePDF();
-					break;
-				}
-				case PublishOptionVO.B4X_CONTENT:
-				{
-					generateB4X();
-					break;
-				}
-				case PublishOptionVO.DVD_CONTENT:
-				{
-					generateDVDContent();
-					break;
-				}
-				case PublishOptionVO.WINDOWS_INSTALLER:
-				{
-					generateInstaller();
-					break;
-				}
-			}
+			sendMessageToWorker(currentOption.publishType);
 		}
 		
-		private function generateB4X():void
-		{
-			if(!b4xUtil)
-			{
-				b4xUtil = new LessonToB4XUtil();
-				b4xUtil.addEventListener(UtilEvent.B4X_CREATION_COMPLETE, onB4XCreationComplete);
-			}
-			b4xUtil.convertLessonToB4x(lesson, LESSON_STORAGE_DIRECTORY);
-		}
-		
-		private function generatePDF():void
-		{
-			if(!pdfUtil)
-			{
-				pdfUtil = new LessonToPDFUtil();
-				pdfUtil.addEventListener(Event.COMPLETE, onPdfCreationComplete);
-			}
-			pdfUtil.setFonts( "ENGLISH", "RUSSIAN" );
-			pdfUtil.convertToPDF(lesson);
-		}
-		
-		protected function onPdfCreationComplete(event:Event):void
-		{
-			var pdfBytes:ByteArray = pdfUtil.result;
-			var fileName:String = lesson.name + "_" + new Date().time + ".pdf";
-			var fileUrl:String = AssetsUtil.writeB4XToLocalStorage(lesson.guid, lesson.version, pdfBytes, fileName);
-			var artifact:LessonArtifactVO = new LessonArtifactVO();
-			artifact.artifactType 	= LessonArtifactVO.PDF;
-			artifact.lessonUuid 	= lesson.guid;
-			artifact.url 			= fileUrl;
-			addNewArtifact( artifact, null, true);
-			publishFromNextOption();
-			pdfUtil.removeEventListener(Event.COMPLETE, onPdfCreationComplete);
-			pdfUtil = null;
-		}
-		
-		private function generateDVDContent():void
-		{
-			if(!dvdContentUtil)
-			{
-				dvdContentUtil = new LessonToDVDContentUtil();
-				dvdContentUtil.addEventListener(UtilEvent.DVD_CONTENT_CREATION_COMPLETE, onDvdContentCreationComplete);
-				dvdContentUtil.addEventListener(UtilEvent.UTIL_ERROR, onDvdContentCreationError);
-			}
-			dvdContentUtil.convertLessonToDVDContent(lesson, LESSON_STORAGE_DIRECTORY, serviceVO.languageCode);
-		}
-		
-		private function removeDVDContentUtil():void
-		{
-			if(dvdContentUtil)
-			{
-				dvdContentUtil.removeEventListener(UtilEvent.INSTALLER_CREATION_COMPLETE, onInstallerCreationComplete);
-				dvdContentUtil.removeEventListener(UtilEvent.UTIL_ERROR, onInstallerCreationError);
-				dvdContentUtil.close();
-				dvdContentUtil = null;
-			}
-		}
-		
-		private function generateInstaller():void
-		{
-			if(!installerUtil)
-			{
-				installerUtil = new LessonToInstallerUtil();
-				installerUtil.addEventListener(UtilEvent.INSTALLER_CREATION_COMPLETE, onInstallerCreationComplete);
-				installerUtil.addEventListener(UtilEvent.UTIL_ERROR, onInstallerCreationError);
-			}
-			installerUtil.convertLessonToInstaller(lesson, LESSON_STORAGE_DIRECTORY, serviceVO.languageCode);
-		}
-		
-		private function removeInstallerUtil():void
-		{
-			if(installerUtil)
-			{
-				installerUtil.removeEventListener(UtilEvent.INSTALLER_CREATION_COMPLETE, onInstallerCreationComplete);
-				installerUtil.removeEventListener(UtilEvent.UTIL_ERROR, onInstallerCreationError);
-				installerUtil.close();
-				installerUtil = null;
-			}
-		}
 		/**
 		 * Retrieves any artifacts that belong to the 'current' lesson.
 		 * 
@@ -417,62 +360,34 @@ package tj.ttu.airservice.model.publish
 		 *  @protected
 		 */
 		
-		protected function onB4XCreationComplete(event:UtilEvent):void
+		protected function onWorkerToMain(event:Event):void
 		{
-			if(b4xUtil)
+			while(publishLessonWorkerToMain.messageAvailable)
 			{
-				b4xUtil.removeEventListener(UtilEvent.B4X_CREATION_COMPLETE, onB4XCreationComplete);
-				b4xUtil.close();
-				b4xUtil = null;
+				var message:Object = publishLessonWorkerToMain.receive();
+				switch(message.name)
+				{
+					case "pdfCreated":
+					case "b4xCreated":
+					case "installerCreated":
+					case "dvdContentCreated":
+					{
+						addNewArtifact( message.body as LessonArtifactVO, null, true);
+						publishFromNextOption();
+						break;
+					}
+					case "error":
+					{
+						sendNotification(TTUConstants.SHOW_ERROR_WINDOW, message.body);	
+						break;
+					}
+					case "trace":
+					{
+						trace("",message.body);	
+						break;
+					}
+				}
 			}
-			var b4xBytes:ByteArray = event.data as ByteArray;
-			var fileName:String = lesson.name + "_" + new Date().time + SupportedMediaFormat.B4X_TYPE;
-			var fileUrl:String = AssetsUtil.writeB4XToLocalStorage(lesson.guid, lesson.version, b4xBytes, fileName);
-			var artifact:LessonArtifactVO = new LessonArtifactVO();
-			artifact.artifactType 	= LessonArtifactVO.B4X_CONTENT;
-			artifact.lessonUuid 	= lesson.guid;
-			artifact.url 			= fileUrl;
-			addNewArtifact( artifact, null, true);
-			publishFromNextOption();
 		}
-		
-		protected function onInstallerCreationComplete(event:UtilEvent):void
-		{
-			removeInstallerUtil();
-			var installerPath:String = event.data as String;
-			var artifact:LessonArtifactVO = new LessonArtifactVO();
-			artifact.artifactType 	= LessonArtifactVO.WINDOWS_INSTALLER;
-			artifact.lessonUuid 	= lesson.guid;
-			artifact.url 			= installerPath;
-			addNewArtifact( artifact, null, true);
-			publishFromNextOption();
-		}		
-		
-		protected function onInstallerCreationError(event:UtilEvent):void
-		{
-			removeInstallerUtil();
-			sendNotification(TTUConstants.SHOW_ERROR_WINDOW, event.data);
-		}		
-		
-		protected function onDvdContentCreationComplete(event:UtilEvent):void
-		{
-			removeDVDContentUtil();
-			var b4xBytes:ByteArray = event.data as ByteArray;
-			var fileName:String = lesson.name + "_" + new Date().time + ".zip";
-			var fileUrl:String = AssetsUtil.writeB4XToLocalStorage(lesson.guid, lesson.version, b4xBytes, fileName);
-			var artifact:LessonArtifactVO = new LessonArtifactVO();
-			artifact.artifactType 	= LessonArtifactVO.DVD_CONTENT;
-			artifact.lessonUuid 	= lesson.guid;
-			artifact.url 			= fileUrl;
-			addNewArtifact( artifact, null, true);
-			publishFromNextOption();
-		}
-		
-		protected function onDvdContentCreationError(event:UtilEvent):void
-		{
-			removeDVDContentUtil();
-			sendNotification(TTUConstants.SHOW_ERROR_WINDOW, event.data);
-		}
-		
 	}
 }

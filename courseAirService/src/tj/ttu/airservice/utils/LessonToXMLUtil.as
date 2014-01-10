@@ -9,6 +9,7 @@ package tj.ttu.airservice.utils
 	
 	import tj.ttu.base.coretypes.ChapterVO;
 	import tj.ttu.base.coretypes.LessonVO;
+	import tj.ttu.base.utils.LanguageInfoUtil;
 	import tj.ttu.base.vo.AnswerVo;
 	import tj.ttu.base.vo.ImageVO;
 	import tj.ttu.base.vo.QuestionVo;
@@ -93,6 +94,9 @@ package tj.ttu.airservice.utils
 			var lesson:XML = new XML(<lesson  xmlns="http://www.ttu.tj/xml/Lesson/v1"/>);
 			lesson.@uuid						= lessonVo.guid;
 			lesson.@version						= lessonVo.version;
+			lesson.@language					= LanguageInfoUtil.getInstance().getLanguageCode(lessonVo.locale);
+			lesson.@uiLanguageCode				= LanguageInfoUtil.getInstance().getLanguageCode(lessonVo.locale);
+			lesson.@locale						= lessonVo.locale;
 			
 			// create and append 'head' and 'cards' nodes
 			lesson.appendChild(generateHeadXml(lessonVo));

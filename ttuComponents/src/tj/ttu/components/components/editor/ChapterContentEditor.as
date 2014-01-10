@@ -396,6 +396,7 @@ package tj.ttu.components.components.editor
 			}
 			if(instance == contentText)
 			{
+				addEventListener(MouseEvent.CLICK, onMouseClick);
 				addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
 				contentText.addEventListener(FlexEvent.CREATION_COMPLETE, onTextDisplayCreationComplete);
 				contentText.addEventListener(FocusEvent.FOCUS_IN, onTextDisplayFocusInOut);
@@ -472,6 +473,7 @@ package tj.ttu.components.components.editor
 			}
 			if(instance == contentText)
 			{
+				removeEventListener(MouseEvent.CLICK, onMouseClick);
 				removeEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
 				contentText.removeEventListener(FlexEvent.CREATION_COMPLETE, onTextDisplayCreationComplete);
 				contentText.removeEventListener(FocusEvent.FOCUS_IN, onTextDisplayFocusInOut);
@@ -938,6 +940,11 @@ package tj.ttu.components.components.editor
 		//  Event Handler Methods
 		//
 		//--------------------------------------------------------------------------
+		protected function onMouseClick(event:MouseEvent):void
+		{
+			if(event.target == contentText)
+				callLater(contentText.setFocus);
+		}
 		
 		private function onCreationComplete(event:Event):void 
 		{

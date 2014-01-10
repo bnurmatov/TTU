@@ -509,6 +509,7 @@ package tj.ttu.airservice.model.lesson
 			statement.parameters[':departmentId']	= departmentId;
 			statement.parameters[':specialityId']	= specialityId;
 			statement.parameters[':userId']			= userId;
+			statement.parameters[':locale']			= resourceProxy.locale;
 			
 			var request:AirRequestVO = new AirRequestVO();
 			request.statement = statement;

@@ -22,6 +22,7 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 	import flashx.textLayout.formats.TextLayoutFormat;
 	import flashx.textLayout.operations.InsertInlineGraphicOperation;
 	import flashx.textLayout.operations.InsertTextOperation;
+	import flashx.textLayout.operations.PasteOperation;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
@@ -352,6 +353,7 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 			if(instance == titleTextArea)
 			{
 				titleTextArea.addEventListener(TextOperationEvent.CHANGE, onTitleTextChange);
+				titleTextArea.addEventListener(TextOperationEvent.CHANGING, onPreventPasteOperation);
 				titleTextArea.addEventListener(Event.PASTE, onTitlePasteText);
 				titleTextArea.enabled = false;
 			}
@@ -407,6 +409,7 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 			if(instance == titleTextArea)
 			{
 				titleTextArea.removeEventListener(TextOperationEvent.CHANGE, onTitleTextChange);
+				titleTextArea.removeEventListener(TextOperationEvent.CHANGING, onPreventPasteOperation);
 				titleTextArea.removeEventListener(Event.PASTE, onTitlePasteText);
 			}
 			if(instance == contentEditor)
@@ -816,6 +819,17 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 		protected function onAddNewChapter(event:MouseEvent):void
 		{
 			dispatchEvent(new ChapterEvent(ChapterEvent.ADD_NEW_CHAPTER));
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */		
+		private function onPreventPasteOperation(event:TextOperationEvent):void
+		{
+			if(event.operation is PasteOperation)
+				event.preventDefault();
 		}
 		
 		protected function onTitleTextChange(event:TextOperationEvent):void

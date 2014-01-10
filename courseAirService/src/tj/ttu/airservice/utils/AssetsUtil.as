@@ -366,7 +366,7 @@ package tj.ttu.airservice.utils
 			var lessonPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion;
 			var b4xFile:File = File.applicationStorageDirectory.resolvePath(lessonPath + ARTIFACT_PATH + fileName);
 			writeToLocalStorage(b4xFile, b4xBytes);
-			return b4xFile.url;
+			return b4xFile.nativePath;
 		}
 		
 		/**
@@ -736,11 +736,15 @@ package tj.ttu.airservice.utils
 		{
 			var listStorageDirectory:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion;
 			var rootPath:String = File.applicationStorageDirectory.resolvePath(listStorageDirectory).url;
+			var rootNativePath:String = File.applicationStorageDirectory.resolvePath(listStorageDirectory).nativePath;
 			
 			for each(var resource:ResourceVO in resources)
 			{
 				if(resource && !StringUtil.isNullOrEmpty(resource.resourcePath)  && resource.resourcePath.indexOf(rootPath) == -1)
+				{
+					resource.resourceNativePath = rootNativePath + resource.resourcePath;
 					resource.resourcePath = rootPath + resource.resourcePath;
+				}
 			}
 			return resources;
 		}
@@ -850,8 +854,12 @@ package tj.ttu.airservice.utils
 		 */
 		public static function normalizeArtifactPath(fullPath:String):String
 		{
-			if(fullPath && fullPath.indexOf(ARTIFACT_PATH) != 0)
-				return ARTIFACT_PATH + FileNameUtil.getFileName(fullPath);
+			if(fullPath)
+			{
+				fullPath = fullPath.replace(/\\/g, "/");
+				if(fullPath.indexOf(ARTIFACT_PATH) != 0)
+					return ARTIFACT_PATH + FileNameUtil.getFileName(fullPath);
+			}
 			
 			return fullPath;
 		}
@@ -867,7 +875,7 @@ package tj.ttu.airservice.utils
 				fullPath = fullPath.replace(/\\/g, "/");
 				var start:int = fullPath.indexOf(DVD_CONTENT_PATH);
 				if(start != -1)
-				return fullPath.substr(start + DVD_CONTENT_PATH.length);
+					return fullPath.substr(start + DVD_CONTENT_PATH.length);
 			}
 			
 			return fullPath;

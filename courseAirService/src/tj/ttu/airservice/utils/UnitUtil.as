@@ -73,7 +73,7 @@ package tj.ttu.airservice.utils
 			var unit:XML = new XML(<unit />);
 			unit.@name						= lessonName;
 			unit.@language					= lang;
-			unit.@uiLanguageCode				= lang;
+			unit.@uiLanguageCode			= lang;
 			
 			// create and append 'head' and 'cards' nodes
 			unit.appendChild(ModuleData.getInstance().config);
