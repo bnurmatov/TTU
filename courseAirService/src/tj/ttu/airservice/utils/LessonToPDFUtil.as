@@ -14,6 +14,8 @@ package tj.ttu.airservice.utils
 	import flash.text.engine.FontWeight;
 	import flash.utils.ByteArray;
 	
+	import mx.collections.IList;
+	
 	import flashx.textLayout.elements.DivElement;
 	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.elements.FlowLeafElement;
@@ -23,10 +25,6 @@ package tj.ttu.airservice.utils
 	import flashx.textLayout.formats.Float;
 	import flashx.textLayout.formats.ITextLayoutFormat;
 	import flashx.textLayout.formats.TextDecoration;
-	
-	import mx.collections.IList;
-	import mx.resources.IResourceManager;
-	import mx.resources.ResourceManager;
 	
 	import org.purepdf.Font;
 	import org.purepdf.colors.RGBColor;
@@ -50,10 +48,7 @@ package tj.ttu.airservice.utils
 	import org.purepdf.pdf.fonts.FontsResourceFactory;
 	import org.purepdf.resources.BuiltinFonts;
 	
-	import spark.components.RichText;
-	
 	import tj.ttu.airservice.utils.events.UtilEvent;
-	import tj.ttu.base.constants.ResourceConstants;
 	import tj.ttu.base.coretypes.ChapterVO;
 	import tj.ttu.base.coretypes.LessonVO;
 	import tj.ttu.base.font.TTFFontManager;
@@ -146,6 +141,7 @@ package tj.ttu.airservice.utils
 		
 		
 		private var lesson:LessonVO;
+		private var resourceStrings:Object;
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -544,7 +540,7 @@ package tj.ttu.airservice.utils
 		
 		private function startProcess():void
 		{
-			var richText:RichText = new RichText();
+			var richText:TTURichText = new TTURichText();
 			if(isFontLoaded && isImagesLoaded && lesson)
 			{
 				var paragraph:Paragraph;
@@ -576,10 +572,6 @@ package tj.ttu.airservice.utils
 			}
 		}
 		
-		private function get resourceManager():IResourceManager
-		{
-			return ResourceManager.getInstance();
-		}
 		private function addBookTitlePage():void
 		{
 			var titlePageFont:Font = defaultFont.clone() as Font;
@@ -587,31 +579,31 @@ package tj.ttu.airservice.utils
 			titlePageFont.style = 1;
 			if(lesson)
 			{
-				var ttuTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'ttuLabelText');
-				var ttuParagraph:Paragraph =  addLongTextToParagraph(ttuTitle , titlePageFont);
+				
+				var ttuParagraph:Paragraph =  addLongTextToParagraph(resourceStrings.ttuTitle , titlePageFont);
 				ttuParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(ttuParagraph);
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				
-				var departmentTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'depatrmentTitleLabelText', [lesson.departmentName]);
-				var departmentParagraph:Paragraph =  addLongTextToParagraph(departmentTitle , titlePageFont);
+				
+				var departmentParagraph:Paragraph =  addLongTextToParagraph(resourceStrings.departmentTitle , titlePageFont);
 				departmentParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(departmentParagraph);
 				
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				
-				var specilaityTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'specialityTitleLabelText', [lesson.specialityName]);
-				var specilaityParagraph:Paragraph =  addLongTextToParagraph(specilaityTitle , titlePageFont);
+				
+				var specilaityParagraph:Paragraph =  addLongTextToParagraph(resourceStrings.specilaityTitle , titlePageFont);
 				specilaityParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(specilaityParagraph);
 				
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				
-				var disciplineTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'diciplineTitleLabelText', [lesson.discipline]);
-				var disciplineParagraph:Paragraph =  addLongTextToParagraph(disciplineTitle , titlePageFont);
+				
+				var disciplineParagraph:Paragraph =  addLongTextToParagraph(resourceStrings.disciplineTitle , titlePageFont);
 				disciplineParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(disciplineParagraph);
 				
@@ -648,8 +640,8 @@ package tj.ttu.airservice.utils
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
 				
-				var dushanbeTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'dushanbeTitleLabelText', [new Date().fullYear]);
-				var dushanbeParagraph:Paragraph =  new Paragraph(dushanbeTitle , titlePageFont);
+				
+				var dushanbeParagraph:Paragraph =  new Paragraph(resourceStrings.dushanbeTitle , titlePageFont);
 				dushanbeParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(dushanbeParagraph);
 			}
@@ -662,11 +654,11 @@ package tj.ttu.airservice.utils
 			questionsNameFont.style = 1;
 			if(lesson && questions && questions.length > 0)
 			{
-				var richText:RichText = new RichText();
+				var richText:TTURichText = new TTURichText();
 				elements.push(Paragraph.fromChunk( Chunk.NEXTPAGE));
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
-				var questionTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'chapterQuestionsLabelText');
-				var paragraph:Paragraph =  new Paragraph(questionTitle , questionsNameFont);
+				
+				var paragraph:Paragraph =  new Paragraph(resourceStrings.questionTitle , questionsNameFont);
 				paragraph.alignment = Element.ALIGN_CENTER;
 				elements.push(paragraph);
 				var i:int = 1;
@@ -684,7 +676,6 @@ package tj.ttu.airservice.utils
 		
 		private function addAboutAuthorPages():void
 		{
-			var richText:RichText = new RichText();
 			var tableOfContents:String = "";
 			var count:int = 1;
 			if(lesson)
@@ -693,12 +684,12 @@ package tj.ttu.airservice.utils
 				titlePageFont.size = 22;
 				titlePageFont.style = 1;
 				
-				var authorTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutAuthorTitleLabelText');
-				var authorParagraph:Paragraph =  new Paragraph(authorTitle , titlePageFont);
+				
+				var authorParagraph:Paragraph =  new Paragraph(resourceStrings.authorTitle , titlePageFont);
 				authorParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(authorParagraph);
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
-				
+				var richText:TTURichText = new TTURichText();
 				richText.textFlow = InsertMediaUtil.createChapterFlowForPDF(lesson.aboutCreator, lesson.aboutCreatorImages);
 				if(richText.textFlow)
 					fromMxmlChildren( richText.textFlow.mxmlChildren );
@@ -714,8 +705,8 @@ package tj.ttu.airservice.utils
 				titlePageFont.size = 22;
 				titlePageFont.style = 1;
 				
-				var lessonTitle:String = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutLessonTitleLabelText');
-				var aboutLessonParagraph:Paragraph =  new Paragraph(lessonTitle , titlePageFont);
+				
+				var aboutLessonParagraph:Paragraph =  new Paragraph(resourceStrings.lessonTitle , titlePageFont);
 				aboutLessonParagraph.alignment = Element.ALIGN_CENTER;
 				elements.push(aboutLessonParagraph);
 				elements.push( Paragraph.fromChunk( Chunk.NEWLINE));
@@ -756,9 +747,10 @@ package tj.ttu.airservice.utils
 		}
 		
 		
-		public function convertToPDF(lesson:LessonVO):void
+		public function convertToPDF(lesson:LessonVO, resourceStrings:Object):void
 		{
 			this.lesson = lesson;
+			this.resourceStrings = resourceStrings;
 			prepareImages();
 		}
 		
@@ -816,13 +808,13 @@ package tj.ttu.airservice.utils
 		 * @see com.transparent.utils.language.LanguageInfoManager
 		 * 
 		 */		
-		public function setFonts():void
+		public function setFonts(applicationDirectoryPath:String):void
 		{
 			var fonts:Array = LanguageInfoUtil.getInstance().getFonts();
 			var pdfFontsToLoad:Array = [];
 			for each(var fontName:String in fonts)
 			{
-				pdfFontsToLoad.push('fonts/ttfForPdf/' + fontName + "TTF.swf");
+				pdfFontsToLoad.push(applicationDirectoryPath + '/fonts/ttfForPdf/' + fontName + "TTF.swf");
 			}
 			
 			isFontLoaded = false;

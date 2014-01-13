@@ -7,23 +7,12 @@ package tj.ttu.base.model.resource
 {
 	import flash.events.IEventDispatcher;
 	
-	import flashx.textLayout.formats.Direction;
-	import flashx.textLayout.formats.TextAlign;
-	
-	import mx.controls.ToolTip;
 	import mx.core.FlexGlobals;
 	import mx.events.ResourceEvent;
-	import mx.managers.ToolTipManager;
 	import mx.resources.IResourceBundle;
 	import mx.resources.IResourceManager;
-	import mx.resources.ResourceBundle;
 	import mx.resources.ResourceManager;
-	import mx.styles.CSSStyleDeclaration;
-	import mx.styles.StyleManager;
 	
-	import spark.components.Label;
-	
-	import tj.ttu.base.constants.FontConstants;
 	import tj.ttu.base.constants.TTUConstants;
 	import tj.ttu.base.model.AppBaseProxy;
 	

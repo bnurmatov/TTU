@@ -12,18 +12,6 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	
-	import flashx.textLayout.conversion.TextConverter;
-	import flashx.textLayout.edit.EditManager;
-	import flashx.textLayout.edit.SelectionState;
-	import flashx.textLayout.elements.InlineGraphicElement;
-	import flashx.textLayout.elements.TextFlow;
-	import flashx.textLayout.formats.Direction;
-	import flashx.textLayout.formats.TextAlign;
-	import flashx.textLayout.formats.TextLayoutFormat;
-	import flashx.textLayout.operations.InsertInlineGraphicOperation;
-	import flashx.textLayout.operations.InsertTextOperation;
-	import flashx.textLayout.operations.PasteOperation;
-	
 	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
 	import mx.core.FlexGlobals;
@@ -36,11 +24,24 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 	import spark.components.DataGrid;
 	import spark.components.Group;
 	import spark.components.RichEditableText;
+	import spark.components.RichText;
 	import spark.components.TextArea;
 	import spark.components.gridClasses.CellPosition;
 	import spark.effects.Move;
 	import spark.events.GridSelectionEvent;
 	import spark.events.TextOperationEvent;
+	
+	import flashx.textLayout.conversion.TextConverter;
+	import flashx.textLayout.edit.EditManager;
+	import flashx.textLayout.edit.SelectionState;
+	import flashx.textLayout.elements.InlineGraphicElement;
+	import flashx.textLayout.elements.TextFlow;
+	import flashx.textLayout.formats.Direction;
+	import flashx.textLayout.formats.TextAlign;
+	import flashx.textLayout.formats.TextLayoutFormat;
+	import flashx.textLayout.operations.InsertInlineGraphicOperation;
+	import flashx.textLayout.operations.InsertTextOperation;
+	import flashx.textLayout.operations.PasteOperation;
 	
 	import tj.ttu.base.constants.FontConstants;
 	import tj.ttu.base.constants.ResourceConstants;
@@ -103,7 +104,7 @@ package tj.ttu.coursecreatorbase.view.components.chapter
 		[SkinPart(required="true")]
 		public var questionsView:EditQuestionsView;
 		
-		
+		RichText
 		//--------------------------------------------------------------------------
 		//
 		//  Constants

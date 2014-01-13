@@ -9,7 +9,6 @@ package tj.ttu.airservice.utils
 	import flash.desktop.NativeProcessStartupInfo;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
@@ -84,6 +83,16 @@ package tj.ttu.airservice.utils
 		private var lessonStorageDirectory:String;
 		
 		/**
+		 * The path of the lesson storage directory. i.e.: b4x/ or harmoneLists/
+		 */
+		private var appStorageDirectoryPath:String;
+		
+		/**
+		 * The path of the lesson storage directory. i.e.: b4x/ or harmoneLists/
+		 */
+		private var appDirectoryPath:String;
+		
+		/**
 		 * The lesson we are working with
 		 */
 		private var lesson:LessonVO;
@@ -149,7 +158,8 @@ package tj.ttu.airservice.utils
 		 */		
 		private function get appSourcePath():String
 		{
-			var srcDirectory:File = File.applicationStorageDirectory.resolvePath(lessonHomeDirectory + AssetsUtil.TEMP_PATH + AssetsUtil.INSTALLER_PATH);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var srcDirectory:File = applicationStorageDirectory.resolvePath(lessonHomeDirectory + AssetsUtil.TEMP_PATH + AssetsUtil.INSTALLER_PATH);
 			var path:String = srcDirectory.nativePath;
 			return path.replace(/\\/g, "/");
 		}
@@ -159,7 +169,8 @@ package tj.ttu.airservice.utils
 		 */		
 		private function get artifactPath():String
 		{
-			var artifactDirectory:File = File.applicationStorageDirectory.resolvePath(lessonHomeDirectory + AssetsUtil.ARTIFACT_PATH);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var artifactDirectory:File = applicationStorageDirectory.resolvePath(lessonHomeDirectory + AssetsUtil.ARTIFACT_PATH);
 			if(!artifactDirectory.exists)
 				artifactDirectory.createDirectory();
 			var path:String = artifactDirectory.nativePath;
@@ -172,7 +183,7 @@ package tj.ttu.airservice.utils
 		 */		
 		private function get licenseFilePath():String
 		{
-			var _licenseFile:File = File.applicationDirectory;
+			var _licenseFile:File = new File(appDirectoryPath);
 			if (isWindows)
 				_licenseFile = _licenseFile.resolvePath(PATH_UTIL + NSIS_PATH + LICENSE_FILE);
 			
@@ -189,7 +200,7 @@ package tj.ttu.airservice.utils
 		 */		
 		private function get installerNSIPath():String
 		{
-			var _installerNSI:File = File.applicationDirectory;
+			var _installerNSI:File = new File(appDirectoryPath);
 			if (isWindows)
 				_installerNSI = _installerNSI.resolvePath(PATH_UTIL + NSIS_PATH + INSTALLER_NSI);
 			
@@ -244,10 +255,12 @@ package tj.ttu.airservice.utils
 		 */
 		public function close():void
 		{
-			AssetsUtil.deleteLessonInstallerContentFromTempFolder( lesson.guid, lesson.version );
+			AssetsUtil.deleteLessonInstallerContentFromTempFolder( lesson.guid, lesson.version, appStorageDirectoryPath );
 			lesson = null;
 			languageCode = null;
 			lessonStorageDirectory = null;
+			appDirectoryPath = null;
+			appStorageDirectoryPath = null;
 			makensis = null;
 			process = null;
 			isConverting = false;
@@ -264,11 +277,14 @@ package tj.ttu.airservice.utils
 		 * @param lesson					The <code>LessonVO</code> object representing the lesson
 		 * @param lessonStorageDirectory		The directory where lists are stored, i.e.: b4x/ or harmoneLists/
 		 */
-		public function convertLessonToInstaller(lesson:LessonVO, lessonStorageDirectory:String, languageCode:String):void
+		public function convertLessonToInstaller(lesson:LessonVO, languageCode:String, lessonStorageDirectory:String, appDirectoryPath:String, appStorageDirectoryPath:String):void
 		{
 			this.lesson 				= lesson;
-			this.lessonStorageDirectory	= lessonStorageDirectory;
 			this.languageCode			= languageCode;
+			this.lessonStorageDirectory	= lessonStorageDirectory;
+			this.appDirectoryPath		= appDirectoryPath;
+			this.appStorageDirectoryPath= appStorageDirectoryPath;
+			
 			// add lessonXML and image assets to b4x
 			addPlayerToTempFolder();
 			addLessonXmlToTempFolder(lesson);
@@ -295,7 +311,7 @@ package tj.ttu.airservice.utils
 			var ba:ByteArray = new ByteArray();
 			ba.writeUTFBytes( str );
 			ba.position = 0;
-			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, LESSON_XML_FILENAME, AssetsUtil.INSTALLER_PATH);
+			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, LESSON_XML_FILENAME, AssetsUtil.INSTALLER_PATH, appStorageDirectoryPath);
 		}
 		
 		/**
@@ -303,9 +319,9 @@ package tj.ttu.airservice.utils
 		 */
 		private function addPlayerToTempFolder():void
 		{
-			AssetsUtil.copyPlayerToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH);
-			AssetsUtil.copyFontsToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH);
-			AssetsUtil.copyModulesToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH);
+			AssetsUtil.copyPlayerToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH, appDirectoryPath, appStorageDirectoryPath);
+			AssetsUtil.copyFontsToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH, appDirectoryPath, appStorageDirectoryPath);
+			AssetsUtil.copyModulesToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH, appDirectoryPath, appStorageDirectoryPath);
 		}
 		
 		
@@ -325,7 +341,7 @@ package tj.ttu.airservice.utils
 			var ba:ByteArray = new ByteArray();
 			ba.writeUTFBytes( str );
 			ba.position = 0;
-			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, UNIT_XML_FILENAME, AssetsUtil.INSTALLER_PATH);
+			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, UNIT_XML_FILENAME, AssetsUtil.INSTALLER_PATH, appStorageDirectoryPath);
 		}
 		
 		/**
@@ -337,7 +353,7 @@ package tj.ttu.airservice.utils
 		 */
 		private function copyBackgroundImagesToTempFolder():void
 		{
-			AssetsUtil.copyBackgroundImagesToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH );
+			AssetsUtil.copyBackgroundImagesToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH, appDirectoryPath, appStorageDirectoryPath );
 		}
 		
 		/**
@@ -349,7 +365,7 @@ package tj.ttu.airservice.utils
 		 */
 		private function copyLessonAssetsToTempFolder():void
 		{
-			AssetsUtil.copyLessonResourcesToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH );
+			AssetsUtil.copyLessonResourcesToTempFolder( lesson.guid, lesson.version, AssetsUtil.INSTALLER_PATH, appStorageDirectoryPath );
 			makeInstaller();
 		}
 		
@@ -395,7 +411,7 @@ package tj.ttu.airservice.utils
 		
 		private function onComplete():void
 		{
-			var installerPath:String = artifactPath + lesson.name + ".exe";
+			var installerPath:String = artifactPath + "/" + lesson.name + ".exe";
 			dispatchEvent(new UtilEvent(UtilEvent.INSTALLER_CREATION_COMPLETE, installerPath, true));
 		}
 		
@@ -403,7 +419,7 @@ package tj.ttu.airservice.utils
 		
 		private function getNativeProcessFile():File
 		{
-			var npFile:File = File.applicationDirectory;
+			var npFile:File = new File(appDirectoryPath);
 			if (isWindows)
 				npFile = npFile.resolvePath(PATH_UTIL + MAKENSIS_PATH);
 			

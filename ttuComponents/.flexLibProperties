@@ -57,6 +57,7 @@
     <classEntry path="tj.ttu.components.vo.BusyProgressbarVO"/>
     <classEntry path="tj.ttu.components.skins.buttonbar.ButtonBarLastButtonSkin"/>
     <classEntry path="tj.ttu.components.skins.dropdown.InsertDropDownSkin"/>
+    <classEntry path="tj.ttu.components.components.richText.TTURichText"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -8,27 +8,31 @@ package tj.ttu.airservice.model.publish
 	import flash.data.SQLStatement;
 	import flash.events.Event;
 	import flash.filesystem.File;
+	import flash.net.registerClassAlias;
 	import flash.system.MessageChannel;
 	import flash.system.Worker;
 	import flash.system.WorkerDomain;
-	import flash.utils.ByteArray;
+	
+	import mx.resources.IResourceManager;
+	import mx.resources.ResourceManager;
 	
 	import tj.ttu.airservice.constants.SqlQueryConstants;
 	import tj.ttu.airservice.model.BaseProxy;
 	import tj.ttu.airservice.model.vo.AirRequestVO;
 	import tj.ttu.airservice.utils.AssetsUtil;
-	import tj.ttu.airservice.utils.LessonToB4XUtil;
-	import tj.ttu.airservice.utils.LessonToDVDContentUtil;
-	import tj.ttu.airservice.utils.LessonToInstallerUtil;
-	import tj.ttu.airservice.utils.LessonToPDFUtil;
-	import tj.ttu.airservice.utils.PublishLessonWorker;
 	import tj.ttu.airservice.utils.Workers;
-	import tj.ttu.airservice.utils.events.UtilEvent;
+	import tj.ttu.base.constants.ResourceConstants;
 	import tj.ttu.base.constants.TTUConstants;
+	import tj.ttu.base.coretypes.ChapterVO;
 	import tj.ttu.base.coretypes.LessonVO;
-	import tj.ttu.base.utils.SupportedMediaFormat;
+	import tj.ttu.base.vo.AnswerVo;
+	import tj.ttu.base.vo.ImageVO;
 	import tj.ttu.base.vo.LessonArtifactVO;
 	import tj.ttu.base.vo.PublishOptionVO;
+	import tj.ttu.base.vo.QuestionVo;
+	import tj.ttu.base.vo.ResourceVO;
+	import tj.ttu.base.vo.SoundVO;
+	import tj.ttu.base.vo.VideoVO;
 	import tj.ttu.courseservice.model.vo.PublishServiceVO;
 	
 	/**
@@ -115,7 +119,10 @@ package tj.ttu.airservice.model.publish
 				currentPublishOptionIndex = _publishOptions ? _publishOptions.length : -1;
 			}
 		}
-		
+		private function get resourceManager():IResourceManager
+		{
+			return ResourceManager.getInstance();
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Overridden methods
@@ -159,7 +166,7 @@ package tj.ttu.airservice.model.publish
 		{
 			currentOption = publishOptions ? publishOptions[--currentPublishOptionIndex] : null;
 		}
-		private var w:PublishLessonWorker;
+		
 		public function publishLesson():void
 		{
 			if(!lesson || !serviceVO)
@@ -168,8 +175,6 @@ package tj.ttu.airservice.model.publish
 			removeArtifactsByLessonFromLocalStorage(lesson);
 			initPublishLessonWorker();
 			var settings:Object = {"lesson":lesson, "appStorageDirectory":File.applicationStorageDirectory.nativePath, "appDirectory":File.applicationDirectory.nativePath };
-			/*w = new PublishLessonWorker();
-			w.sett = settings;*/
 			sendMessageToWorker("settings", settings);
 			publishFromNextOption();
 		}
@@ -179,6 +184,15 @@ package tj.ttu.airservice.model.publish
 		 */
 		private function initPublishLessonWorker():void
 		{
+			registerClassAlias("tj.ttu.base.coretypes.LessonVO", LessonVO);
+			registerClassAlias("tj.ttu.base.coretypes.ChapterVO", ChapterVO);
+			registerClassAlias("tj.ttu.base.vo.ImageVO", ImageVO);
+			registerClassAlias("tj.ttu.base.vo.SoundVO", SoundVO);
+			registerClassAlias("tj.ttu.base.vo.VideoVO", VideoVO);
+			registerClassAlias("tj.ttu.base.vo.ResourceVO", ResourceVO);
+			registerClassAlias("tj.ttu.base.vo.QuestionVo", QuestionVo);
+			registerClassAlias("tj.ttu.base.vo.AnswerVo", AnswerVo);
+			registerClassAlias("tj.ttu.base.vo.LessonArtifactVO", LessonArtifactVO);
 			publishLessonWorker = WorkerDomain.current.createWorker(Workers.PublishLessonWorker, true);
 			publishLessonWorkerToMain = publishLessonWorker.createMessageChannel(Worker.current);
 			mainToPublishLessonWorker = Worker.current.createMessageChannel(publishLessonWorker);
@@ -186,8 +200,9 @@ package tj.ttu.airservice.model.publish
 			publishLessonWorker.setSharedProperty("workerToMain", publishLessonWorkerToMain);
 			publishLessonWorker.setSharedProperty("mainToWorker", mainToPublishLessonWorker);
 			
-			publishLessonWorker.addEventListener(Event.CHANNEL_MESSAGE, onWorkerToMain);
+			publishLessonWorkerToMain.addEventListener(Event.CHANNEL_MESSAGE, onWorkerToMain);
 			publishLessonWorker.start();
+			
 		}
 		
 		private function sendMessageToWorker(name:String, body:Object = null):void
@@ -220,7 +235,22 @@ package tj.ttu.airservice.model.publish
 				retrieveArtifactsByLessonUuid(lesson.guid, publishBuildingCompleteNotification);
 				return;
 			}
-			sendMessageToWorker(currentOption.publishType);
+			if(currentOption.publishType == PublishOptionVO.PDF)
+			{
+				var resourceStrings:Object = {};
+				resourceStrings.ttuTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'ttuLabelText');
+				resourceStrings.departmentTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'depatrmentTitleLabelText', [lesson.departmentName]);
+				resourceStrings.specilaityTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'specialityTitleLabelText', [lesson.specialityName]);
+				resourceStrings.disciplineTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'diciplineTitleLabelText', [lesson.discipline]);
+				resourceStrings.dushanbeTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'dushanbeTitleLabelText', [new Date().fullYear]);
+				resourceStrings.questionTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'chapterQuestionsLabelText');
+				resourceStrings.authorTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutAuthorTitleLabelText');
+				resourceStrings.lessonTitle = resourceManager.getString(ResourceConstants.TTU_COMPONENTS, 'aboutLessonTitleLabelText');
+				sendMessageToWorker(currentOption.publishType, resourceStrings);
+				
+			}
+			else
+				sendMessageToWorker(currentOption.publishType);
 		}
 		
 		/**

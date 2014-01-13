@@ -7,9 +7,6 @@ package tj.ttu.coursecreatorbase.view.mediators.publish
 {
 	import flash.events.Event;
 	
-	import mx.collections.ArrayCollection;
-	import mx.collections.IList;
-	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	
 	import tj.ttu.base.constants.ResourceConstants;

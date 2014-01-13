@@ -5,15 +5,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 package tj.ttu.airservice.utils
 {
-	import deng.fzip.FZip;
-	
-	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.ByteArray;
+	
+	import deng.fzip.FZip;
 	
 	import tj.ttu.airservice.model.DatabaseManagerProxy;
 	import tj.ttu.airservice.utils.events.UtilEvent;
@@ -67,6 +66,16 @@ package tj.ttu.airservice.utils
 		private var lessonStorageDirectory:String;
 		
 		/**
+		 * The path of the lesson storage directory. i.e.: b4x/ or harmoneLists/
+		 */
+		private var appStorageDirectoryPath:String;
+		
+		/**
+		 * The path of the lesson storage directory. i.e.: b4x/ or harmoneLists/
+		 */
+		private var appDirectoryPath:String;
+		
+		/**
 		 * The lesson we are working with
 		 */
 		private var lesson:LessonVO;
@@ -113,8 +122,8 @@ package tj.ttu.airservice.utils
 		private function get dvdContentDirectory():File
 		{
 			var dvdContentPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lesson.guid + DatabaseManagerProxy.DELIMITER_VERSION + lesson.version + AssetsUtil.TEMP_PATH + AssetsUtil.DVD_CONTENT_PATH;
-			
-			return File.applicationStorageDirectory.resolvePath(dvdContentPath);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			return applicationStorageDirectory.resolvePath(dvdContentPath);
 		}
 		//--------------------------------------------------------------------------
 		//
@@ -140,11 +149,13 @@ package tj.ttu.airservice.utils
 		 * @param lesson					The <code>LessonVO</code> object representing the lesson
 		 * @param lessonStorageDirectory		The directory where lists are stored, i.e.: b4x/ or harmoneLists/
 		 */
-		public function convertLessonToDVDContent(lesson:LessonVO, lessonStorageDirectory:String, languageCode:String):void
+		public function convertLessonToDVDContent(lesson:LessonVO, languageCode:String, lessonStorageDirectory:String, appDirectoryPath:String, appStorageDirectoryPath:String):void
 		{
 			this.lesson 				= lesson;
-			this.lessonStorageDirectory	= lessonStorageDirectory;
 			this.languageCode			= languageCode;
+			this.lessonStorageDirectory	= lessonStorageDirectory;
+			this.appDirectoryPath		= appDirectoryPath;
+			this.appStorageDirectoryPath= appStorageDirectoryPath;
 			
 			// add lessonXML and image assets to b4x
 			addPlayerToTempFolder();
@@ -157,10 +168,12 @@ package tj.ttu.airservice.utils
 		
 		public function close():void
 		{
-			AssetsUtil.deleteLessonDvdContentFromTempFolder( lesson.guid, lesson.version );
+			AssetsUtil.deleteLessonDvdContentFromTempFolder( lesson.guid, lesson.version, appStorageDirectoryPath);
 			lesson = null;
 			languageCode = null;
 			lessonStorageDirectory = null;
+			appDirectoryPath = null;
+			appStorageDirectoryPath = null;
 		}
 		//--------------------------------------------------------------------------
 		//
@@ -188,7 +201,7 @@ package tj.ttu.airservice.utils
 			var ba:ByteArray = new ByteArray();
 			ba.writeUTFBytes( str );
 			ba.position = 0;
-			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, LESSON_XML_FILENAME, AssetsUtil.DVD_CONTENT_PATH);
+			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, LESSON_XML_FILENAME, AssetsUtil.DVD_CONTENT_PATH, appStorageDirectoryPath);
 		}
 		
 		/**
@@ -196,9 +209,9 @@ package tj.ttu.airservice.utils
 		 */
 		private function addPlayerToTempFolder():void
 		{
-			AssetsUtil.copyPlayerToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH);
-			AssetsUtil.copyFontsToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH);
-			AssetsUtil.copyModulesToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH);
+			AssetsUtil.copyPlayerToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH, appDirectoryPath, appStorageDirectoryPath);
+			AssetsUtil.copyFontsToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH, appDirectoryPath, appStorageDirectoryPath);
+			AssetsUtil.copyModulesToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH, appDirectoryPath, appStorageDirectoryPath);
 		}
 		
 		
@@ -216,7 +229,7 @@ package tj.ttu.airservice.utils
 			var ba:ByteArray = new ByteArray();
 			ba.writeUTFBytes( str );
 			ba.position = 0;
-			AssetsUtil.writeAutorunFileToLocalStorage(lesson.guid, lesson.version, ba, AUTORUN_FILENAME);
+			AssetsUtil.writeAutorunFileToLocalStorage(lesson.guid, lesson.version, ba, AUTORUN_FILENAME, appStorageDirectoryPath);
 		}
 		/**
 		 * Add assets to our b4x container. Image and sound URLs are taken from each <code>BykiCard</code>.
@@ -233,7 +246,7 @@ package tj.ttu.airservice.utils
 			var ba:ByteArray = new ByteArray();
 			ba.writeUTFBytes( str );
 			ba.position = 0;
-			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, UNIT_XML_FILENAME, AssetsUtil.DVD_CONTENT_PATH);
+			AssetsUtil.writeXMLToLocalStorage(lesson.guid, lesson.version, ba, UNIT_XML_FILENAME, AssetsUtil.DVD_CONTENT_PATH, appStorageDirectoryPath);
 		}
 		
 		/**
@@ -245,7 +258,7 @@ package tj.ttu.airservice.utils
 		 */
 		private function copyBackgroundImagesToTempFolder():void
 		{
-			AssetsUtil.copyBackgroundImagesToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH );
+			AssetsUtil.copyBackgroundImagesToTempFolder( lesson.guid, lesson.version, AssetsUtil.DVD_CONTENT_PATH, appDirectoryPath, appStorageDirectoryPath );
 		}
 		
 		/**
@@ -257,7 +270,7 @@ package tj.ttu.airservice.utils
 		 */
 		private function copyLessonAssetsToTempFolder():void
 		{
-			AssetsUtil.copyLessonResourcesToTempFolder( lesson.guid, lesson.version , AssetsUtil.DVD_CONTENT_PATH);
+			AssetsUtil.copyLessonResourcesToTempFolder( lesson.guid, lesson.version , AssetsUtil.DVD_CONTENT_PATH, appStorageDirectoryPath);
 			makeZipFile();
 		}
 		

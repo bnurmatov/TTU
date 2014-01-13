@@ -5,10 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 package tj.ttu.airservice.utils
 {
-	import deng.fzip.FZip;
-	
 	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
@@ -17,6 +14,8 @@ package tj.ttu.airservice.utils
 	import flash.utils.ByteArray;
 	
 	import mx.collections.IList;
+	
+	import deng.fzip.FZip;
 	
 	import tj.ttu.airservice.model.DatabaseManagerProxy;
 	import tj.ttu.airservice.model.convertor.SoundConvertorProxy;
@@ -246,7 +245,7 @@ package tj.ttu.airservice.utils
 		 */		
 		private function getAppNameWithVersionNumber():String
 		{
-			return ApplicationInfoUtil.name + " (" + ApplicationInfoUtil.versionNumber + ")";
+			return "TTU Course Creator";
 		}
 		
 		/**

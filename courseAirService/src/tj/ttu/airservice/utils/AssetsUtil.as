@@ -149,11 +149,12 @@ package tj.ttu.airservice.utils
 		 * @param destinationUuid		UUID of the destination lesson
 		 * @param destinationVersion	Version of the destination lesson
 		 */
-		public static function copyPlayerToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String):void
+		public static function copyPlayerToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String, appDirectoryPath:String, appStorageDirectoryPath:String):void
 		{
 			var destinationListPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + folderName;
-			
-			var sourceDirectory:File = File.applicationDirectory.resolvePath(PLAYER_PATH);
+			var applicationDirectory:File = new File(appDirectoryPath);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var sourceDirectory:File = applicationDirectory.resolvePath(PLAYER_PATH);
 			
 			// get all files in directory
 			var files:Array = [];
@@ -163,7 +164,7 @@ package tj.ttu.airservice.utils
 			// copy each file
 			for each (var sourceFile:File in files)
 			{
-				var destinationFile:File = File.applicationStorageDirectory.resolvePath(destinationListPath + "/" + sourceFile.name);
+				var destinationFile:File = applicationStorageDirectory.resolvePath(destinationListPath + "/" + sourceFile.name);
 				sourceFile.copyTo(destinationFile, true);
 			}
 		}
@@ -176,11 +177,12 @@ package tj.ttu.airservice.utils
 		 * @param destinationUuid		UUID of the destination lesson
 		 * @param destinationVersion	Version of the destination lesson
 		 */
-		public static function copyBackgroundImagesToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String):void
+		public static function copyBackgroundImagesToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String, appDirectoryPath:String, appStorageDirectoryPath:String):void
 		{
 			var destinationListPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + folderName + CONTENT_PATH + BACKGROUND_IMAGES_PATH;
-			
-			var sourceDirectory:File = File.applicationDirectory.resolvePath(ASSETS_PATH + BACKGROUND_IMAGES_PATH);
+			var applicationDirectory:File = new File(appDirectoryPath);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var sourceDirectory:File = applicationDirectory.resolvePath(ASSETS_PATH + BACKGROUND_IMAGES_PATH);
 			
 			// get all files in directory
 			var files:Array = [];
@@ -190,7 +192,7 @@ package tj.ttu.airservice.utils
 			// copy each file
 			for each (var sourceFile:File in files)
 			{
-				var destinationFile:File = File.applicationStorageDirectory.resolvePath(destinationListPath + "/" + sourceFile.name);
+				var destinationFile:File = applicationStorageDirectory.resolvePath(destinationListPath + "/" + sourceFile.name);
 				sourceFile.copyTo(destinationFile, true);
 			}
 		}
@@ -204,12 +206,12 @@ package tj.ttu.airservice.utils
 		 * @param destinationUuid		UUID of the destination lesson
 		 * @param destinationVersion	Version of the destination lesson
 		 */
-		public static function copyLessonResourcesToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String):void
+		public static function copyLessonResourcesToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String, appStorageDirectoryPath:String):void
 		{
 			var destinationListPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + folderName + CONTENT_PATH;
 			var sourcePath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion;
-			
-			var sourceDirectory:File = File.applicationStorageDirectory.resolvePath(sourcePath);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var sourceDirectory:File = applicationStorageDirectory.resolvePath(sourcePath);
 			
 			// get all files in directory
 			var files:Array = [];
@@ -222,7 +224,7 @@ package tj.ttu.airservice.utils
 				var fileName:String = "/" + FileNameUtil.getFileName( sourceFile.url ) + "/";
 				if(fileName != ARTIFACT_PATH && fileName != TEMP_PATH )
 				{
-					var destinationFile:File = File.applicationStorageDirectory.resolvePath(destinationListPath + "/" + sourceFile.name);
+					var destinationFile:File = applicationStorageDirectory.resolvePath(destinationListPath + "/" + sourceFile.name);
 					sourceFile.copyTo(destinationFile, true);
 				}
 			}
@@ -237,11 +239,12 @@ package tj.ttu.airservice.utils
 		 * @param destinationUuid		UUID of the destination lesson
 		 * @param destinationVersion	Version of the destination lesson
 		 */
-		public static function copyFontsToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String):void
+		public static function copyFontsToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String, appDirectoryPath:String, appStorageDirectoryPath:String):void
 		{
 			var destinationListPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + folderName;
-			
-			var sourceDirectory:File = File.applicationDirectory.resolvePath(FONTS_PATH);
+			var applicationDirectory:File = new File(appDirectoryPath);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var sourceDirectory:File = applicationDirectory.resolvePath(FONTS_PATH);
 			
 			// get all files in directory
 			var files:Array = [];
@@ -251,7 +254,7 @@ package tj.ttu.airservice.utils
 			// copy each file
 			for each (var sourceFile:File in files)
 			{
-				var destinationFile:File = File.applicationStorageDirectory.resolvePath(destinationListPath + "/" + FONTS_PATH + sourceFile.name);
+				var destinationFile:File = applicationStorageDirectory.resolvePath(destinationListPath + "/" + FONTS_PATH + sourceFile.name);
 				sourceFile.copyTo(destinationFile, true);
 			}
 		}
@@ -265,11 +268,12 @@ package tj.ttu.airservice.utils
 		 * @param destinationUuid		UUID of the destination lesson
 		 * @param destinationVersion	Version of the destination lesson
 		 */
-		public static function copyModulesToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String):void
+		public static function copyModulesToTempFolder(lessonUuid:String, lessonVersion:uint, folderName:String,  appDirectoryPath:String, appStorageDirectoryPath:String):void
 		{
 			var destinationListPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + folderName;
-			
-			var sourceDirectory:File = File.applicationDirectory.resolvePath(MODULES_PATH);
+			var applicationDirectory:File = new File(appDirectoryPath);
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var sourceDirectory:File = applicationDirectory.resolvePath(MODULES_PATH);
 			
 			// get all files in directory
 			var files:Array = [];
@@ -279,7 +283,7 @@ package tj.ttu.airservice.utils
 			// copy each file
 			for each (var sourceFile:File in files)
 			{
-				var destinationFile:File = File.applicationStorageDirectory.resolvePath(destinationListPath + "/" + MODULES_PATH + sourceFile.name);
+				var destinationFile:File = applicationStorageDirectory.resolvePath(destinationListPath + "/" + MODULES_PATH + sourceFile.name);
 				sourceFile.copyTo(destinationFile, true);
 			}
 		}
@@ -368,6 +372,22 @@ package tj.ttu.airservice.utils
 			writeToLocalStorage(b4xFile, b4xBytes);
 			return b4xFile.nativePath;
 		}
+		/**
+		 * Write a b4x file to the local storage.
+		 * 
+		 * @param lessonUuid			UUID of the lesson
+		 * @param lessonVersion		Version of the lesson
+		 * @param b4xBytes		The bytes contain b4x data.
+		 * @param fileName			b4x name.
+		 */
+		public static function writeB4XToLocalStorageFromWorker(lessonUuid:String, lessonVersion:uint, b4xBytes:ByteArray, fileName:String, appStorageDirectoryPath:String):String
+		{
+			var lessonPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion;
+			var appStorage:File = new File(appStorageDirectoryPath);
+			var b4xFile:File = appStorage.resolvePath(lessonPath + ARTIFACT_PATH + fileName);
+			writeToLocalStorage(b4xFile, b4xBytes);
+			return b4xFile.nativePath;
+		}
 		
 		/**
 		 * Write a b4x file to the local storage.
@@ -377,10 +397,11 @@ package tj.ttu.airservice.utils
 		 * @param b4xBytes		The bytes contain b4x data.
 		 * @param fileName			b4x name.
 		 */
-		public static function writeXMLToLocalStorage(lessonUuid:String, lessonVersion:uint, b4xBytes:ByteArray, fileName:String, folderName:String):String
+		public static function writeXMLToLocalStorage(lessonUuid:String, lessonVersion:uint, b4xBytes:ByteArray, fileName:String, folderName:String, appStorageDirectoryPath:String):String
 		{
 			var lessonPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion;
-			var b4xFile:File = File.applicationStorageDirectory.resolvePath(lessonPath + TEMP_PATH + folderName + CONTENT_PATH + fileName);
+			var appStorageDirectory:File = new File(appStorageDirectoryPath);
+			var b4xFile:File = appStorageDirectory.resolvePath(lessonPath + TEMP_PATH + folderName + CONTENT_PATH + fileName);
 			writeToLocalStorage(b4xFile, b4xBytes);
 			return b4xFile.url;
 		}
@@ -393,10 +414,11 @@ package tj.ttu.airservice.utils
 		 * @param b4xBytes		The bytes contain b4x data.
 		 * @param fileName			b4x name.
 		 */
-		public static function writeAutorunFileToLocalStorage(lessonUuid:String, lessonVersion:uint, b4xBytes:ByteArray, fileName:String):String
+		public static function writeAutorunFileToLocalStorage(lessonUuid:String, lessonVersion:uint, b4xBytes:ByteArray, fileName:String, appStorageDirectoryPath:String):String
 		{
 			var lessonPath:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion;
-			var autorunFile:File = File.applicationStorageDirectory.resolvePath(lessonPath + TEMP_PATH + DVD_CONTENT_PATH + fileName);
+			var appStorageDirectory:File = new File(appStorageDirectoryPath);
+			var autorunFile:File = appStorageDirectory.resolvePath(lessonPath + TEMP_PATH + DVD_CONTENT_PATH + fileName);
 			writeToLocalStorage(autorunFile, b4xBytes);
 			return autorunFile.url;
 		}
@@ -497,10 +519,11 @@ package tj.ttu.airservice.utils
 		 * @param lessonUuid		UUID of the lesson to delete
 		 * @param lessonVersion	Version of the lesson to delete
 		 */
-		public static function deleteLessonInstallerContentFromTempFolder(lessonUuid:String, lessonVersion:uint):void
+		public static function deleteLessonInstallerContentFromTempFolder(lessonUuid:String, lessonVersion:uint, appStorageDirectoryPath:String):void
 		{
 			var installerContentDirectory:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + INSTALLER_PATH;
-			var directory:File = File.applicationStorageDirectory.resolvePath(installerContentDirectory); 
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var directory:File = applicationStorageDirectory.resolvePath(installerContentDirectory); 
 			if(directory.exists)
 				directory.deleteDirectory(true);
 		}
@@ -510,10 +533,11 @@ package tj.ttu.airservice.utils
 		 * @param lessonUuid		UUID of the lesson to delete
 		 * @param lessonVersion	Version of the lesson to delete
 		 */
-		public static function deleteLessonDvdContentFromTempFolder(lessonUuid:String, lessonVersion:uint):void
+		public static function deleteLessonDvdContentFromTempFolder(lessonUuid:String, lessonVersion:uint, appStorageDirectoryPath:String):void
 		{
 			var dvdContentDirectory:String = DatabaseManagerProxy.LOCAL_LESSONS_PATH + lessonUuid + DatabaseManagerProxy.DELIMITER_VERSION + lessonVersion + TEMP_PATH + DVD_CONTENT_PATH;
-			var directory:File = File.applicationStorageDirectory.resolvePath(dvdContentDirectory); 
+			var applicationStorageDirectory:File = new File(appStorageDirectoryPath);
+			var directory:File = applicationStorageDirectory.resolvePath(dvdContentDirectory); 
 			if(directory.exists)
 				directory.deleteDirectory(true);
 		}

@@ -21,11 +21,18 @@ package
 	import tj.ttu.airservice.utils.LessonToInstallerUtil;
 	import tj.ttu.airservice.utils.LessonToPDFUtil;
 	import tj.ttu.airservice.utils.events.UtilEvent;
+	import tj.ttu.base.coretypes.ChapterVO;
 	import tj.ttu.base.coretypes.LessonVO;
 	import tj.ttu.base.utils.LanguageInfoUtil;
 	import tj.ttu.base.utils.SupportedMediaFormat;
+	import tj.ttu.base.vo.AnswerVo;
+	import tj.ttu.base.vo.ImageVO;
 	import tj.ttu.base.vo.LessonArtifactVO;
 	import tj.ttu.base.vo.PublishOptionVO;
+	import tj.ttu.base.vo.QuestionVo;
+	import tj.ttu.base.vo.ResourceVO;
+	import tj.ttu.base.vo.SoundVO;
+	import tj.ttu.base.vo.VideoVO;
 	
 	/**
 	 * PublishLessonWorker class 
@@ -74,8 +81,17 @@ package
 		 */
 		public function PublishLessonWorker()
 		{
+			super();
 			registerClassAlias("flex.messaging.io.ArrayCollection", ArrayCollection);
 			registerClassAlias("tj.ttu.base.coretypes.LessonVO", LessonVO);
+			registerClassAlias("tj.ttu.base.coretypes.ChapterVO", ChapterVO);
+			registerClassAlias("tj.ttu.base.vo.ImageVO", ImageVO);
+			registerClassAlias("tj.ttu.base.vo.SoundVO", SoundVO);
+			registerClassAlias("tj.ttu.base.vo.VideoVO", VideoVO);
+			registerClassAlias("tj.ttu.base.vo.ResourceVO", ResourceVO);
+			registerClassAlias("tj.ttu.base.vo.QuestionVo", QuestionVo);
+			registerClassAlias("tj.ttu.base.vo.AnswerVo", AnswerVo);
+			registerClassAlias("tj.ttu.base.vo.LessonArtifactVO", LessonArtifactVO);
 			workerToMain = Worker.current.getSharedProperty("workerToMain");
 			mainToWorker = Worker.current.getSharedProperty("mainToWorker");
 			mainToWorker.addEventListener(Event.CHANNEL_MESSAGE, onMainToBack);
@@ -129,15 +145,15 @@ package
 			}
 		}
 		
-		private function generatePDF():void
+		private function generatePDF(resourceStrings:Object):void
 		{
 			if(!pdfUtil)
 			{
 				pdfUtil = new LessonToPDFUtil();
 				pdfUtil.addEventListener(Event.COMPLETE, onPdfCreationComplete);
 			}
-			pdfUtil.setFonts();
-			pdfUtil.convertToPDF(lesson);
+			pdfUtil.setFonts(appDirectory);
+			pdfUtil.convertToPDF(lesson, resourceStrings);
 		}
 		
 		private function generateDVDContent():void
@@ -149,7 +165,7 @@ package
 				dvdContentUtil.addEventListener(UtilEvent.UTIL_ERROR, onDvdContentCreationError);
 			}
 			var lang:String = LanguageInfoUtil.getInstance().getLanguageCode(lesson.locale);
-			dvdContentUtil.convertLessonToDVDContent(lesson, LESSON_STORAGE_DIRECTORY, lang);
+			dvdContentUtil.convertLessonToDVDContent(lesson,  lang, LESSON_STORAGE_DIRECTORY, appDirectory, appStorageDirectory);
 		}
 		
 		private function removeDVDContentUtil():void
@@ -173,7 +189,7 @@ package
 				installerUtil.addEventListener(UtilEvent.UTIL_ERROR, onInstallerCreationError);
 			}
 			var lang:String = LanguageInfoUtil.getInstance().getLanguageCode(lesson.locale);
-			installerUtil.convertLessonToInstaller(lesson, LESSON_STORAGE_DIRECTORY, lang);
+			installerUtil.convertLessonToInstaller(lesson,  lang, LESSON_STORAGE_DIRECTORY, appDirectory, appStorageDirectory);
 		}
 		
 		private function removeInstallerUtil():void
@@ -216,20 +232,19 @@ package
 				{
 					case "settings":
 					{
-						lesson = message.body.lesson as LessonVO;
-						sendMessageToMainThread("trace", lesson); 
 						appStorageDirectory = message.body.appStorageDirectory;
 						appDirectory = message.body.appDirectory;
+						lesson = message.body.lesson as LessonVO;
+						replaceResourcesPath();
 						break;
 					}
 					case PublishOptionVO.PDF:
 					{
-						generatePDF();
+						generatePDF(message.body);
 						break;
 					}
 					case PublishOptionVO.B4X_CONTENT:
 					{
-						sendMessageToMainThread("trace", PublishOptionVO.B4X_CONTENT); 
 						generateB4X();
 						break;
 					}
@@ -253,11 +268,51 @@ package
 			}
 		}	
 		
+		private function replaceResourcesPath():void
+		{
+			if(!lesson)
+				return;
+			if(lesson.sound)
+				lesson.sound.soundUrl = replaceAppStorageToNativePath(lesson.sound.soundUrl);
+			for each(var item:ImageVO in lesson.aboutCreatorImages)
+			{
+				item.imageUrl = replaceAppStorageToNativePath(item.imageUrl);
+			}
+			
+			for each(var chapter:ChapterVO in lesson.chapters)
+			{
+				for each(var image:ImageVO in chapter.images)
+				{
+					image.imageUrl = replaceAppStorageToNativePath(image.imageUrl);
+				}
+				for each(var sound:SoundVO in chapter.sounds)
+				{
+					sound.soundUrl = replaceAppStorageToNativePath(sound.soundUrl);
+				}
+				for each(var video:VideoVO in chapter.videoList)
+				{
+					video.videoUrl = replaceAppStorageToNativePath(video.videoUrl);
+				}
+			}
+			
+			for each(var resource:ResourceVO in lesson.resources)
+			{
+				resource.resourcePath = replaceAppStorageToNativePath(resource.resourcePath);
+			}
+		}
+		
+		private function replaceAppStorageToNativePath(fullPath:String):String
+		{
+			if(!fullPath)
+				return null;
+			return fullPath.replace("app-storage:", appStorageDirectory);
+		}
+		
 		protected function onPdfCreationComplete(event:Event):void
 		{
 			var pdfBytes:ByteArray = pdfUtil.result;
 			var fileName:String = lesson.name + "_" + lesson.guid + ".pdf";
-			var fileUrl:String = AssetsUtil.writeB4XToLocalStorage(lesson.guid, lesson.version, pdfBytes, fileName);
+			var fileUrl:String = AssetsUtil.writeB4XToLocalStorageFromWorker(lesson.guid, lesson.version, pdfBytes, fileName, appStorageDirectory);
 			var artifact:LessonArtifactVO = new LessonArtifactVO();
 			artifact.artifactType 	= LessonArtifactVO.PDF;
 			artifact.lessonUuid 	= lesson.guid;
@@ -272,7 +327,7 @@ package
 			removeDVDContentUtil();
 			var b4xBytes:ByteArray = event.data as ByteArray;
 			var fileName:String = lesson.name + "_" + lesson.guid + ".zip";
-			var fileUrl:String = AssetsUtil.writeB4XToLocalStorage(lesson.guid, lesson.version, b4xBytes, fileName);
+			var fileUrl:String = AssetsUtil.writeB4XToLocalStorageFromWorker(lesson.guid, lesson.version, b4xBytes, fileName, appStorageDirectory);
 			var artifact:LessonArtifactVO = new LessonArtifactVO();
 			artifact.artifactType 	= LessonArtifactVO.DVD_CONTENT;
 			artifact.lessonUuid 	= lesson.guid;
@@ -313,7 +368,7 @@ package
 			}
 			var b4xBytes:ByteArray = event.data as ByteArray;
 			var fileName:String = lesson.name + "_" + lesson.guid + SupportedMediaFormat.B4X_TYPE;
-			var fileUrl:String = AssetsUtil.writeB4XToLocalStorage(lesson.guid, lesson.version, b4xBytes, fileName);
+			var fileUrl:String = AssetsUtil.writeB4XToLocalStorageFromWorker(lesson.guid, lesson.version, b4xBytes, fileName, appStorageDirectory);
 			var artifact:LessonArtifactVO = new LessonArtifactVO();
 			artifact.artifactType 	= LessonArtifactVO.B4X_CONTENT;
 			artifact.lessonUuid 	= lesson.guid;
